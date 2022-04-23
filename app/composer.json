@@ -44,13 +44,14 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsofphp/php-cs-fixer": "^3.8",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.0.x-dev as 5.4.x-dev",
         "symfony/css-selector": "6.0.x-dev as 5.4.x-dev",
         "symfony/debug-bundle": "6.0.x-dev as 5.4.x-dev",
+        "symfony/maker-bundle": "^1.40",
         "symfony/phpunit-bridge": "^6.0",
-        "symfony/maker-bundle": "^v1.40.0",
         "symfony/stopwatch": "6.0.x-dev as 5.4.x-dev",
         "symfony/web-profiler-bundle": "6.0.x-dev as 5.4.x-dev"
     },
@@ -99,7 +100,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "6.*"
         }
     }
 }
