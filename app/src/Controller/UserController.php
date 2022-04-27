@@ -1,6 +1,6 @@
 <?php
 /**
- * Task controller.
+ * User controller.
  */
 
 namespace App\Controller;
@@ -12,25 +12,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class TaskController.
+ * Class UserController.
  */
-#[Route('/task')]
+#[Route('/user')]
 class UserController extends AbstractController
 {
     /**
      * Index action.
      *
-     * @param UserRepository $taskRepository Task repository
+     * @param UserRepository $userRepository User repository
      *
      * @return Response HTTP response
      */
     #[Route(
-        name: 'task_index',
+        name: 'user_index',
         methods: 'GET'
     )]
-    public function index(UserRepository $taskRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
-        $users = $taskRepository->findAll();
+        $users = $userRepository->findAll();
 
         return $this->render(
             'user/index.html.twig',
