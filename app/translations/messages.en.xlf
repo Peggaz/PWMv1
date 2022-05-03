@@ -22,6 +22,10 @@
         <source>label.tags</source>
         <target>Tags</target>
       </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>email</target>
+      </trans-unit>
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
         <target>List is empty.</target>
@@ -38,6 +42,7 @@
         <source>title.record_view</source>
         <target>Record view #%id%</target>
       </trans-unit>
+
     </body>
   </file>
 </xliff>

@@ -1,60 +1,98 @@
 <?php
+/**
+ * User Entity.
+ */
 
 namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users')]
+/**
+ * Class User.
+ *
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ */
 class User
 {
     /**
-     * Primary key.
-     *
-     * @var int|null
+     * @constant int NUMBER_OF_ITEMS
      */
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    const NUMBER_OF_ITEMS = 10;
 
     /**
-     * password|null
+     * USER.
      *
      * @var string
      */
-    #[ORM\Column(type: 'string', length: 255)]
-    private $password;
+    const ROLES_USER = 'ROLES_USER';
+    /**
+     * INSTRUCTOR.
+     *
+     * @var string
+     */
+    const ROLES_INSTRUCTOR = 'ROLES_INSTRUCTOR';
 
-    #[ORM\Column(type: 'string', length: 200)]
+    /**
+     * ADMIN.
+     *
+     * @var string
+     */
+    const ROLES_ADMIN = 'ROLES_ADMIN';
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
     private $email;
 
-    #[ORM\Column(type: 'json')]
-    private $role = [];
+    /**
+     * @ORM\Column(type="json")
+     *
+     * @var array
+     */
+    private $roles = [];
 
+    /**
+     * @var string The hashed password
+     *
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
+     * Getter for Id.
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
+    /**
+     * Getter for Email.
+     *
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * Setter for Email.
+     *
+     * @param string $email
+     *
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -62,15 +100,95 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     *
+     * @return string
+     */
+    public function getUsername(): string
     {
-        return $this->role;
+        return (string) $this->email;
     }
 
-    public function setRole(array $role): self
+    /**
+     * Getter for roles.
+     *
+     * @see UserInterface
+     *
+     * @return array
+     */
+    public function getRoles(): array
     {
-        $this->role = $role;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLES_USER
+        $roles[] = 'ROLES_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * Setter for Roles.
+     *
+     * @param array $roles
+     *
+     * @return $this
+     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
+    }
+
+    /**
+     * Getter for Password.
+     *
+     * @see UserInterface
+     *
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    /**
+     * Setter for Password.
+     *
+     * @param string $password
+     *
+     * @return $this
+     */
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Getting for Salt.
+     *
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     *
+     * @return string|null
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

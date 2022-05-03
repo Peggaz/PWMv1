@@ -5,33 +5,43 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.user_list'|users }}</h1>
-    {% if users is defined and users|length %}
-        <table class="table table-striped">
-            <thead>
+    <h1>{{ 'title.user_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id')  }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
+            <th>{{ 'label.action'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in pagination.items %}
             <tr>
-                <th>{{ 'label.id'|trans }}</th>
-                <th>{{ 'label.email'|trans }}</th>
-                <th>{{ 'label.password'|trans }}</th>
-                <th>{{ 'label.role'|trans }}</th>
+                <td>{{ u.id }}</td>
+                <td>{{ u.email|trans }}</td>
+                <td>{{ u.password|trans }}</td>
+                <td>{{ u.roles|json_encode()  }}</td>
+                <td>
+                    <a href="{{ url('user_show', {id: u.id}) }}" title="{{ 'action.view'|trans }}">
+                        {{ 'action.view'|trans }}
+                    </a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.email|string }}</td>
-                    <td>{{ user.password|string }}</td>
-                    <td>{{ user.role }}</td>
-                    <td>
-                        <a href="{{ url('user_show', {id: user.id}) }}" title="{{ 'action.view'|trans }}">
-                            {{ 'action.view'|trans }}
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
     {% else %}
         <p>
             {{ 'message.empty_list'|trans }}

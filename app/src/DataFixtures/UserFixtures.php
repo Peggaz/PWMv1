@@ -19,7 +19,7 @@ class UserFixtures extends AbstractBaseFixtures
             $user = new User();
             $user->setEmail($this->faker->email);
             $user->setPassword($this->faker->password);
-            $user->setRole(
+            $user->setRoles(
                 (array)json_encode(
                     [
                         'France' => mt_rand(18, 80)

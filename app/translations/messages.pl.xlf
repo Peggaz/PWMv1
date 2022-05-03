@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en" datatype="plaintext" original="file.ext">
+  <file source-language="pl" datatype="plaintext" original="file.ext">
     <body>
       <trans-unit id="label.actions">
         <source>label.actions</source>
@@ -21,6 +21,22 @@
       <trans-unit id="label.tags">
         <source>label.tags</source>
         <target>Tagi</target>
+      </trans-unit>
+      <trans-unit id="label.email">
+        <source>label.email</source>
+        <target>email</target>
+      </trans-unit>
+      <trans-unit id="label.password">
+        <source>label.password</source>
+        <target>hasło</target>
+      </trans-unit>
+      <trans-unit id="label.action">
+        <source>label.action</source>
+        <target>akcja</target>
+      </trans-unit>
+      <trans-unit id="title.user_details">
+        <source>title.user_details</source>
+        <target>Szczegóły użytkownika #%id%</target>
       </trans-unit>
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
