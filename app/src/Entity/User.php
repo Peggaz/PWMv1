@@ -26,20 +26,20 @@ class User
      *
      * @var string
      */
-    const ROLES_USER = 'ROLES_USER';
+    const ROLE_USER = 'ROLE_USER';
     /**
      * INSTRUCTOR.
      *
      * @var string
      */
-    const ROLES_INSTRUCTOR = 'ROLES_INSTRUCTOR';
+    const ROLE_INSTRUCTOR = 'ROLE_INSTRUCTOR';
 
     /**
      * ADMIN.
      *
      * @var string
      */
-    const ROLES_ADMIN = 'ROLES_ADMIN';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -122,8 +122,8 @@ class User
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLES_USER
-        $roles[] = 'ROLES_USER';
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }

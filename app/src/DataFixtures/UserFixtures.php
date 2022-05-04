@@ -1,13 +1,26 @@
 <?php
-
+/**
+ * User fixtures.
+ */
 
 namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 
+/**
+ * Class UserFixtures.
+ */
 class UserFixtures extends AbstractBaseFixtures
 {
+
+    /**
+     * UserFixtures constructor.
+     *
+     */
+    public function __construct(){
+    }
+
     /**
      * Load data.
      *
@@ -15,19 +28,28 @@ class UserFixtures extends AbstractBaseFixtures
      */
     public function loadData(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 10; ++$i) {
+        $this->createMany(10, 'users', function ($i) {
             $user = new User();
-            $user->setEmail($this->faker->email);
-            $user->setPassword($this->faker->password);
-            $user->setRoles(
-                (array)json_encode(
-                    [
-                        'France' => mt_rand(18, 80)
-                    ]
-                )
+            $user->setEmail(sprintf('user%d@example.com', $i));
+            $user->setRoles([User::ROLE_USER]);
+            $user->setPassword(
+        'user1234'
             );
-            $manager->persist($user);
-        }
+
+            return $user;
+        });
+
+        $this->createMany(3, 'admins', function ($i) {
+            $user = new User();
+            $user->setEmail(sprintf('admin%d@example.com', $i));
+            $user->setRoles([User::ROLE_USER, User::ROLE_ADMIN]);
+            $user->setPassword(
+                    'admin1234'
+            );
+
+            return $user;
+        });
+
         $manager->flush();
     }
 }
