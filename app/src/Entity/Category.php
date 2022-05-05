@@ -55,24 +55,10 @@ class Category
     private $name;
 
     /**
-     * Transactions.
-     *
-     * @var \Doctrine\Common\Collections\ArrayCollection|\App\Entity\Transaction[] Transaction
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Transaction",
-     *     mappedBy="category",
-     * )
-     */
-    private $transactions;
-
-
-    /**
      * Category constructor.
      */
     public function __construct()
     {
-        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -153,50 +139,6 @@ class Category
         return $this;
     }
 
-    /**
-     * Getter for Transaction.
-     *
-     * @return Collection|Transaction[]
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    /**
-     * Add for Transaction.
-     *
-     * @param Transaction $transaction Transaction Entity
-     *
-     * @return $this
-     */
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove for Transactions.
-     *
-     * @param Transaction $transaction
-     *
-     * @return $this
-     */
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            if ($transaction->getCategory() === $this) {
-                $transaction->setCategory(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * Getter for Code.
@@ -229,6 +171,6 @@ class Category
      */
     public function getCanDelete(): ?bool
     {
-        return is_null($this->transactions);
+        return true;//do naprawy
     }
 }

@@ -25,8 +25,8 @@
         {% for u in pagination.items %}
             <tr>
                 <td>{{ u.id }}</td>
-                <td>{{ u.email|trans }}</td>
-                <td>{{ u.password|trans }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.password }}</td>
                 <td>{{ u.roles|json_encode()  }}</td>
                 <td>
                     <a href="{{ url('user_show', {id: u.id}) }}" title="{{ 'action.view'|trans }}">

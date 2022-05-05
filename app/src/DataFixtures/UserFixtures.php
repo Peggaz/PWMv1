@@ -18,7 +18,8 @@ class UserFixtures extends AbstractBaseFixtures
      * UserFixtures constructor.
      *
      */
-    public function __construct(){
+    public function __construct()
+    {
     }
 
     /**
@@ -33,7 +34,7 @@ class UserFixtures extends AbstractBaseFixtures
             $user->setEmail(sprintf('user%d@example.com', $i));
             $user->setRoles([User::ROLE_USER]);
             $user->setPassword(
-        'user1234'
+                'user1234'
             );
 
             return $user;
@@ -44,7 +45,7 @@ class UserFixtures extends AbstractBaseFixtures
             $user->setEmail(sprintf('admin%d@example.com', $i));
             $user->setRoles([User::ROLE_USER, User::ROLE_ADMIN]);
             $user->setPassword(
-                    'admin1234'
+                'admin1234'
             );
 
             return $user;

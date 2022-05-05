@@ -43,23 +43,12 @@ class Operation
      */
     private string $name;
 
-    /**
-     * Transaction.
-     *
-     * @var Collection|Transaction[] Transaction
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="operation")
-     */
-    private Collection $transactions;
-
 
     /**
      * Operation constructor.
      */
     #[Pure] public function __construct()
     {
-        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -96,50 +85,6 @@ class Operation
         return $this;
     }
 
-    /**
-     * Getter for Transactions.
-     *
-     * @return Collection
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    /**
-     * Add for Transactions.
-     *
-     * @param Transaction $transaction Transaction Entity
-     *
-     * @return $this
-     */
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setOperation($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove for Transactions.
-     *
-     * @param Transaction $transaction
-     *
-     * @return $this
-     */
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            if ($transaction->getOperation() === $this) {
-                $transaction->setOperation(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * Getter for Create At.

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Transaction;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -10,14 +10,14 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Transaction>
+ * @extends ServiceEntityRepository<Category>
  *
- * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
- * @method Transaction|null findOneBy(array $criteria, array $orderBy = null)
- * @method Transaction[]    findAll()
- * @method Transaction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Category|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Category|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Category[]    findAll()
+ * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TransactionRepository extends ServiceEntityRepository
+class CategoryRepository extends ServiceEntityRepository
 {
     /**
      * Items per page.
@@ -32,18 +32,18 @@ class TransactionRepository extends ServiceEntityRepository
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Transaction::class);
+        parent::__construct($registry, Category::class);
     }
 
     /**
-    * Query all records.
-    *
-    * @return QueryBuilder Query builder
-    */
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->orderBy('transaction.date', 'DESC');
+            ->orderBy('category.email', 'DESC');
     }
 
     /**
@@ -56,14 +56,14 @@ class TransactionRepository extends ServiceEntityRepository
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('transaction');
+        return $queryBuilder ?? $this->createQueryBuilder('category');
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Transaction $entity, bool $flush = true): void
+    public function add(Category $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -75,7 +75,7 @@ class TransactionRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Transaction $entity, bool $flush = true): void
+    public function remove(Category $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -84,15 +84,15 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Transaction[] Returns an array of Transaction objects
+    //  * @return Category[] Returns an array of Category objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -101,10 +101,10 @@ class TransactionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Transaction
+    public function findOneBySomeField($value): ?Category
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

@@ -6,6 +6,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -50,21 +52,25 @@ class User
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="json")
      *
      * @var array
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      *
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
+
+    public function __construct()
+    {
+    }
 
     /**
      * Getter for Id.

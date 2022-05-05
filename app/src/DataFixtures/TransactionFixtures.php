@@ -17,11 +17,11 @@ class TransactionFixtures extends AbstractBaseFixtures implements DependentFixtu
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(50, 'transactions', function ($i) {
+        $this->createMany(50, 'transactions', function () {
             $transaction = new Transaction();
             $transaction->setName($this->faker->sentence);
             $transaction->setDate($this->faker->dateTimeThisYear);

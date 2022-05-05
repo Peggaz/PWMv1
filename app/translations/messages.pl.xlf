@@ -58,6 +58,10 @@
                     <source>label.date</source>
                     <target>Data</target>
             </trans-unit>
+            <trans-unit id="label.comment">
+                <source>label.comment</source>
+                <target>Notatka</target>
+            </trans-unit>
             <trans-unit id="label.amount">
                     <source>label.amount</source>
                     <target>Kwota</target>

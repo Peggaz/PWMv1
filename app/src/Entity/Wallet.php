@@ -39,7 +39,7 @@ class Wallet
      *
      * @ORM\Column(type="string", length=64)
      */
-    private $name;
+    private string $name;
 
     /**
      * Balance.
@@ -48,20 +48,20 @@ class Wallet
      *
      * @ORM\Column(type="integer")
      */
-    private $balance;
+    private int $balance;
 
 
     /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="wallet")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="wallet")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $transactions;
+    private ?User $user;
 
     /**
      * Wallet constructor.
      */
     public function __construct()
     {
-        $this->transaction = new ArrayCollection();
     }
 
     /**
@@ -170,47 +170,15 @@ class Wallet
         return $this;
     }
 
-    /**
-     * Getter for Transactions.
-     *
-     * @return Collection|Transaction[]
-     */
-    public function getTransactions(): Collection
+
+    public function getUser(): ?User
     {
-        return $this->transactions;
+        return $this->user;
     }
 
-    /**
-     * Add for Transactions.
-     *
-     * @param Transaction $transaction Transaction Entity
-     *
-     * @return $this
-     */
-    public function addTransaction(Transaction $transaction): self
+    public function setUser(?User $user): self
     {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setWallet($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove for Transactions.
-     *
-     * @param Transaction $transaction
-     *
-     * @return $this
-     */
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            if ($transaction->getWallet() === $this) {
-                $transaction->setWallet(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

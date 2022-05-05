@@ -29,7 +29,7 @@ class Transaction
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * Name.
@@ -47,7 +47,7 @@ class Transaction
      *
      * @ORM\Column(type="date")
      */
-    private $date;
+    private ?DateTimeInterface $date;
 
     /**
      * Amount.
@@ -180,9 +180,9 @@ class Transaction
     /**
      * Getter for Date.
      *
-     * @return DateTime|null Name
+     * @return DateTimeInterface|null Name
      */
-    public function getDate(): DateTime
+    public function getDate(): DateTimeInterface
     {
         return $this->date;
     }
@@ -190,7 +190,7 @@ class Transaction
     /**
      * Setter for Date.
      *
-     * @param DateTime $date Date
+     * @param DateTimeInterface $date Date
      *
      * @return Transaction
      */
@@ -199,16 +199,6 @@ class Transaction
         $this->date = $date;
 
         return $this;
-    }
-
-    /**
-     * Getter for Amount.
-     *
-     * @return int|null Name
-     */
-    public function getAmount(): ?int
-    {
-        return $this->amount;
     }
 
     /**

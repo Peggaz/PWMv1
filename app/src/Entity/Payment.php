@@ -39,13 +39,6 @@ class Payment
      */
     private $name;
 
-    /**
-     * Transaction.
-     *
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="payment")
-     */
-    private $transactions;
-
 
     /**
      * Payment constructor.
@@ -85,51 +78,6 @@ class Payment
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Getter for Transactions.
-     *
-     * @return Collection|Transaction[]
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    /**
-     * Add for Transactions.
-     *
-     * @param Transaction $transaction Transaction Entity
-     *
-     * @return $this
-     */
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setPayment($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove for Transactions.
-     *
-     * @param Transaction $transaction
-     *
-     * @return $this
-     */
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            if ($transaction->getPayment() === $this) {
-                $transaction->setPayment(null);
-            }
-        }
 
         return $this;
     }
