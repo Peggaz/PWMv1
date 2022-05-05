@@ -18,7 +18,6 @@
 
             <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'transaction.name') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'label.date'|trans, 'transaction.date') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.amount'|trans, 'transaction.amount') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'label.comment'|trans, 'transaction.comment') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'label.wallet'|trans, 'transaction.wallet.name') }}</th>
             <th>{{ 'label.action'|trans }}</th>
@@ -31,7 +30,6 @@
 
                 <td>{{ transaction.name }}</td>
                 <td>{{ transaction.date|date("m/d/Y")  }}</td>
-                <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.comment }}</td>
                 <td>{{ transaction.wallet.name }}</td>
                 <td>

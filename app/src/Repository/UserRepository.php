@@ -83,6 +83,17 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Save entity.
+     *
+     * @param User $user User entity
+     */
+    public function save(User $user): void
+    {
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

@@ -6,6 +6,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -67,6 +68,8 @@ class User
      * @ORM\Column(type="string")
      */
     private string $password;
+    private DateTimeInterface $updatedAt;
+    private DateTimeInterface $createdAt;
 
     public function __construct()
     {
@@ -196,5 +199,53 @@ class User
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Getter for Created At.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Setter for Created At.
+     *
+     * @param DateTimeInterface $createdAt Created At
+     *
+     * @return $this
+     */
+    public function setCreatedAt(DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Getter for Updated At.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Setter for Updated At.
+     *
+     * @param DateTimeInterface $updatedAt Updated At
+     *
+     * @return $this
+     */
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

@@ -43,6 +43,11 @@ class TransactionRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
+            ->join('transaction.wallet', 'wallet')
+            ->join('transaction.category', 'category')
+            ->join('transaction.payment', 'payment')
+            ->join('transaction.operation', 'operation')
+            ->join('transaction.tags', 'tags')
             ->orderBy('transaction.date', 'DESC');
     }
 

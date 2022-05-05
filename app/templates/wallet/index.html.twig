@@ -40,9 +40,15 @@
         {{ knp_pagination_render(pagination) }}
     </div>
 
+
     {% else %}
         <p>
             {{ 'message.empty_list'|trans }}
         </p>
     {% endif %}
+
+    <div class="btn btn-light">
+        <a href="{{ url('wallet_create') }}" title="{{ 'action.create'|trans }}">
+                {{ 'action.create'|trans }}</a>
+    </div>
 {% endblock %}

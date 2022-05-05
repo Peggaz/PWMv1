@@ -6,8 +6,8 @@
                 <source>label_actions</source>
                 <target>Actions</target>
             </trans-unit>
-            <trans-unit id="title_category_list">
-                <source>title_category_list</source>
+            <trans-unit id="title.category_list">
+                <source>title.category_list</source>
                 <target>Category</target>
             </trans-unit>
             <trans-unit id="label_action_view">
@@ -26,16 +26,16 @@
                 <source>message_empty_list</source>
                 <target>Empty list.</target>
             </trans-unit>
-            <trans-unit id="title_category_details">
-                <source>title_category_details</source>
+            <trans-unit id="title.category_details">
+                <source>title.category_details</source>
                 <target>Task details #%id%</target>
             </trans-unit>
             <trans-unit id="action_back_to_list">
                  <source>action_back_to_list</source>
                  <target>Back to list</target>
             </trans-unit>
-            <trans-unit id="title_transaction_list">
-                  <source>title_transaction_list</source>
+            <trans-unit id="title.transaction_list">
+                  <source>title.transaction_list</source>
                   <target>Transactions</target>
             </trans-unit>
             <trans-unit id="action_logout">
@@ -93,8 +93,8 @@
                     <source>action_delete</source>
                     <target>Delete</target>
             </trans-unit>
-            <trans-unit id="title_wallet_edit">
-                    <source>title_wallet_edit</source>
+            <trans-unit id="title.wallet_edit">
+                    <source>title.wallet_edit</source>
                     <target>Edit Wallet</target>
             </trans-unit>
             <trans-unit id="label_balance">
@@ -113,76 +113,76 @@
                      <source>label_updated_at</source>
                      <target>Updated At</target>
             </trans-unit>
-            <trans-unit id="title_wallet_list">
-                    <source>title_wallet_list</source>
+            <trans-unit id="title.wallet_list">
+                    <source>title.wallet_list</source>
                     <target>Wallet</target>
             </trans-unit>
-            <trans-unit id="title_wallet_delete">
-                    <source>title_wallet_delete</source>
+            <trans-unit id="title.wallet_delete">
+                    <source>title.wallet_delete</source>
                     <target>Wallet delete</target>
             </trans-unit>
-            <trans-unit id="title_wallet_create">
-                    <source>title_wallet_create</source>
+            <trans-unit id="title.wallet_create">
+                    <source>title.wallet_create</source>
                     <target>Wallet create</target>
             </trans-unit>
-            <trans-unit id="title_operation_create">
-                    <source>title_operation_create</source>
+            <trans-unit id="title.operation_create">
+                    <source>title.operation_create</source>
                     <target>Operation create</target>
             </trans-unit>
-            <trans-unit id="title_payment_create">
-                    <source>title_payment_create</source>
+            <trans-unit id="title.payment_create">
+                    <source>title.payment_create</source>
                     <target>Payment create</target>
             </trans-unit>
-            <trans-unit id="title_category_create">
-                    <source>title_category_create</source>
+            <trans-unit id="title.category_create">
+                    <source>title.category_create</source>
                     <target>Category create</target>
             </trans-unit>
-            <trans-unit id="title_category_edit">
-                    <source>title_category_edit</source>
+            <trans-unit id="title.category_edit">
+                    <source>title.category_edit</source>
                     <target>Category edit</target>
             </trans-unit>
-            <trans-unit id="title_transaction_create">
-                    <source>title_transaction_create</source>
+            <trans-unit id="title.transaction_create">
+                    <source>title.transaction_create</source>
                     <target>Transaction create</target>
             </trans-unit>
-            <trans-unit id="title_transaction_details">
-                    <source>title_transaction_details</source>
+            <trans-unit id="title.transaction_details">
+                    <source>title.transaction_details</source>
                     <target>Transaction details</target>
             </trans-unit>
-            <trans-unit id="title_wallet_details">
-                    <source>title_wallet_details</source>
+            <trans-unit id="title.wallet_details">
+                    <source>title.wallet_details</source>
                     <target>Wallet details</target>
             </trans-unit>
-            <trans-unit id="title_payment_list">
-                    <source>title_payment_list</source>
+            <trans-unit id="title.payment_list">
+                    <source>title.payment_list</source>
                     <target>Payment</target>
             </trans-unit>
-            <trans-unit id="title_tag_list">
-                    <source>title_tag_list</source>
+            <trans-unit id="title.tag_list">
+                    <source>title.tag_list</source>
                     <target>Tag</target>
             </trans-unit>
-            <trans-unit id="title_tag_details">
-                    <source>title_tag_details</source>
+            <trans-unit id="title.tag_details">
+                    <source>title.tag_details</source>
                     <target>Tag details</target>
             </trans-unit>
-            <trans-unit id="title_payment_details">
-                    <source>title_payment_details</source>
+            <trans-unit id="title.payment_details">
+                    <source>title.payment_details</source>
                     <target>Payment details</target>
             </trans-unit>
             <trans-unit id="label_tags">
                     <source>label_tags</source>
                     <target>Tag</target>
             </trans-unit>
-            <trans-unit id="title_operation_list">
-                    <source>title_operation_list</source>
+            <trans-unit id="title.operation_list">
+                    <source>title.operation_list</source>
                     <target>Operations</target>
             </trans-unit>
-            <trans-unit id="title_operation_details">
-                    <source>title_operation_details</source>
+            <trans-unit id="title.operation_details">
+                    <source>title.operation_details</source>
                     <target>Operations details</target>
             </trans-unit>
-            <trans-unit id="title_login">
-                    <source>title_login</source>
+            <trans-unit id="title.login">
+                    <source>title.login</source>
                     <target>Login</target>
             </trans-unit>
             <trans-unit id="massage_log">
@@ -217,16 +217,16 @@
                     <source>message_form_error</source>
                     <target>Form error</target>
             </trans-unit>
-            <trans-unit id="title_tag_create">
-                    <source>title_tag_create</source>
+            <trans-unit id="title.tag_create">
+                    <source>title.tag_create</source>
                     <target>Tag create</target>
             </trans-unit>
             <trans-unit id="message_updated_successfully">
                     <source>message_updated_successfully</source>
                     <target>Record updated successfully</target>
             </trans-unit>
-            <trans-unit id="title_operation_edit">
-                    <source>title_operation_edit</source>
+            <trans-unit id="title.operation_edit">
+                    <source>title.operation_edit</source>
                     <target>Operation edit</target>
             </trans-unit>
             <trans-unit id="action_change_password">
@@ -241,20 +241,20 @@
                     <source>label_password_again</source>
                     <target>Repeat the password again</target>
             </trans-unit>
-            <trans-unit id="title_category_delete">
-                    <source>title_category_delete</source>
+            <trans-unit id="title.category_delete">
+                    <source>title.category_delete</source>
                     <target>Category delete</target>
             </trans-unit>
-            <trans-unit id="title_operation_delete">
-                    <source>title_operation_delete</source>
+            <trans-unit id="title.operation_delete">
+                    <source>title.operation_delete</source>
                     <target>Operation delete</target>
             </trans-unit>
-            <trans-unit id="title_transaction_delete">
-                    <source>title_transaction_delete</source>
+            <trans-unit id="title.transaction_delete">
+                    <source>title.transaction_delete</source>
                     <target>Transaction delete</target>
             </trans-unit>
-            <trans-unit id="title_transaction_edit">
-                    <source>title_transaction_edit</source>
+            <trans-unit id="title.transaction_edit">
+                    <source>title.transaction_edit</source>
                     <target>Transaction edit</target>
             </trans-unit>
             <trans-unit id="message_created_successfully">
@@ -273,8 +273,8 @@
                     <source>Save</source>
                     <target>Change password</target>
             </trans-unit>
-            <trans-unit id="title_change_password">
-                    <source>title_change_password</source>
+            <trans-unit id="title.change_password">
+                    <source>title.change_password</source>
                     <target>Change password</target>
             </trans-unit>
             <trans-unit id="Email could not be found.">
