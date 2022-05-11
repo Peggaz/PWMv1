@@ -16,7 +16,6 @@
         <tr>
             <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id')  }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.password'|trans, 'user.password') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
             <th>{{ 'label.action'|trans }}</th>
         </tr>
@@ -26,7 +25,6 @@
             <tr>
                 <td>{{ u.id }}</td>
                 <td>{{ u.email }}</td>
-                <td>{{ u.password }}</td>
                 <td>{{ u.roles|json_encode()  }}</td>
                 <td>
                     <a href="{{ url('user_show', {id: u.id}) }}" title="{{ 'action.view'|trans }}">

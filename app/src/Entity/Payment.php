@@ -6,12 +6,9 @@
 namespace App\Entity;
 
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Payment.
@@ -37,15 +34,14 @@ class Payment
      *
      * @ORM\Column(type="string", length=20)
      */
-    private $name;
+    private string $name;
 
 
     /**
      * Payment constructor.
      */
-    public function __construct()
+    #[Pure] public function __construct()
     {
-        $this->transaction = new ArrayCollection();
     }
 
     /**

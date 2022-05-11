@@ -7,8 +7,6 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,11 +17,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User
 {
-    /**
-     * @constant int NUMBER_OF_ITEMS
-     */
-    const NUMBER_OF_ITEMS = 10;
-
     /**
      * USER.
      *
@@ -160,7 +153,7 @@ class User
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     /**

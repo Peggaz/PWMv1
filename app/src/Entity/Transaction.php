@@ -84,10 +84,7 @@ class Transaction
     /**
      * Payment.
      *
-     * @ORM\ManyToOne(
-     *     targetEntity="App\Entity\Payment",
-     *     inversedBy="transactions",
-     *     fetch="EXTRA_LAZY",)
+     * @ORM\ManyToOne
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Payment $payment;
@@ -123,7 +120,7 @@ class Transaction
     /**
      * Author.
      *
-     * @var \App\Entity\User
+     * @var User
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
@@ -134,6 +131,9 @@ class Transaction
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $comment;
+
+    private DateTimeInterface $updatedAt;
+    private DateTimeInterface $createdAt;
 
     /**
      * Transaction constructor.
@@ -180,7 +180,7 @@ class Transaction
     /**
      * Getter for Date.
      *
-     * @return DateTimeInterface|null Name
+     * @return DateTimeInterface Name
      */
     public function getDate(): DateTimeInterface
     {
@@ -372,7 +372,7 @@ class Transaction
     /**
      * Add tag to collection.
      *
-     * @param \App\Entity\Tag $tag Tag entity
+     * @param Tag $tag Tag entity
      */
     public function addTag(Tag $tag): void
     {
@@ -384,7 +384,7 @@ class Transaction
     /**
      * Remove tag from collection.
      *
-     * @param \App\Entity\Tag $tag Tag entity
+     * @param Tag $tag Tag entity
      */
     public function removeTag(Tag $tag): void
     {

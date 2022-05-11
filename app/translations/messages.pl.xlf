@@ -87,26 +87,31 @@
                     <target>Kategorie</target>
             </trans-unit><trans-unit id="label.wallet">
                     <source>label.wallet</source>
-                    <target>Portfele</target>
-            </trans-unit>
+            <target>Portfele</target>
+        </trans-unit>
             <trans-unit id="label.payment">
-                    <source>label.payment</source>
-                    <target>Metody płatności</target>
+                <source>label.payment</source>
+                <target>Metody płatności</target>
             </trans-unit>
             <trans-unit id="label.operation">
-                    <source>label.operation</source>
-                    <target>Operacje</target>
+                <source>label.operation</source>
+                <target>Operacje</target>
+            </trans-unit>
+            <trans-unit id="label.roles">
+                <source>label.roles</source>
+                <target>Role</target>
             </trans-unit>
             <trans-unit id="action.edit">
-                    <source>action.edit</source>
-                    <target>Edytuj</target>
-            </trans-unit><trans-unit id="action.delete">
-                    <source>action.delete</source>
-                    <target>Usuń</target>
+                <source>action.edit</source>
+                <target>Edytuj</target>
+            </trans-unit>
+            <trans-unit id="action.delete">
+                <source>action.delete</source>
+                <target>Usuń</target>
             </trans-unit>
             <trans-unit id="title.wallet_edit">
-                    <source>title.wallet_edit</source>
-                    <target>Edytuj portfel</target>
+                <source>title.wallet_edit</source>
+                <target>Edytuj portfel</target>
             </trans-unit>
             <trans-unit id="label.balance">
                      <source>label.balance</source>

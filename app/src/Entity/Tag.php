@@ -5,10 +5,10 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,14 +38,10 @@ class Tag
      *
      * @var string
      *
-     * @Assert\Type(type="string")
      * @Assert\NotBlank
-     * @Assert\Length(
-     *     min="3",
-     *     max="64",
-     * )
+     * @Assert\Length
      */
-    private $name;
+    private string $name;
 
 
     /**
@@ -55,12 +51,12 @@ class Tag
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Transaction", mappedBy="tags")
      */
-    private $transactions;
+    private array|Collection|ArrayCollection $transactions;
 
     /**
      * Tag constructor.
      */
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->transactions = new ArrayCollection();
     }
@@ -103,7 +99,7 @@ class Tag
     /**
      * Getter for transactions.
      *
-     * @return \Doctrine\Common\Collections\Collection|Transaction[] Transactions collection
+     * @return Collection Transactions collection
      */
     public function getTransactions(): Collection
     {

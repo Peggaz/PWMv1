@@ -28,7 +28,7 @@ class UserRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 3;
+    public const PAGINATOR_ITEMS_PER_PAGE = 9;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -43,7 +43,8 @@ class UserRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->orderBy('user.email', 'DESC');
+            ->select('user.id', 'user.email', 'user.roles')
+            ->orderBy('user.id', 'DESC');
     }
 
     /**

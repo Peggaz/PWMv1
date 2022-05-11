@@ -6,8 +6,6 @@
 namespace App\Entity;
 
 use DateTimeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -43,6 +41,8 @@ class Operation
      */
     private string $name;
 
+    private DateTimeInterface $updatedAt;
+    private DateTimeInterface $createdAt;
 
     /**
      * Operation constructor.
