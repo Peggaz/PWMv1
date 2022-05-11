@@ -4,9 +4,10 @@
  */
 
 namespace App\Entity;
-
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -41,8 +42,31 @@ class Operation
      */
     private string $name;
 
-    private DateTimeInterface $updatedAt;
-    private DateTimeInterface $createdAt;
+    /**
+     * Created at.
+     *
+     * @var DateTimeImmutable|null
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?DateTimeImmutable $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeImmutable|null
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?DateTimeImmutable $updatedAt;
+
+    /**
+     * Slug.
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 64)]
+    #[Gedmo\Slug(fields: ['title'])]
+    private ?string $slug;
 
     /**
      * Operation constructor.
@@ -99,11 +123,11 @@ class Operation
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt
+     * @param DateTimeImmutable $createdAt
      *
      * @return $this
      */
-    public function setCreatedAt(DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -113,9 +137,9 @@ class Operation
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeImmutable|null
      */
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -127,7 +151,7 @@ class Operation
      *
      * @return $this
      */
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

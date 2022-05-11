@@ -8,6 +8,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Monolog\DateTimeImmutable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -61,8 +62,31 @@ class User
      * @ORM\Column(type="string")
      */
     private string $password;
-    private DateTimeInterface $updatedAt;
-    private DateTimeInterface $createdAt;
+    /**
+     * Created at.
+     *
+     * @var DateTimeImmutable|null
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?DateTimeImmutable $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeImmutable|null
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?DateTimeImmutable $updatedAt;
+
+    /**
+     * Slug.
+     * @var string|null
+     */
+    #[ORM\Column(type: 'string', length: 64)]
+    #[Gedmo\Slug(fields: ['title'])]
+    private ?string $slug;
 
     public function __construct()
     {

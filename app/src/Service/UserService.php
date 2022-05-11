@@ -60,11 +60,6 @@ class UserService implements UserServiceInterface
      */
     public function save(User $user): void
     {
-        if ($user->getId() == null) {
-            $user->setCreatedAt(new \DateTimeImmutable());
-        }
-        $user->setUpdatedAt(new \DateTimeImmutable());
-
         $this->userRepository->save($user);
     }
 }
