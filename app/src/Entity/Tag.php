@@ -38,8 +38,12 @@ class Tag
      *
      * @var string
      *
+     * @Assert\Type(type="string")
      * @Assert\NotBlank
-     * @Assert\Length
+     * @Assert\Length(
+     *     min="3",
+     *     max="64",
+     * )
      */
     private string $name;
 
