@@ -2,10 +2,17 @@
 
 namespace App\Tests\Repository;
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class UserRepositoryTest extends TestCase
+class WalletRepositoryTest extends KernelTestCase
 {
+    protected function setUp(): void
+    {
+        $kernel = self::bootKernel();
+        $this->entityManager = $kernel->getContainer()
+            ->get('doctrine')
+            ->getManager();
+    }
 
     public function testFindOneBy()
     {
@@ -19,7 +26,7 @@ class UserRepositoryTest extends TestCase
 
     public function testQueryAll()
     {
-        $this->assertEquals(1, 1);
+        $this->assertEquals(200, 200);
     }
 
     public function testFind()
