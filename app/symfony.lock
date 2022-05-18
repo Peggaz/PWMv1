@@ -104,6 +104,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.8",
         "recipe": {
@@ -118,6 +121,12 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
+    },
+    "knplabs/knp-components": {
+        "version": "v3.5.0"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.8.0"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
@@ -470,6 +479,9 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.25.0"
     },
+    "symfony/polyfill-php73": {
+        "version": "v1.25.0"
+    },
     "symfony/polyfill-php80": {
         "version": "v1.25.0"
     },
@@ -520,6 +532,9 @@
         "version": "v5.4.7"
     },
     "symfony/security-csrf": {
+        "version": "v5.4.3"
+    },
+    "symfony/security-guard": {
         "version": "v5.4.3"
     },
     "symfony/security-http": {
@@ -611,6 +626,9 @@
     },
     "twig/extra-bundle": {
         "version": "v3.3.8"
+    },
+    "twig/intl-extra": {
+        "version": "v3.3.5"
     },
     "twig/twig": {
         "version": "v3.3.10"
