@@ -43,7 +43,7 @@ class CategoryRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->orderBy('category.email', 'DESC');
+            ->orderBy('category.name', 'DESC');
     }
 
     /**

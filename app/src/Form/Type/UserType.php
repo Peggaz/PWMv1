@@ -1,21 +1,20 @@
 <?php
 /**
- * Wallet type.
+ * User type.
  */
 
 namespace App\Form\Type;
 
-use App\Entity\Wallet;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class WalletType.
+ * Class UserType.
  */
-class WalletType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * Builds the form.
@@ -30,20 +29,21 @@ class WalletType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'name',
+            'email',
             TextType::class,
             [
-                'label' => 'label.name',
+                'label' => 'label.eamil',
                 'required' => true,
                 'attr' => ['max_length' => 64],
             ]
         );
         $builder->add(
-            'balance',
-            IntegerType::class,
+            'roles',
+            TextType::class,
             [
-                'label' => 'label.balance',
+                'label' => 'label.eamil',
                 'required' => true,
+                'attr' => ['max_length' => 255],
             ]
         );
     }
@@ -53,7 +53,7 @@ class WalletType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Wallet::class]);
+        $resolver->setDefaults(['data_class' => User::class]);
     }
 
     /**
@@ -66,6 +66,6 @@ class WalletType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'wallet';
+        return 'user';
     }
 }

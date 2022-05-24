@@ -132,8 +132,29 @@ class Transaction
      */
     private ?string $comment;
 
-    private DateTimeInterface $updatedAt;
+    /**
+     * Created at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
     private DateTimeInterface $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
+    private DateTimeInterface $updatedAt;
 
     /**
      * Transaction constructor.

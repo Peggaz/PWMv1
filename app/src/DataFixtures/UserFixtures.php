@@ -36,6 +36,8 @@ class UserFixtures extends AbstractBaseFixtures
             $user->setPassword(
                 'user1234'
             );
+            $user->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+            $user->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
 
             return $user;
         });
@@ -47,7 +49,8 @@ class UserFixtures extends AbstractBaseFixtures
             $user->setPassword(
                 'admin1234'
             );
-
+            $user->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+            $user->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             return $user;
         });
 

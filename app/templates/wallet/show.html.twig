@@ -14,6 +14,10 @@
             <dd>{{ wallet.name|json_encode() }}</dd>
             <dt>{{ 'label.balance'|trans }}</dt>
             <dd>{{ wallet.balance }}</dd>
+            <dt>{{ 'label.createdAt'|trans }}<
+            <dd>{{ wallet.createdAt |format_date('long')}}</dd>
+            <dt>{{ 'label.updateAt'|trans }}<
+            <dd>{{ wallet.updatedAt|format_date('long') }}</dd>
 
         </dl>
         <p>

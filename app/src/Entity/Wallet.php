@@ -8,6 +8,7 @@ namespace App\Entity;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Wallet.
@@ -54,8 +55,31 @@ class Wallet
      * @ORM\JoinColumn(nullable=false)
      */
     private ?User $user;
-    private DateTimeInterface $updatedAt;
+
+    /**
+     * Created at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
     private DateTimeInterface $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
+    private DateTimeInterface $updatedAt;
+
 
     /**
      * Wallet constructor.

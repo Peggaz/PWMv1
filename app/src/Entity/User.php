@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User.
@@ -61,8 +62,31 @@ class User
      * @ORM\Column(type="string")
      */
     private string $password;
-    private DateTimeInterface $updatedAt;
+
+    /**
+     * Created at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
     private DateTimeInterface $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
+    private DateTimeInterface $updatedAt;
+
 
     public function __construct()
     {
@@ -195,7 +219,7 @@ class User
     }
 
     /**
-     * Getter for Created At.
+     * Getter for Create At.
      *
      * @return DateTimeInterface|null
      */
@@ -205,9 +229,9 @@ class User
     }
 
     /**
-     * Setter for Created At.
+     * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt Created At
+     * @param DateTimeInterface $createdAt
      *
      * @return $this
      */
@@ -219,7 +243,7 @@ class User
     }
 
     /**
-     * Getter for Updated At.
+     * Getter for Update At.
      *
      * @return DateTimeInterface|null
      */
@@ -229,9 +253,9 @@ class User
     }
 
     /**
-     * Setter for Updated At.
+     * Setter for Update At.
      *
-     * @param DateTimeInterface $updatedAt Updated At
+     * @param DateTimeInterface $updatedAt
      *
      * @return $this
      */

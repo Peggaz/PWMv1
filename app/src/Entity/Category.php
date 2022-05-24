@@ -49,16 +49,39 @@ class Category
      *     max="64",
      * )
      */
-    private $name;
+    private string $name;
 
-    private DateTimeInterface $updatedAt;
+    /**
+     * Created at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
     private DateTimeInterface $createdAt;
+
+    /**
+     * Updated at.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
+     *
+     */
+    private DateTimeInterface $updatedAt;
 
     /**
      * Category constructor.
      */
     public function __construct()
     {
+//        $this->updatedAt = new DateTime();
+//        $tis->updatedAt =
     }
 
     /**
@@ -96,21 +119,21 @@ class Category
      *
      * @return DateTimeInterface|null
      */
-    public function getCreateAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createAt
+     * @param DateTimeInterface $createdAt
      *
      * @return $this
      */
-    public function setCreateAt(DateTimeInterface $createAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
-        $this->createAt = $createAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -120,21 +143,21 @@ class Category
      *
      * @return DateTimeInterface|null
      */
-    public function getUpdateAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
     /**
      * Setter for Update At.
      *
-     * @param DateTimeInterface $updateAt
+     * @param DateTimeInterface $updatedAt
      *
      * @return $this
      */
-    public function setUpdateAt(DateTimeInterface $updateAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

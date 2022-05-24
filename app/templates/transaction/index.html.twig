@@ -51,4 +51,8 @@
             {{ 'message.empty_list'|trans }}
         </p>
     {% endif %}
+    <div class="btn btn-light">
+        <a href="{{ url('transaction_create') }}" title="{{ 'action.create'|trans }}">
+                {{ 'action.create'|trans }}</a>
+    </div>
 {% endblock %}

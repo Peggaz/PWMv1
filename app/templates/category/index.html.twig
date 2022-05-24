@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.user_list'|trans }}
+    {{ 'title.category_list'|trans }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.user_list'|trans }}</h1>
+    <h1>{{ 'title.category_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
     <div class="navigation text-center">
@@ -14,20 +14,20 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id')  }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'category.name')  }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.updatedAt'|trans, 'category.updatedAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'category.createdAt') }}</th>
             <th>{{ 'label.action'|trans }}</th>
         </tr>
         </thead>
         <tbody>
-        {% for u in pagination.items %}
+        {% for item in pagination.items %}
             <tr>
-                <td>{{ u.id }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.roles|json_encode()  }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.updatedAt |format_date('long')}}</td>
+                <td>{{ item.createdAt |format_date('long')}}</td>
                 <td>
-                    <a href="{{ url('user_show', {id: u.id}) }}" title="{{ 'action.view'|trans }}">
+                    <a href="{{ url('category_show', {id: item.id}) }}" title="{{ 'action.view'|trans }}">
                         {{ 'action.view'|trans }}
                     </a>
                 </td>
@@ -46,7 +46,7 @@
         </p>
     {% endif %}
     <div class="btn btn-light">
-        <a href="{{ url('user_create') }}" title="{{ 'action.create'|trans }}">
+        <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
                 {{ 'action.create'|trans }}</a>
     </div>
 {% endblock %}
