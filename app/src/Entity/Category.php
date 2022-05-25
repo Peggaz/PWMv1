@@ -31,7 +31,6 @@ class Category
      */
     private $id;
 
-
     /**
      * Name.
      *
@@ -80,8 +79,6 @@ class Category
      */
     public function __construct()
     {
-//        $this->updatedAt = new DateTime();
-//        $tis->updatedAt =
     }
 
     /**
@@ -160,40 +157,5 @@ class Category
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-
-    /**
-     * Getter for Code.
-     *
-     * @return string|null
-     */
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    /**
-     * Setter for Code.
-     *
-     * @param string $code Code
-     *
-     * @return $this
-     */
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Getter Can Delete.
-     *
-     * @return bool|null
-     */
-    public function getCanDelete(): ?bool
-    {
-        return true;//do naprawy
     }
 }

@@ -1,13 +1,13 @@
 <?php
 /**
- * Category controller.
+ * Payment controller.
  */
 
 namespace App\Controller;
 
-use App\Entity\Category;
-use App\Form\Type\CategoryType;
-use App\Service\CategoryServiceInterface;
+use App\Entity\Payment;
+use App\Form\Type\PaymentType;
+use App\Service\PaymentServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,15 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class CategoryController.
+ * Class PaymentController.
  */
-#[Route('/category')]
-class CategoryController extends AbstractController
+#[Route('/payment')]
+class PaymentController extends AbstractController
 {
     /**
-     * Category service.
+     * Payment service.
      */
-    private CategoryServiceInterface $categoryService;
+    private PaymentServiceInterface $paymentService;
 
     /**
      * Translator.
@@ -36,12 +36,12 @@ class CategoryController extends AbstractController
     /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $taskService Task service
+     * @param PaymentServiceInterface $taskService Task service
      * @param TranslatorInterface $translator Translator
      */
-    public function __construct(CategoryServiceInterface $taskService, TranslatorInterface $translator)
+    public function __construct(PaymentServiceInterface $taskService, TranslatorInterface $translator)
     {
-        $this->categoryService = $taskService;
+        $this->paymentService = $taskService;
         $this->translator = $translator;
     }
 
@@ -54,33 +54,33 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(name: 'category_index', methods: 'GET')]
+    #[Route(name: 'payment_index', methods: 'GET')]
     public function index(Request $request): Response
     {
-        $pagination = $this->categoryService->getPaginatedList(
+        $pagination = $this->paymentService->getPaginatedList(
             $request->query->getInt('page', 1)
         );
 
-        return $this->render('category/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('payment/index.html.twig', ['pagination' => $pagination]);
     }
 #endregion
 #region ditail
     /**
      * Show action.
      *
-     * @param Category $category Category
+     * @param Payment $payment Payment
      *
      * @return Response HTTP response
      */
     #[Route(
         '/{id}',
-        name: 'category_show',
+        name: 'payment_show',
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    public function show(Category $category): Response
+    public function show(Payment $payment): Response
     {
-        return $this->render('category/show.html.twig', ['category' => $category]);
+        return $this->render('payment/show.html.twig', ['payment' => $payment]);
     }
 #endregion
 #region create
@@ -93,28 +93,28 @@ class CategoryController extends AbstractController
      */
     #[Route(
         '/create',
-        name: 'category_create',
+        name: 'payment_create',
         methods: 'GET|POST|PUT',
     )]
     public function create(Request $request): Response
     {
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
+        $payment = new Payment();
+        $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryService->save($category);
+            $this->paymentService->save($payment);
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('payment_index');
         }
 
         return $this->render(
-            'category/create.html.twig',
+            'payment/create.html.twig',
             ['form' => $form->createView()]
         );
     }
@@ -124,35 +124,35 @@ class CategoryController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param Category $category Category entity
+     * @param Payment $payment Payment entity
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
-    public function edit(Request $request, Category $category): Response
+    #[Route('/{id}/edit', name: 'payment_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    public function edit(Request $request, Payment $payment): Response
     {
-        $form = $this->createForm(CategoryType::class, $category, [
+        $form = $this->createForm(PaymentType::class, $payment, [
             'method' => 'PUT',
-            'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
+            'action' => $this->generateUrl('payment_edit', ['id' => $payment->getId()]),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryService->save($category);
+            $this->paymentService->save($payment);
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_successfully')
             );
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('payment_index');
         }
 
         return $this->render(
-            'category/edit.html.twig',
+            'payment/edit.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $category,
+                'payment' => $payment,
             ]
         );
     }
@@ -163,35 +163,35 @@ class CategoryController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Category $category Category entity
+     * @param Payment $payment Payment entity
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
-    public function delete(Request $request, Category $category): Response
+    #[Route('/{id}/delete', name: 'payment_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    public function delete(Request $request, Payment $payment): Response
     {
-        $form = $this->createForm(FormType::class, $category, [
+        $form = $this->createForm(FormType::class, $payment, [
             'method' => 'DELETE',
-            'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
+            'action' => $this->generateUrl('payment_delete', ['id' => $payment->getId()]),
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryService->delete($category);
+            $this->paymentService->delete($payment);
 
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.deleted_successfully')
             );
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('payment_index');
         }
 
         return $this->render(
-            'category/delete.html.twig',
+            'payment/delete.html.twig',
             [
                 'form' => $form->createView(),
-                'category' => $category,
+                'payment' => $payment,
             ]
         );
     }

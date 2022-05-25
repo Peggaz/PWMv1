@@ -67,4 +67,15 @@ class PaymentService implements PaymentServiceInterface
 
         $this->paymentRepository->save($payment);
     }
+
+    /**
+     * Delete category.
+     *
+     * @param Payment $payment Payment entity
+     *
+     */
+    public function delete(Payment $payment): void
+    {
+        $this->paymentRepository->delete($payment);
+    }
 }

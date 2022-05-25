@@ -1,6 +1,12 @@
 p {
     color: red;
 }
-body {
-    background: #222;
+
+.container {
+    width: 100%;
+    padding-top: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }

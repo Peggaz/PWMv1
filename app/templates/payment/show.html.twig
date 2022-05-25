@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.payment_details'|trans({'%id%': payment.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.payment_details'|trans({'%id%': payment.id|default('')}) }}</h1>
+    {% if payment is defined and payment|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ payment.id }}</dd>
+            <dt>{{ 'label.name' }}</dt>
+            <dd>{{ payment.name }}</dd>
+            <dt>{{ 'label.updatedAt'|trans }}</dt>
+            <dd>{{ payment.updatedAt|format_date('long') }}</dd>
+            <dt>{{ 'label.createdAt'|trans }}</dt>
+            <dd>{{ payment.createdAt|format_date('long') }}</dd>
+
+        </dl>
+        <p>
+            <a href="{{ url('payment_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+        <div class="btn btn-light">
+            <a href="{{ url('payment_edit', {id: payment.id}) }}" title="{{ 'action.edit'|trans }}">
+                {{ 'action.edit'|trans }}</a>
+        </div>
+        <div class="btn btn-light">
+            <a href="{{ url('payment_delete', {id: payment.id}) }}" title="{{ 'action.delete'|trans }}">
+                {{ 'action.delete'|trans }}</a>
+        </div>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

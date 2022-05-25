@@ -4,18 +4,16 @@ namespace App\Repository;
 
 use App\Entity\Operation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Operation>
- *
  * @method Operation|null find($id, $lockMode = null, $lockVersion = null)
  * @method Operation|null findOneBy(array $criteria, array $orderBy = null)
  * @method Operation[]    findAll()
  * @method Operation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Operation>
  */
 class OperationRepository extends ServiceEntityRepository
 {
@@ -28,8 +26,13 @@ class OperationRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 3;
+    public const PAGINATOR_ITEMS_PER_PAGE = 20;
 
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Operation::class);
@@ -43,7 +46,8 @@ class OperationRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->orderBy('operation.email', 'DESC');
+            ->select('partial operation.{id, createdAt, updatedAt, name}')
+            ->orderBy('operation.updatedAt', 'DESC');
     }
 
     /**
@@ -52,7 +56,6 @@ class OperationRepository extends ServiceEntityRepository
      * @param QueryBuilder|null $queryBuilder Query builder
      *
      * @return QueryBuilder Query builder
-     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -60,55 +63,24 @@ class OperationRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * Delete entity.
+     *
+     * @param Operation $operation Operation entity
      */
-    public function add(Operation $entity, bool $flush = true): void
+    public function delete(Operation $operation): void
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->_em->remove($operation);
+        $this->_em->flush();
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * Save entity.
+     *
+     * @param Operation $operation Operation entity
      */
-    public function remove(Operation $entity, bool $flush = true): void
+    public function save(Operation $operation): void
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->_em->persist($operation);
+        $this->_em->flush();
     }
-
-    // /**
-    //  * @return Operation[] Returns an array of Operation objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Operation
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

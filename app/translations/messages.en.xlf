@@ -124,26 +124,30 @@
             </trans-unit>
             <trans-unit id="title.wallet_create">
                     <source>title.wallet_create</source>
-                    <target>Wallet create</target>
+                <target>Wallet create</target>
             </trans-unit>
             <trans-unit id="title.operation_create">
-                    <source>title.operation_create</source>
-                    <target>Operation create</target>
+                <source>title.operation_create</source>
+                <target>Operation create</target>
             </trans-unit>
             <trans-unit id="title.payment_create">
-                    <source>title.payment_create</source>
-                    <target>Payment create</target>
+                <source>title.payment_create</source>
+                <target>Payment create</target>
+            </trans-unit>
+            <trans-unit id="title.payment_delete">
+                <source>title.payment_delete</source>
+                <target>Payment delete</target>
             </trans-unit>
             <trans-unit id="title.category_create">
-                    <source>title.category_create</source>
-                    <target>Category create</target>
+                <source>title.category_create</source>
+                <target>Category create</target>
             </trans-unit>
             <trans-unit id="title.category_edit">
-                    <source>title.category_edit</source>
-                    <target>Category edit</target>
+                <source>title.category_edit</source>
+                <target>Category edit</target>
             </trans-unit>
             <trans-unit id="title.transaction_create">
-                    <source>title.transaction_create</source>
+                <source>title.transaction_create</source>
                     <target>Transaction create</target>
             </trans-unit>
             <trans-unit id="title.transaction_details">

@@ -60,11 +60,22 @@ class OperationService implements OperationServiceInterface
      */
     public function save(Operation $operation): void
     {
-        if ($operation->getId() == null) {
+        if (null == $operation->getId()) {
             $operation->setCreatedAt(new \DateTimeImmutable());
         }
         $operation->setUpdatedAt(new \DateTimeImmutable());
 
         $this->operationRepository->save($operation);
+    }
+
+    /**
+     * Delete operation.
+     *
+     * @param Operation $operation Operation entity
+     *
+     */
+    public function delete(Operation $operation): void
+    {
+        $this->operationRepository->delete($operation);
     }
 }

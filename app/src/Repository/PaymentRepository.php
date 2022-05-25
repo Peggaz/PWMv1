@@ -4,18 +4,16 @@ namespace App\Repository;
 
 use App\Entity\Payment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Payment>
- *
  * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
  * @method Payment[]    findAll()
  * @method Payment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Payment>
  */
 class PaymentRepository extends ServiceEntityRepository
 {
@@ -28,8 +26,13 @@ class PaymentRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 3;
+    public const PAGINATOR_ITEMS_PER_PAGE = 20;
 
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Payment::class);
@@ -43,7 +46,8 @@ class PaymentRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->orderBy('payment.email', 'DESC');
+            ->select('partial payment.{id, createdAt, updatedAt, name}')
+            ->orderBy('payment.updatedAt', 'DESC');
     }
 
     /**
@@ -52,7 +56,6 @@ class PaymentRepository extends ServiceEntityRepository
      * @param QueryBuilder|null $queryBuilder Query builder
      *
      * @return QueryBuilder Query builder
-     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -60,55 +63,24 @@ class PaymentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * Delete entity.
+     *
+     * @param Payment $payment Payment entity
      */
-    public function add(Payment $entity, bool $flush = true): void
+    public function delete(Payment $payment): void
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->_em->remove($payment);
+        $this->_em->flush();
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * Save entity.
+     *
+     * @param Payment $payment Payment entity
      */
-    public function remove(Payment $entity, bool $flush = true): void
+    public function save(Payment $payment): void
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->_em->persist($payment);
+        $this->_em->flush();
     }
-
-    // /**
-    //  * @return Payment[] Returns an array of Payment objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Payment
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

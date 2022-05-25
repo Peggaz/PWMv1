@@ -82,9 +82,12 @@ class Transaction
     private ?Wallet $wallet;
 
     /**
-     * Payment.
+     * Category.
      *
-     * @ORM\ManyToOne
+     * @ORM\ManyToOne(
+     *     targetEntity="App\Entity\Category",
+     *     inversedBy="transactions",
+     *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Payment $payment;
@@ -173,7 +176,7 @@ class Transaction
     {
         return $this->id;
     }
-
+#region name
     /**
      * Getter for Name.
      *
@@ -197,7 +200,8 @@ class Transaction
 
         return $this;
     }
-
+#endregion
+#region data
     /**
      * Getter for Date.
      *
@@ -221,7 +225,8 @@ class Transaction
 
         return $this;
     }
-
+#endregion
+#region amount
     /**
      * Setter for Amount.
      *
@@ -235,7 +240,8 @@ class Transaction
 
         return $this;
     }
-
+#endregion
+#region create update
     /**
      * Getter for Created At.
      *
@@ -293,7 +299,8 @@ class Transaction
     {
         return $this->category;
     }
-
+#endregion
+#region ManyToOne
     /**
      * Setter for category.
      *
@@ -330,16 +337,6 @@ class Transaction
         $this->wallet = $wallet;
 
         return $this;
-    }
-
-    /**
-     * Getter for payment.
-     *
-     * @return Payment|null Payment
-     */
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
     }
 
     /**
@@ -401,7 +398,7 @@ class Transaction
             $this->tags[] = $tag;
         }
     }
-
+#endregion
     /**
      * Remove tag from collection.
      *

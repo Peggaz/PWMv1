@@ -7,7 +7,6 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,6 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Payment
 {
     /**
+     * Primary key.
+     *
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -65,7 +68,7 @@ class Payment
     /**
      * Payment constructor.
      */
-    #[Pure] public function __construct()
+    public function __construct()
     {
     }
 

@@ -41,9 +41,10 @@
     </div>
 
     {% else %}
-        <p>
-            {{ 'message.empty_list'|trans }}
-        </p>
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
     {% endif %}
     <div class="btn btn-light">
         <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">

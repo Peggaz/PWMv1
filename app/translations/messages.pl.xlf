@@ -19,23 +19,27 @@
                 <target>Id</target>
             </trans-unit>
             <trans-unit id="label.name">
-                 <source>label.name</source>
-                 <target>Nazwa</target>
+                <source>label.name</source>
+                <target>Nazwa</target>
             </trans-unit>
             <trans-unit id="message.empty_list">
                 <source>message.empty_list</source>
                 <target>Lista jest pusta.</target>
+            </trans-unit>
+            <trans-unit id="message.deleted_successfully">
+                <source>message.deleted_successfully</source>
+                <target>Unicestwienie tego bytu powiodło się ;)</target>
             </trans-unit>
             <trans-unit id="title.category_details">
                 <source>title.category_details</source>
                 <target>Szczegóły kategorii #%id%</target>
             </trans-unit>
             <trans-unit id="action.back_to_list">
-                 <source>action.back_to_list</source>
-                 <target>Powrót do listy</target>
+                <source>action.back_to_list</source>
+                <target>Powrót do listy</target>
             </trans-unit>
             <trans-unit id="title.transaction_list">
-                  <source>title.transaction_list</source>
+                <source>title.transaction_list</source>
                   <target>Transakcje</target>
             </trans-unit>
             <trans-unit id="title.user_details">
@@ -139,26 +143,30 @@
             </trans-unit>
             <trans-unit id="title.wallet_create">
                     <source>title.wallet_create</source>
-                    <target>Dodaj portfel</target>
+                <target>Dodaj portfel</target>
             </trans-unit>
             <trans-unit id="title.operation_create">
-                    <source>title.operation_create</source>
-                    <target>Dodaj operacje</target>
+                <source>title.operation_create</source>
+                <target>Dodaj operacje</target>
             </trans-unit>
             <trans-unit id="title.payment_create">
-                    <source>title.payment_create</source>
-                    <target>Dodaj płatność</target>
+                <source>title.payment_create</source>
+                <target>Dodaj płatność</target>
+            </trans-unit>
+            <trans-unit id="title.payment_delete">
+                <source>title.payment_delete</source>
+                <target>Usuń płatność</target>
             </trans-unit>
             <trans-unit id="title.category_create">
-                    <source>title.category_create</source>
-                    <target>Dodaj kategorię</target>
+                <source>title.category_create</source>
+                <target>Dodaj kategorię</target>
             </trans-unit>
             <trans-unit id="title.category_edit">
-                    <source>title.category_edit</source>
-                    <target>Edytuj kategorię</target>
+                <source>title.category_edit</source>
+                <target>Edytuj kategorię</target>
             </trans-unit>
             <trans-unit id="title.transaction_create">
-                    <source>title.transaction_create</source>
+                <source>title.transaction_create</source>
                     <target>Dodaj tranzakcje</target>
             </trans-unit>
             <trans-unit id="title.transaction_details">
@@ -231,59 +239,59 @@
             </trans-unit>
             <trans-unit id="label.password_again">
                     <source>label.password_again</source>
-                    <target>Powtórz hasło</target>
+                <target>Powtórz hasło</target>
             </trans-unit>
             <trans-unit id="action.sign_in">
-                    <source>action.sign_in</source>
-                    <target>Zaloguj</target>
+                <source>action.sign_in</source>
+                <target>Zaloguj</target>
             </trans-unit>
             <trans-unit id="action.login">
-                    <source>action.login</source>
-                    <target>Zaloguj</target>
+                <source>action.login</source>
+                <target>Zaloguj</target>
             </trans-unit>
-            <trans-unit id="message_item_not_found">
-                    <source>message_item_not_found</source>
-                    <target>Nie znaleziono elementu</target>
+            <trans-unit id="message.item_not_found">
+                <source>message.item_not_found</source>
+                <target>Nie znaleziono elementu</target>
             </trans-unit>
-            <trans-unit id="message_form_error">
-                    <source>message_form_error</source>
-                    <target>Błąd formularza</target>
+            <trans-unit id="message.form_error">
+                <source>message.form_error</source>
+                <target>Błąd formularza</target>
             </trans-unit>
             <trans-unit id="title.tag_create">
-                    <source>title.tag_create</source>
-                    <target>Stwórz tag</target>
+                <source>title.tag_create</source>
+                <target>Stwórz tag</target>
             </trans-unit>
-            <trans-unit id="message_updated_successfully">
-                    <source>message_updated_successfully</source>
-                    <target>Rekord został zaktualizowany pomyślnie</target>
+            <trans-unit id="message.updated_successfully">
+                <source>message.updated_successfully</source>
+                <target>Rekord został zaktualizowany pomyślnie</target>
             </trans-unit>
             <trans-unit id="title.operation_edit">
-                    <source>title.operation_edit</source>
-                    <target>Edytuj operację</target>
+                <source>title.operation_edit</source>
+                <target>Edytuj operację</target>
             </trans-unit>
             <trans-unit id="title.category_delete">
-                    <source>title.category_delete</source>
-                    <target>Usuń kategorię</target>
+                <source>title.category_delete</source>
+                <target>Usuń kategorię</target>
             </trans-unit>
             <trans-unit id="title.operation_delete">
-                    <source>title.operation_delete</source>
-                    <target>Usuń operację</target>
+                <source>title.operation_delete</source>
+                <target>Usuń operację</target>
             </trans-unit>
             <trans-unit id="title.transaction_delete">
-                    <source>title.transaction_delete</source>
-                    <target>Usuń tranzakcje</target>
+                <source>title.transaction_delete</source>
+                <target>Usuń tranzakcje</target>
             </trans-unit>
-            <trans-unit id="message_category_contains_transactions">
-                    <source>message_category_contains_transactions</source>
-                    <target>Kategoria przypisana do tranzakcji.</target>
+            <trans-unit id="message.category_contains_transactions">
+                <source>message.category_contains_transactions</source>
+                <target>Kategoria przypisana do tranzakcji.</target>
             </trans-unit>
             <trans-unit id="title.transaction_edit">
-                    <source>title.transaction_edit</source>
-                    <target>Edytuj tranzakcje</target>
+                <source>title.transaction_edit</source>
+                <target>Edytuj tranzakcje</target>
             </trans-unit>
             <trans-unit id="Password">
-                    <source>Password</source>
-                    <target>Hasło</target>
+                <source>Password</source>
+                <target>Hasło</target>
             </trans-unit>
             <trans-unit id="Password repeated">
                     <source>Password repeated</source>
@@ -291,27 +299,27 @@
             </trans-unit>
             <trans-unit id="Save">
                     <source>Save</source>
-                    <target>Zmień hasło</target>
+                <target>Zmień hasło</target>
             </trans-unit>
             <trans-unit id="title.change_password">
-                    <source>title.change_password</source>
-                    <target>Zmień hasło</target>
+                <source>title.change_password</source>
+                <target>Zmień hasło</target>
             </trans-unit>
             <trans-unit id="Email could not be found.">
-                    <source>Email could not be found.</source>
-                    <target>Nie można znaleźć e-maila.</target>
+                <source>Email could not be found.</source>
+                <target>Nie można znaleźć e-maila.</target>
             </trans-unit>
-            <trans-unit id="message_created_successfully">
-                    <source>message_created_successfully</source>
-                    <target>Rekord dodany pomyślnie.</target>
+            <trans-unit id="message.created_successfully">
+                <source>message.created_successfully</source>
+                <target>Rekord dodany pomyślnie.</target>
             </trans-unit>
             <trans-unit id="title.payment_edit">
-                    <source>title.payment_edit</source>
-                    <target>Edytuj płatność.</target>
+                <source>title.payment_edit</source>
+                <target>Edytuj płatność.</target>
             </trans-unit>
             <trans-unit id="label.none">
-                    <source>label.none</source>
-                    <target>Brak</target>
+                <source>label.none</source>
+                <target>Brak</target>
             </trans-unit>
             <trans-unit id="label.action">
                 <source>label.action</source>
