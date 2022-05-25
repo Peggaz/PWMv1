@@ -8,37 +8,49 @@
     <h1>{{ 'title.transaction_list'|trans }}</h1>
     {% if pagination is defined and pagination.items|length %}
 
-    <div class="navigation text-center">
-        {{ knp_pagination_render(pagination) }}
-    </div>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'transaction.id')  }}</th>
-
-            <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'transaction.name') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.date'|trans, 'transaction.date') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.comment'|trans, 'transaction.comment') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'label.wallet'|trans, 'transaction.wallet.name') }}</th>
-            <th>{{ 'label.action'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for transaction in pagination.items %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ transaction.id }}</td>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'transaction.id') }}</th>
 
-                <td>{{ transaction.name }}</td>
-                <td>{{ transaction.date|date("m/d/Y")  }}</td>
-                <td>{{ transaction.comment }}</td>
-                <td>{{ transaction.wallet.name }}</td>
-                <td>
-                    <a href="{{ url('transaction_show', {id: transaction.id}) }}" title="{{ 'action.view'|trans }}">
-                        {{ 'action.view'|trans }}
-                    </a>
-                </td>
+                <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'transaction.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.date'|trans, 'transaction.date') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.amount'|trans, 'transaction.amount') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'transaction.category.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.wallet'|trans, 'transaction.wallet.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.payment'|trans, 'transaction.payment.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.operation'|trans, 'transaction.operation.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.tags'|trans, 'transaction.tags.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.comment'|trans, 'transaction.comment') }}</th>
+                <th>{{ 'label.action'|trans }}</th>
             </tr>
-        {% endfor %}
+            </thead>
+            <tbody>
+            {% for transaction in pagination.items %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+
+                    <td>{{ transaction.name }}</td>
+                    <td>{{ transaction.date|date("m/d/Y") }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.category.name }}</td>
+                    <td>{{ transaction.wallet.name }}</td>
+                    <td>{{ transaction.payment.name }}</td>
+                    <td>{{ transaction.operation.name }}</td>
+                    <td>{% for item in  transaction.tags %}
+                            {{ item.name }},
+                        {% endfor %}</td>
+                    <td>{{ transaction.comment }}</td>
+                    <td>
+                        <a href="{{ url('transaction_show', {id: transaction.id}) }}" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

@@ -1,21 +1,29 @@
 <?php
+/**
+ * Transaction repository.
+ */
 
 namespace App\Repository;
 
+use App\Entity\Category;
+use App\Entity\Operation;
+use App\Entity\Payment;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Transaction>
+ * Class TransactionRepository.
  *
  * @method Transaction|null find($id, $lockMode = null, $lockVersion = null)
  * @method Transaction|null findOneBy(array $criteria, array $orderBy = null)
  * @method Transaction[]    findAll()
  * @method Transaction[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Transaction>
  */
 class TransactionRepository extends ServiceEntityRepository
 {
@@ -30,25 +38,115 @@ class TransactionRepository extends ServiceEntityRepository
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 3;
 
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Transaction::class);
     }
 
     /**
-    * Query all records.
-    *
-    * @return QueryBuilder Query builder
-    */
+     * Query all records.
+     *
+     * @return QueryBuilder Query builder
+     */
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->join('transaction.wallet', 'wallet')
+            ->select(
+                'partial transaction.{id, createdAt, updatedAt, title}',
+                'partial payment.{id, title}'
+            )
             ->join('transaction.category', 'category')
-            ->join('transaction.payment', 'payment')
-            ->join('transaction.operation', 'operation')
-            ->join('transaction.tags', 'tags')
-            ->orderBy('transaction.date', 'DESC');
+            ->orderBy('transaction.updatedAt', 'DESC');
+    }
+
+    /**
+     * Count transactions by category.
+     *
+     * @param Category $category Category
+     *
+     * @return int Number of transactions in category
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByCategory(Category $category): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('transaction.id'))
+            ->where('transaction.category = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count transactions by operation.
+     *
+     * @param Operation $operation Operation
+     *
+     * @return int Number of transactions in operation
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByOperation(Operation $operation): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('transaction.id'))
+            ->where('transaction.operation = :operation')
+            ->setParameter(':operation', $operation)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count transactions by payment.
+     *
+     * @param Payment $payment Payment
+     *
+     * @return int Number of transactions in payment
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByPayment(Payment $payment): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('transaction.id'))
+            ->where('transaction.payment = :payment')
+            ->setParameter(':payment', $payment)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Transaction $transaction Transaction entity
+     */
+    public function save(Transaction $transaction): void
+    {
+        $this->_em->persist($transaction);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Transaction $transaction Transaction entity
+     */
+    public function delete(Transaction $transaction): void
+    {
+        $this->_em->remove($transaction);
+        $this->_em->flush();
     }
 
     /**
@@ -57,63 +155,10 @@ class TransactionRepository extends ServiceEntityRepository
      * @param QueryBuilder|null $queryBuilder Query builder
      *
      * @return QueryBuilder Query builder
-     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('transaction');
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Transaction $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Transaction $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    // /**
-    //  * @return Transaction[] Returns an array of Transaction objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Transaction
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
