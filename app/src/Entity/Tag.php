@@ -5,12 +5,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Tag.
@@ -38,31 +35,17 @@ class Tag
      *
      * @var string
      *
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank
-     * @Assert\Length(
-     *     min="3",
-     *     max="64",
-     * )
+     * @ORM\Column(type="string", length=20)
      */
     private string $name;
 
 
-    /**
-     * Transactions.
-     *
-     * @var Collection|Transaction[] Transactions
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Transaction", mappedBy="tags")
-     */
-    private array|Collection|ArrayCollection $transactions;
 
     /**
      * Tag constructor.
      */
     #[Pure] public function __construct()
     {
-        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -95,50 +78,6 @@ class Tag
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-
-    /**
-     * Getter for transactions.
-     *
-     * @return Collection Transactions collection
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    /**
-     * Add transaction to collection.
-     *
-     * @param Transaction $transaction Transaction entity
-     *
-     * @return Tag
-     */
-    public function addTransaction(Transaction $transaction): self
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->addTag($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove transaction from collection.
-     *
-     * @param Transaction $transaction Transaction entity
-     *
-     * @return Tag
-     */
-    public function removeTransaction(Transaction $transaction): self
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            $transaction->removeTag($this);
-        }
 
         return $this;
     }

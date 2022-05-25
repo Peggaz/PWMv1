@@ -21,7 +21,7 @@ class TransactionFixtures extends AbstractBaseFixtures implements DependentFixtu
      */
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(50, 'transactions', function () {
+        $this->createMany(50, 'transaction', function () {
             $transaction = new Transaction();
             $transaction->setName($this->faker->sentence);
             $transaction->setDate($this->faker->dateTimeThisYear);

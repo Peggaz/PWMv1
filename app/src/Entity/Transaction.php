@@ -36,7 +36,17 @@ class Transaction
      *
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(
+     *     type="string",
+     *     length=64,
+     * )
+     *
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min="3",
+     *     max="64",
+     * )
      */
     private string $name;
 
@@ -64,7 +74,7 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Category",
-     *     inversedBy="transactions",
+     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -75,7 +85,7 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Wallet",
-     *     inversedBy="transactions",
+     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -85,8 +95,8 @@ class Transaction
      * Category.
      *
      * @ORM\ManyToOne(
-     *     targetEntity="App\Entity\Category",
-     *     inversedBy="transactions",
+     *     targetEntity="App\Entity\Payment",
+     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -97,28 +107,12 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Operation",
-     *     inversedBy="transactions",
+     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Operation $operation;
 
-    /**
-     * Tags.
-     *
-     * @var array|Collection
-     *
-     * @ORM\ManyToMany(
-     *     targetEntity="App\Entity\Tag",
-     *     inversedBy="transactions",
-     *     fetch="EXTRA_LAZY",
-     *
-     * )
-     * @ORM\JoinTable(name="transactions_tags")
-     *
-     *  @Assert\Type(type="Doctrine\Common\Collections\Collection")
-     */
-    private array|Collection $tags;
 
     /**
      * Author.
@@ -158,6 +152,11 @@ class Transaction
      *
      */
     private DateTimeInterface $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Tag::class)
+     */
+    private $tags;
 
     /**
      * Transaction constructor.
@@ -377,39 +376,7 @@ class Transaction
         return $this;
     }
 
-    /**
-     * Getter for tags.
-     *
-     * @return Collection Tag collection
-     */
-    public function getTags(): Collection
-    {
-        return $this->tags;
-    }
-
-    /**
-     * Add tag to collection.
-     *
-     * @param Tag $tag Tag entity
-     */
-    public function addTag(Tag $tag): void
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-        }
-    }
 #endregion
-    /**
-     * Remove tag from collection.
-     *
-     * @param Tag $tag Tag entity
-     */
-    public function removeTag(Tag $tag): void
-    {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
-        }
-    }
 
     /**
      * Getter for Author.
@@ -455,6 +422,30 @@ class Transaction
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

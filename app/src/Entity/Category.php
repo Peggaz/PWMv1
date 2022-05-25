@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Category.
  *
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- * @ORM\Table(name="categorie")
+ * @ORM\Table(name="category")
  *
  * @UniqueEntity(fields={"name"})
  */

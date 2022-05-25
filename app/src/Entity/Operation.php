@@ -31,7 +31,7 @@ class Operation
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = null;
 
     /**
      * Name.

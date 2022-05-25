@@ -57,19 +57,26 @@ class TransactionRepository extends ServiceEntityRepository
     {
         return $this->getOrCreateQueryBuilder()
             ->select(
-                'partial transaction.{id, createdAt, updatedAt, title}',
-                'partial payment.{id, title}'
+                'partial transaction.{id, createdAt, updatedAt, name}',
+                'partial payment.{id, name}',
+                'partial category.{id, name}',
+                'partial wallet.{id, name}',
+                'partial tags.{id, name}'
             )
             ->join('transaction.category', 'category')
+            ->leftJoin('transaction.payment', 'payment')
+            ->leftJoin('transaction.operation', 'operation')
+            ->leftJoin('transaction.wallet', 'wallet')
+            ->leftJoin('transaction.tags', 'tags')
             ->orderBy('transaction.updatedAt', 'DESC');
     }
 
     /**
-     * Count transactions by category.
+     * Count transaction by category.
      *
      * @param Category $category Category
      *
-     * @return int Number of transactions in category
+     * @return int Number of transaction in category
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -86,11 +93,11 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count transactions by operation.
+     * Count transaction by operation.
      *
      * @param Operation $operation Operation
      *
-     * @return int Number of transactions in operation
+     * @return int Number of transaction in operation
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -107,11 +114,11 @@ class TransactionRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count transactions by payment.
+     * Count transaction by payment.
      *
      * @param Payment $payment Payment
      *
-     * @return int Number of transactions in payment
+     * @return int Number of transaction in payment
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
