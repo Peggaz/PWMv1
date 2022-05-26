@@ -9,9 +9,12 @@ use App\Entity\Category;
 use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Transaction;
+use App\Entity\User;
+use App\Entity\Wallet;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -56,9 +59,30 @@ class TransactionType extends AbstractType
             'name',
             TextType::class,
             [
-                'label' => 'label.title',
+                'label' => 'label.name',
                 'required' => true,
                 'attr' => ['max_length' => 255],
+            ]
+        );
+        $builder->add(
+            'date',
+            DateType::class,
+            [
+                'label' => 'label.date',
+                'required' => true,
+            ]
+        );
+        $builder->add(
+            'wallet',
+            EntityType::class,
+            [
+                'class' => Wallet::class,
+                'choice_label' => function ($wallet): string {
+                    return $wallet->getName();
+                },
+                'label' => 'label.wallet',
+                'placeholder' => 'label.none',
+                'required' => true,
             ]
         );
         $builder->add(
@@ -67,7 +91,7 @@ class TransactionType extends AbstractType
             [
                 'class' => Category::class,
                 'choice_label' => function ($category): string {
-                    return $category->getTitle();
+                    return $category->getName();
                 },
                 'label' => 'label.category',
                 'placeholder' => 'label.none',
@@ -96,6 +120,20 @@ class TransactionType extends AbstractType
                     return $payment->getName();
                 },
                 'label' => 'label.payment',
+                'placeholder' => 'label.none',
+                'required' => true,
+            ]
+        );
+
+        $builder->add(
+            'author',
+            EntityType::class,
+            [
+                'class' => User::class,
+                'choice_label' => function ($user): string {
+                    return $user->getEmail();
+                },
+                'label' => 'label.email',
                 'placeholder' => 'label.none',
                 'required' => true,
             ]

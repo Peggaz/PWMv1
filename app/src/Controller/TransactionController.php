@@ -88,6 +88,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //$transaction->setAuthor($this->getUser());
             $this->transactionService->save($transaction);
 
             $this->addFlash(

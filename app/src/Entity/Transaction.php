@@ -29,7 +29,7 @@ class Transaction
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private int $id = 0;
 
     /**
      * Name.
@@ -53,7 +53,11 @@ class Transaction
     /**
      * Date.
      *
-     * @Assert\DateTime
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Assert\Type(type="\DateTimeInterface")
      *
      * @ORM\Column(type="date")
      */
@@ -65,8 +69,9 @@ class Transaction
      * @var int
      *
      * @ORM\Column(type="integer")
+     *
      */
-    private int $amount;
+    private ?int $amount = 0;
 
 
     /**
@@ -74,7 +79,6 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Category",
-     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -85,7 +89,6 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Wallet",
-     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -96,7 +99,6 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Payment",
-     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -107,12 +109,10 @@ class Transaction
      *
      * @ORM\ManyToOne(
      *     targetEntity="App\Entity\Operation",
-     *     inversedBy="transaction",
      *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Operation $operation;
-
 
     /**
      * Author.
@@ -127,7 +127,7 @@ class Transaction
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $comment;
+    private ?string $comment = null;
 
     /**
      * Created at.
@@ -158,6 +158,7 @@ class Transaction
      */
     private $tags;
 
+
     /**
      * Transaction constructor.
      */
@@ -175,7 +176,7 @@ class Transaction
     {
         return $this->id;
     }
-#region name
+    #region name
     /**
      * Getter for Name.
      *
@@ -199,12 +200,12 @@ class Transaction
 
         return $this;
     }
-#endregion
-#region data
+    #endregion
+    #region data
     /**
      * Getter for Date.
      *
-     * @return DateTimeInterface Name
+     * @return DateTimeInterface Date
      */
     public function getDate(): DateTimeInterface
     {
@@ -224,8 +225,18 @@ class Transaction
 
         return $this;
     }
-#endregion
-#region amount
+    #endregion
+    #region amount
+    /**
+     * Getter for Amount.
+     *
+     * @return int $amount Amount
+     */
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
     /**
      * Setter for Amount.
      *
@@ -236,11 +247,10 @@ class Transaction
     public function setAmount(int $amount): self
     {
         $this->amount = $amount;
-
         return $this;
     }
-#endregion
-#region create update
+    #endregion
+    #region create update
     /**
      * Getter for Created At.
      *
@@ -288,6 +298,7 @@ class Transaction
 
         return $this;
     }
+#endregion
 
     /**
      * Getter for category.
@@ -298,8 +309,8 @@ class Transaction
     {
         return $this->category;
     }
-#endregion
-#region ManyToOne
+    #endregion
+    #region ManyToOne
     /**
      * Setter for category.
      *
@@ -336,6 +347,16 @@ class Transaction
         $this->wallet = $wallet;
 
         return $this;
+    }
+
+    /**
+     * Getter for payment.
+     *
+     * @return Payment|null Wallet
+     */
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
     }
 
     /**
@@ -376,7 +397,7 @@ class Transaction
         return $this;
     }
 
-#endregion
+    #endregion
 
     /**
      * Getter for Author.
@@ -449,4 +470,5 @@ class Transaction
 
         return $this;
     }
+
 }

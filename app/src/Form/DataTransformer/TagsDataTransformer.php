@@ -33,7 +33,7 @@ class TagsDataTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transform array of tags to string of tag titles.
+     * Transform array of tags to string of tag names.
      *
      * @param Collection<int, Tag> $value Tags entity collection
      *
@@ -45,13 +45,13 @@ class TagsDataTransformer implements DataTransformerInterface
             return '';
         }
 
-        $tagTitles = [];
+        $tagNames = [];
 
         foreach ($value as $tag) {
-            $tagTitles[] = $tag->getName();
+            $tagNames[] = $tag->getName();
         }
 
-        return implode(', ', $tagTitles);
+        return implode(', ', $tagNames);
     }
 
     /**
@@ -63,16 +63,16 @@ class TagsDataTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value): array
     {
-        $tagTitles = explode(',', $value);
+        $tagNames = explode(',', $value);
 
         $tags = [];
 
-        foreach ($tagTitles as $tagTitle) {
-            if ('' !== trim($tagTitle)) {
-                $tag = $this->tagService->findOneByTitle(strtolower($tagTitle));
+        foreach ($tagNames as $tagName) {
+            if ('' !== trim($tagName)) {
+                $tag = $this->tagService->findOneByName(strtolower($tagName));
                 if (null == $tag) {
                     $tag = new Tag();
-                    $tag->setName($tagTitle);
+                    $tag->setName($tagName);
 
                     $this->tagService->save($tag);
                 }
