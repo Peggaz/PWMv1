@@ -29,7 +29,7 @@ class Transaction
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id = 0;
+    private int $id;
 
     /**
      * Name.
@@ -174,6 +174,9 @@ class Transaction
      */
     public function getId(): ?int
     {
+        if (!isset($this->id)) {
+            return 0;
+        }
         return $this->id;
     }
     #region name
@@ -298,7 +301,7 @@ class Transaction
 
         return $this;
     }
-#endregion
+    #endregion
 
     /**
      * Getter for category.
@@ -470,5 +473,4 @@ class Transaction
 
         return $this;
     }
-
 }
