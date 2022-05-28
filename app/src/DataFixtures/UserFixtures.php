@@ -5,8 +5,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserFixtures.
@@ -15,11 +17,18 @@ class UserFixtures extends AbstractBaseFixtures
 {
 
     /**
+     * Password hasher.
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+
+    /**
      * UserFixtures constructor.
      *
      */
-    public function __construct()
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -32,9 +41,12 @@ class UserFixtures extends AbstractBaseFixtures
         $this->createMany(10, 'users', function ($i) {
             $user = new User();
             $user->setEmail(sprintf('user%d@example.com', $i));
-            $user->setRoles([User::ROLE_USER]);
+            $user->setRoles([UserRole::ROLE_USER]);
             $user->setPassword(
-                'user1234'
+                $this->passwordHasher->hashPassword(
+                    $user,
+                    'user1234'
+                )
             );
             $user->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $user->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
@@ -45,9 +57,12 @@ class UserFixtures extends AbstractBaseFixtures
         $this->createMany(3, 'admins', function ($i) {
             $user = new User();
             $user->setEmail(sprintf('admin%d@example.com', $i));
-            $user->setRoles([User::ROLE_USER, User::ROLE_ADMIN]);
+            $user->setRoles([UserRole::ROLE_USER, UserRole::ROLE_ADMIN]);
             $user->setPassword(
-                'admin1234'
+                $this->passwordHasher->hashPassword(
+                    $user,
+                    'admin1234'
+                )
             );
             $user->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $user->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));

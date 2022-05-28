@@ -5,9 +5,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,33 +18,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * USER.
-     *
-     * @var string
-     */
-    const ROLE_USER = 'ROLE_USER';
-    /**
-     * INSTRUCTOR.
-     *
-     * @var string
-     */
-    const ROLE_INSTRUCTOR = 'ROLE_INSTRUCTOR';
-
-    /**
-     * ADMIN.
-     *
-     * @var string
-     */
-    const ROLE_ADMIN = 'ROLE_ADMIN';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -52,7 +35,7 @@ class User
     /**
      * @ORM\Column(type="json")
      *
-     * @var array
+     * @var array<int, string>
      */
     private array $roles = [];
 
@@ -93,9 +76,9 @@ class User
     }
 
     /**
-     * Getter for Id.
+     * Getter for id.
      *
-     * @return int|null
+     * @return int|null Id
      */
     public function getId(): ?int
     {
@@ -103,9 +86,9 @@ class User
     }
 
     /**
-     * Getter for Email.
+     * Getter for email.
      *
-     * @return string|null
+     * @return string|null Email
      */
     public function getEmail(): ?string
     {
@@ -113,96 +96,86 @@ class User
     }
 
     /**
-     * Setter for Email.
+     * Setter for email.
      *
-     * @param string $email
-     *
-     * @return $this
+     * @param string $email Email
      */
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
-     *
-     * @return string
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string)$this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
      * Getter for roles.
      *
-     * @see UserInterface
+     * @return array<int, string> Roles
      *
-     * @return array
+     * @see UserInterface
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = UserRole::ROLE_USER->value;
 
         return array_unique($roles);
     }
 
     /**
-     * Setter for Roles.
+     * Setter for roles.
      *
-     * @param array $roles
-     *
-     * @return $this
+     * @param array<int, string> $roles Roles
      */
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
-     * Getter for Password.
+     * Getter for password.
      *
-     * @see UserInterface
+     * @return string|null Password
      *
-     * @return string
+     * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * Setter for Password.
+     * Setter for password.
      *
-     * @param string $password
-     *
-     * @return $this
+     * @param string $password User password
      */
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
-     * Getting for Salt.
-     *
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
-     *
-     * @return string|null
      */
     public function getSalt(): ?string
     {
@@ -210,13 +183,16 @@ class User
     }
 
     /**
+     * Removes sensitive information from the token.
+     *
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+#region created updated
 
     /**
      * Getter for Create At.
@@ -265,4 +241,5 @@ class User
 
         return $this;
     }
+#endregion
 }
