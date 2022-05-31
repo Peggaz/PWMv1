@@ -1,23 +1,24 @@
 <?php
 /**
- * Wallet Controller test.
+ * Category Controller test.
  */
 
 namespace App\Tests\Controller;
 
+use App\Entity\Category;
+use App\Entity\Enum\UserRole;
 use App\Entity\User;
-use App\Entity\Wallet;
+use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
-use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
- * Class WalletControllerTest.
+ * Class CategoryControllerTest.
  */
-class WalletControllerTest extends WebTestCase
+class CategoryControllerTest extends WebTestCase
 {
     /**
      * Test client.
@@ -41,7 +42,7 @@ class WalletControllerTest extends WebTestCase
         $expectedStatusCode = 302;
 
         // when
-        $this->httpClient->request('GET', '/wallet');
+        $this->httpClient->request('GET', '/category');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -54,11 +55,11 @@ class WalletControllerTest extends WebTestCase
     public function testIndexRouteAdminUser(): void
     {
         $expectedStatusCode = 200;
-        $adminUser = $this->createUser([User::ROLE_USER, User::ROLE_ADMIN]);
+        $adminUser = $this->createUser([UserRole::ROLE_USER, UserRole::ROLE_ADMIN]);
         $this->logIn($adminUser);
 
         // when
-        $this->httpClient->request('GET', '/wallet/');
+        $this->httpClient->request('GET', '/category/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -68,14 +69,31 @@ class WalletControllerTest extends WebTestCase
     /**
      * Test create film for admin user.
      */
-    public function testCreateWalletAdminUser(): void
+    public function testCreateCategoryAdminUser(): void
     {
         // given
         $expectedStatusCode = 301;
         $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
         $this->logIn($admin);
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
+        $this->httpClient->request('GET', '/category/create/');
+        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
+
+        // then
+        $this->assertEquals($expectedStatusCode, $resultStatusCode);
+    }
+
+    /**
+     * Test create film for common user.
+     */
+    public function testCreateCategoryCommonUser(): void
+    {
+        // given
+        $expectedStatusCode = 301;
+        $user = $this->createUser(['ROLE_USER']);
+        $this->logIn($user);
+        // when
+        $this->httpClient->request('GET', '/category/create/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -128,7 +146,7 @@ class WalletControllerTest extends WebTestCase
     }
 
     /**
-     * Test index route for non authorized user FOR NEW Wallet.
+     * Test index route for non authorized user FOR NEW CATEGORY.
      */
     public function testIndexRouteNonAuthorizedUser(): void
     {
@@ -138,29 +156,44 @@ class WalletControllerTest extends WebTestCase
         $this->logIn($user);
 
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
+        $this->httpClient->request('GET', '/category/create/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
-    public function testEditWallet(): void
+    // edit category
+    public function testEditCategory(): void
     {
         // create category
-        $wallet = new Wallet();
-        $wallet->setName('TestWallet123');
-        $wallet->setBalance(2000);
-        $walletRepository = self::$container->get(WalletRepository::class);
-        $walletRepository->save($wallet);
+        $category = new Category();
+        $category->setName('TestCategory');
+        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository->save($category);
 
-        $expected = 'TestChangedWallet123.';
+        $expected = 'TestChanged';
         // change name
-        $wallet->setName('TestChangedWallet123.');
-        $wallet->setBalance(3000);
-        $walletRepository->save($wallet);
+        $category->setName('TestChanged');
+        $categoryRepository->save($category);
 
-        $this->assertEquals($expected, $walletRepository->findByName($expected)->getName());
+        $this->assertEquals($expected, $categoryRepository->findByName($expected)->getName());
 
+    }
+
+    public function testDeleteCategory(): void
+    {
+        // create category
+        $category = new Category();
+        $category->setName('TestCategory2');
+        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository->save($category);
+
+        $expected = new Category();
+
+        // delete
+        $categoryRepository->delete($category);
+
+        $this->assertEquals($expected, $categoryRepository->findByName('TestCategory2'));
     }
 }

@@ -1,23 +1,23 @@
 <?php
 /**
- * Wallet Controller test.
+ * Operation Controller test.
  */
 
 namespace App\Tests\Controller;
 
+use App\Entity\Operation;
 use App\Entity\User;
-use App\Entity\Wallet;
+use App\Repository\OperationRepository;
 use App\Repository\UserRepository;
-use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
- * Class WalletControllerTest.
+ * Class OperationControllerTest.
  */
-class WalletControllerTest extends WebTestCase
+class OperationControllerTest extends WebTestCase
 {
     /**
      * Test client.
@@ -41,7 +41,7 @@ class WalletControllerTest extends WebTestCase
         $expectedStatusCode = 302;
 
         // when
-        $this->httpClient->request('GET', '/wallet');
+        $this->httpClient->request('GET', '/operation');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -58,7 +58,7 @@ class WalletControllerTest extends WebTestCase
         $this->logIn($adminUser);
 
         // when
-        $this->httpClient->request('GET', '/wallet/');
+        $this->httpClient->request('GET', '/operation/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -66,20 +66,24 @@ class WalletControllerTest extends WebTestCase
     }
 
     /**
-     * Test create film for admin user.
+     * Test Operation.
      */
-    public function testCreateWalletAdminUser(): void
+    public function testOperation(): void
     {
         // given
-        $expectedStatusCode = 301;
+        $expectedStatusCode = 200;
         $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
         $this->logIn($admin);
+        $expectedOperation = new Operation();
+        $expectedOperation->setName('TName');
+        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository->save($expectedOperation);
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
+        $this->httpClient->request('GET', '/operation/');
+        $result = $this->httpClient->getResponse()->getStatusCode();
 
         // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
+        $this->assertEquals($expectedStatusCode, $result);
     }
 
     /**
@@ -93,7 +97,7 @@ class WalletControllerTest extends WebTestCase
     {
         $passwordEncoder = self::$container->get('security.password_encoder');
         $user = new User();
-        $user->setEmail('user1@example.com');
+        $user->setEmail('user@example.com');
         $user->setRoles($roles);
         $user->setPassword(
             $passwordEncoder->encodePassword(
@@ -127,40 +131,39 @@ class WalletControllerTest extends WebTestCase
         $this->httpClient->getCookieJar()->set($cookie);
     }
 
-    /**
-     * Test index route for non authorized user FOR NEW Wallet.
-     */
-    public function testIndexRouteNonAuthorizedUser(): void
+    // edit
+    public function testEditOperation(): void
     {
-        // given
-        $expectedStatusCode = 301;
-        $user = $this->createUser([User::ROLE_USER]);
-        $this->logIn($user);
+        // create operation
+        $expectedOperation = new Operation();
+        $expectedOperation->setName('TNameOperation');
+        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository->save($expectedOperation);
 
-        // when
-        $this->httpClient->request('GET', '/wallet/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
-
-        // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
-    }
-
-    public function testEditWallet(): void
-    {
-        // create category
-        $wallet = new Wallet();
-        $wallet->setName('TestWallet123');
-        $wallet->setBalance(2000);
-        $walletRepository = self::$container->get(WalletRepository::class);
-        $walletRepository->save($wallet);
-
-        $expected = 'TestChangedWallet123.';
+        $expected = 'TNameOperationChanged';
         // change name
-        $wallet->setName('TestChangedWallet123.');
-        $wallet->setBalance(3000);
-        $walletRepository->save($wallet);
+        $expectedOperation->setName('TNameOperationChanged');
+        $operationRepository->save($expectedOperation);
 
-        $this->assertEquals($expected, $walletRepository->findByName($expected)->getName());
+        $this->assertEquals($expected, $operationRepository->findByName($expected)->getName());
 
     }
+
+    // delete
+    public function testDeleteCategory(): void
+    {
+        // create operation
+        $expectedOperation = new Operation();
+        $expectedOperation->setName('TNameOperation2');
+        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository->save($expectedOperation);
+
+        $expected = new Operation();
+
+        // delete
+        $operationRepository->delete($expectedOperation);
+
+        $this->assertEquals($expected, $operationRepository->findByName('TNameOperation2'));
+    }
+
 }

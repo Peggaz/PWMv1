@@ -9,7 +9,6 @@ use App\Entity\Category;
 use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Transaction;
-use App\Entity\User;
 use App\Entity\Wallet;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -120,20 +119,6 @@ class TransactionType extends AbstractType
                     return $payment->getName();
                 },
                 'label' => 'label.payment',
-                'placeholder' => 'label.none',
-                'required' => true,
-            ]
-        );
-
-        $builder->add(
-            'author',
-            EntityType::class,
-            [
-                'class' => User::class,
-                'choice_label' => function ($user): string {
-                    return $user->getEmail();
-                },
-                'label' => 'label.email',
                 'placeholder' => 'label.none',
                 'required' => true,
             ]

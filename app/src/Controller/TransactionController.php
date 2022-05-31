@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\Entity\Transaction;
 use App\Form\Type\TransactionType;
 use App\Service\TransactionServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +55,8 @@ class TransactionController extends AbstractController
     public function index(Request $request): Response
     {
         $pagination = $this->transactionService->getPaginatedList(
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            $this->getUser()
         );
 
         return $this->render('transaction/index.html.twig', ['pagination' => $pagination]);
@@ -68,6 +70,7 @@ class TransactionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'transaction_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
+    #[IsGranted('VIEW', subject: 'transaction')]
     public function show(Transaction $transaction): Response
     {
         return $this->render('transaction/show.html.twig', ['transaction' => $transaction]);
@@ -83,12 +86,18 @@ class TransactionController extends AbstractController
     #[Route('/create', name: 'transaction_create', methods: 'GET|POST',)]
     public function create(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $transaction = new Transaction();
-        $form = $this->createForm(TransactionType::class, $transaction, ['action' => $this->generateUrl('transaction_create')]);
+        $transaction->setAuthor($user);
+        $form = $this->createForm(
+            TransactionType::class,
+            $transaction,
+            ['action' => $this->generateUrl('transaction_create')]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$transaction->setAuthor($this->getUser());
             $this->transactionService->save($transaction);
 
             $this->addFlash(
@@ -113,8 +122,10 @@ class TransactionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'transaction_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('EDIT', subject: 'transaction')]
     public function edit(Request $request, Transaction $transaction): Response
     {
+
         $form = $this->createForm(TransactionType::class, $transaction, [
             'method' => 'PUT',
             'action' => $this->generateUrl('transaction_edit', ['id' => $transaction->getId()]),
@@ -147,6 +158,7 @@ class TransactionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'transaction_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'transaction')]
     public function delete(Request $request, Transaction $transaction): Response
     {
         $form = $this->createForm(FormType::class, $transaction, [

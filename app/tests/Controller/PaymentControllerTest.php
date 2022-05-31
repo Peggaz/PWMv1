@@ -1,23 +1,23 @@
 <?php
 /**
- * Wallet Controller test.
+ * Payment Controller test.
  */
 
 namespace App\Tests\Controller;
 
+use App\Entity\Payment;
 use App\Entity\User;
-use App\Entity\Wallet;
+use App\Repository\PaymentRepository;
 use App\Repository\UserRepository;
-use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
- * Class WalletControllerTest.
+ * Class PaymentControllerTest.
  */
-class WalletControllerTest extends WebTestCase
+class PaymentControllerTest extends WebTestCase
 {
     /**
      * Test client.
@@ -41,7 +41,7 @@ class WalletControllerTest extends WebTestCase
         $expectedStatusCode = 302;
 
         // when
-        $this->httpClient->request('GET', '/wallet');
+        $this->httpClient->request('GET', '/payment/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -58,7 +58,7 @@ class WalletControllerTest extends WebTestCase
         $this->logIn($adminUser);
 
         // when
-        $this->httpClient->request('GET', '/wallet/');
+        $this->httpClient->request('GET', '/payment/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -68,14 +68,14 @@ class WalletControllerTest extends WebTestCase
     /**
      * Test create film for admin user.
      */
-    public function testCreateWalletAdminUser(): void
+    public function testCreatePaymentAdminUser(): void
     {
         // given
         $expectedStatusCode = 301;
         $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
         $this->logIn($admin);
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
+        $this->httpClient->request('GET', '/payment/create/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -128,7 +128,7 @@ class WalletControllerTest extends WebTestCase
     }
 
     /**
-     * Test index route for non authorized user FOR NEW Wallet.
+     * Test index route for non authorized user FOR NEW Payment.
      */
     public function testIndexRouteNonAuthorizedUser(): void
     {
@@ -138,29 +138,45 @@ class WalletControllerTest extends WebTestCase
         $this->logIn($user);
 
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
+        $this->httpClient->request('GET', '/payment/create/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
-    public function testEditWallet(): void
+    // edit
+    public function testEditPayment(): void
     {
-        // create category
-        $wallet = new Wallet();
-        $wallet->setName('TestWallet123');
-        $wallet->setBalance(2000);
-        $walletRepository = self::$container->get(WalletRepository::class);
-        $walletRepository->save($wallet);
+        // create payment
+        $payment = new Payment();
+        $payment->setName('TestPayment');
+        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository->save($payment);
 
-        $expected = 'TestChangedWallet123.';
+        $expected = 'TestPaymentChanged';
         // change name
-        $wallet->setName('TestChangedWallet123.');
-        $wallet->setBalance(3000);
-        $walletRepository->save($wallet);
+        $payment->setName('TestPaymentChanged');
+        $paymentRepository->save($payment);
 
-        $this->assertEquals($expected, $walletRepository->findByName($expected)->getName());
+        $this->assertEquals($expected, $paymentRepository->findByName($expected)->getName());
 
+    }
+
+    //delete
+    public function testDeleteCategory(): void
+    {
+        // create payment
+        $payment = new Payment();
+        $payment->setName('TestPayment');
+        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository->save($payment);
+
+        $expected = new Payment();
+
+        // delete
+        $paymentRepository->delete($payment);
+
+        $this->assertEquals($expected, $paymentRepository->findByName('TestPayment'));
     }
 }

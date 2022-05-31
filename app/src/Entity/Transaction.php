@@ -114,15 +114,6 @@ class Transaction
      */
     private ?Operation $operation;
 
-    /**
-     * Author.
-     *
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private User $author;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -157,6 +148,13 @@ class Transaction
      * @ORM\ManyToMany(targetEntity=Tag::class)
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable= false)
+     * @Assert\NotBlank
+     */
+    private ?User $author;
 
 
     /**
@@ -402,29 +400,7 @@ class Transaction
 
     #endregion
 
-    /**
-     * Getter for Author.
-     *
-     * @return User|null
-     */
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
 
-    /**
-     * Setter foe Author.
-     *
-     * @param  User|null $author
-     *
-     * @return $this
-     */
-    public function setAuthor(?User $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
 
     /**
      * Getter for Comment.
@@ -470,6 +446,18 @@ class Transaction
     public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

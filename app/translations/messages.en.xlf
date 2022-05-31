@@ -30,19 +30,19 @@
                 <source>title.category_details</source>
                 <target>Task details #%id%</target>
             </trans-unit>
-            <trans-unit id="action_back_to_list">
-                 <source>action_back_to_list</source>
-                 <target>Back to list</target>
+            <trans-unit id="action.back_to_list">
+                <source>action_back_to_list</source>
+                <target>Back to list</target>
             </trans-unit>
             <trans-unit id="title.transaction_list">
                   <source>title.transaction_list</source>
                 <target>Transactions</target>
             </trans-unit>
-            <trans-unit id="action_logout">
+            <trans-unit id="action.logout">
                 <source>action_logout</source>
                 <target>Log out</target>
             </trans-unit>
-            <trans-unit id="action_create">
+            <trans-unit id="action.create">
                 <source>action_create</source>
                 <target>Create</target>
             </trans-unit>
@@ -86,11 +86,11 @@
                 <source>label.operation</source>
                 <target>Operations</target>
             </trans-unit>
-            <trans-unit id="action_edit">
+            <trans-unit id="action.edit">
                 <source>action_edit</source>
                 <target>Edit</target>
             </trans-unit>
-            <trans-unit id="action_delete">
+            <trans-unit id="action.delete">
                 <source>action_delete</source>
                 <target>Delete</target>
             </trans-unit>
@@ -102,7 +102,7 @@
                 <source>label.balance</source>
                 <target>Balance</target>
             </trans-unit>
-            <trans-unit id="action_save">
+            <trans-unit id="action.save">
                 <source>action_save</source>
                 <target>Save</target>
             </trans-unit>
@@ -206,11 +206,11 @@
                 <source>label.password</source>
                 <target>Password</target>
             </trans-unit>
-            <trans-unit id="action_sign_in">
+            <trans-unit id="action.sign_in">
                 <source>action_sign_in</source>
                 <target>Sign in</target>
             </trans-unit>
-            <trans-unit id="action_login">
+            <trans-unit id="action.login">
                 <source>action_login</source>
                 <target>Log in</target>
             </trans-unit>
@@ -234,7 +234,7 @@
                     <source>title.operation_edit</source>
                 <target>Operation edit</target>
             </trans-unit>
-            <trans-unit id="action_change_password">
+            <trans-unit id="action.change_password">
                 <source>action_change_password</source>
                 <target>Change password</target>
             </trans-unit>

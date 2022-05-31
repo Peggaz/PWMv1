@@ -5,7 +5,9 @@
 
 namespace App\Service;
 
+use App\Entity\Enum\UserRole;
 use App\Entity\Transaction;
+use App\Entity\User;
 use App\Repository\TransactionRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -41,13 +43,21 @@ class TransactionService implements TransactionServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param User $author Author
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, User $author): PaginationInterface
     {
+        if (!in_array(UserRole::ROLE_ADMIN, $author->getRoles())) {
+            return $this->paginator->paginate(
+                $this->transactionRepository->queryAll(),
+                $page,
+                TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
         return $this->paginator->paginate(
-            $this->transactionRepository->queryAll(),
+            $this->transactionRepository->queryByAuthor($author),
             $page,
             TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
         );

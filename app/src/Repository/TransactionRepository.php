@@ -9,6 +9,7 @@ use App\Entity\Category;
 use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Transaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -166,6 +167,22 @@ class TransactionRepository extends ServiceEntityRepository
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('transaction');
+    }
+
+    /**
+     * Query transactions by author.
+     *
+     * @param User $user User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(User $user): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->andWhere('transaction.author = :author')
+            ->setParameter('author', $user);
+
+        return $queryBuilder;
     }
 
 }

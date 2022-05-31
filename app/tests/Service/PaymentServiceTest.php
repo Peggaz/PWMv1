@@ -1,34 +1,34 @@
 <?php
 /**
- * WalletService tests.
+ * PaymentService tests.
  */
 
 namespace App\Tests\Service;
 
-use App\Entity\Wallet;
+use App\Entity\Payment;
+use App\Repository\PaymentRepository;
 use App\Repository\TransactionRepository;
-use App\Repository\WalletRepository;
-use App\Service\WalletService;
+use App\Service\PaymentService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Class WalletServiceTest.
+ * Class PaymentServiceTest.
  */
-class WalletServiceTest extends KernelTestCase
+class PaymentServiceTest extends KernelTestCase
 {
     /**
-     * Wallet service.
+     * Payment service.
      *
-     * @var WalletService|object|null
+     * @var PaymentService|object|null
      */
-    private ?WalletService $walletService;
+    private ?PaymentService $paymentService;
 
     /**
-     * Wallet repository.
+     * Payment repository.
      *
-     * @var WalletRepository|object|null
+     * @var PaymentRepository|object|null
      */
-    private ?WalletRepository $walletRepository;
+    private ?PaymentRepository $paymentRepository;
 
     /**
      * Transaction repository.
@@ -39,24 +39,24 @@ class WalletServiceTest extends KernelTestCase
 
     /**
      * Test save.
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function testSave(): void
     {
         // given
-        $expectedWallet = new Wallet();
-        $expectedWallet->setName('Test Wallet');
-        $expectedWallet->setBalance('100');
+        $expectedPayment = new Payment();
+        $expectedPayment->setName('Test Payment');
 
         // when
-        $this->walletService->save($expectedWallet);
-        $resultWallet = $this->walletRepository->findOneById(
-            $expectedWallet->getId()
+        $this->paymentService->save($expectedPayment);
+        $resultPayment = $this->paymentRepository->findOneById(
+            $expectedPayment->getId()
         );
 
         // then
-        $this->assertEquals($expectedWallet, $resultWallet);
+        $this->assertEquals($expectedPayment, $resultPayment);
     }
 
     /**
@@ -68,19 +68,19 @@ class WalletServiceTest extends KernelTestCase
     public function testDelete(): void
     {
         // given
-        $expectedWallet = new Wallet();
-        $expectedWallet->setName('Test Wallet');
-        $expectedWallet->setBalance('100');
-        $this->walletRepository->save($expectedWallet);
-        $expectedId = $expectedWallet->getId();
+        $expectedPayment = new Payment();
+        $expectedPayment->setName('Test Payment');
+        $this->paymentRepository->save($expectedPayment);
+        $expectedId = $expectedPayment->getId();
 
         // when
-        $this->walletService->delete($expectedWallet);
-        $result = $this->walletRepository->findOneById($expectedId);
+        $this->paymentService->delete($expectedPayment);
+        $result = $this->paymentRepository->findOneById($expectedId);
 
         // then
         $this->assertNull($result);
     }
+
 
     /**
      * Test pagination empty list.
@@ -94,21 +94,19 @@ class WalletServiceTest extends KernelTestCase
 
         $counter = 0;
         while ($counter < $dataSetSize) {
-            $wallet = new Wallet();
-            $wallet->setName('Test Wallet #' . $counter);
-            $wallet->setBalance('100');
-            $this->walletRepository->save($wallet);
+            $payment = new Payment();
+            $payment->setName('Test Payment #' . $counter);
+            $this->paymentRepository->save($payment);
 
             ++$counter;
         }
 
         // when
-        $result = $this->walletService->createPaginatedList($page);
+        $result = $this->paymentService->createPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());
     }
-
 
     /**
      * Set up test.
@@ -117,8 +115,8 @@ class WalletServiceTest extends KernelTestCase
     {
         self::bootKernel();
         $container = self::$container;
-        $this->walletRepository = $container->get(WalletRepository::class);
-        $this->walletService = $container->get(WalletService::class);
+        $this->paymentRepository = $container->get(PaymentRepository::class);
+        $this->paymentService = $container->get(PaymentService::class);
         $this->transactionRepository = $container->get(TransactionRepository::class);
     }
 }

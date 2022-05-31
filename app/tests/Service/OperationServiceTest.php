@@ -1,34 +1,34 @@
 <?php
 /**
- * WalletService tests.
+ * operationService tests.
  */
 
 namespace App\Tests\Service;
 
-use App\Entity\Wallet;
+use App\Entity\Operation;
+use App\Repository\OperationRepository;
 use App\Repository\TransactionRepository;
-use App\Repository\WalletRepository;
-use App\Service\WalletService;
+use App\Service\OperationService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Class WalletServiceTest.
+ * Class OperationServiceTest.
  */
-class WalletServiceTest extends KernelTestCase
+class OperationServiceTest extends KernelTestCase
 {
     /**
-     * Wallet service.
+     * Operation service.
      *
-     * @var WalletService|object|null
+     * @var OperationService|object|null
      */
-    private ?WalletService $walletService;
+    private ?OperationService $operationService;
 
     /**
-     * Wallet repository.
+     * Operation repository.
      *
-     * @var WalletRepository|object|null
+     * @var OperationRepository|object|null
      */
-    private ?WalletRepository $walletRepository;
+    private ?OperationRepository $operationRepository;
 
     /**
      * Transaction repository.
@@ -39,24 +39,24 @@ class WalletServiceTest extends KernelTestCase
 
     /**
      * Test save.
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function testSave(): void
     {
         // given
-        $expectedWallet = new Wallet();
-        $expectedWallet->setName('Test Wallet');
-        $expectedWallet->setBalance('100');
+        $expectedOperation = new Operation();
+        $expectedOperation->setName('Test Operation');
 
         // when
-        $this->walletService->save($expectedWallet);
-        $resultWallet = $this->walletRepository->findOneById(
-            $expectedWallet->getId()
+        $this->operationService->save($expectedOperation);
+        $resultOperation = $this->operationRepository->findOneById(
+            $expectedOperation->getId()
         );
 
         // then
-        $this->assertEquals($expectedWallet, $resultWallet);
+        $this->assertEquals($expectedOperation, $resultOperation);
     }
 
     /**
@@ -68,15 +68,14 @@ class WalletServiceTest extends KernelTestCase
     public function testDelete(): void
     {
         // given
-        $expectedWallet = new Wallet();
-        $expectedWallet->setName('Test Wallet');
-        $expectedWallet->setBalance('100');
-        $this->walletRepository->save($expectedWallet);
-        $expectedId = $expectedWallet->getId();
+        $expectedOperation = new Operation();
+        $expectedOperation->setName('Test Operation');
+        $this->operationRepository->save($expectedOperation);
+        $expectedId = $expectedOperation->getId();
 
         // when
-        $this->walletService->delete($expectedWallet);
-        $result = $this->walletRepository->findOneById($expectedId);
+        $this->operationService->delete($expectedOperation);
+        $result = $this->operationRepository->findOneById($expectedId);
 
         // then
         $this->assertNull($result);
@@ -94,21 +93,19 @@ class WalletServiceTest extends KernelTestCase
 
         $counter = 0;
         while ($counter < $dataSetSize) {
-            $wallet = new Wallet();
-            $wallet->setName('Test Wallet #' . $counter);
-            $wallet->setBalance('100');
-            $this->walletRepository->save($wallet);
+            $operation = new Operation();
+            $operation->setName('Test Operation #' . $counter);
+            $this->operationRepository->save($operation);
 
             ++$counter;
         }
 
         // when
-        $result = $this->walletService->createPaginatedList($page);
+        $result = $this->operationService->createPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());
     }
-
 
     /**
      * Set up test.
@@ -117,8 +114,8 @@ class WalletServiceTest extends KernelTestCase
     {
         self::bootKernel();
         $container = self::$container;
-        $this->walletRepository = $container->get(WalletRepository::class);
-        $this->walletService = $container->get(WalletService::class);
+        $this->operationRepository = $container->get(OperationRepository::class);
+        $this->operationService = $container->get(OperationService::class);
         $this->transactionRepository = $container->get(TransactionRepository::class);
     }
 }

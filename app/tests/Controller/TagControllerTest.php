@@ -1,23 +1,23 @@
 <?php
 /**
- * Wallet Controller test.
+ * Tag Controller test.
  */
 
 namespace App\Tests\Controller;
 
+use App\Entity\Tag;
 use App\Entity\User;
-use App\Entity\Wallet;
+use App\Repository\TagRepository;
 use App\Repository\UserRepository;
-use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
- * Class WalletControllerTest.
+ * Class TagControllerTest.
  */
-class WalletControllerTest extends WebTestCase
+class TagControllerTest extends WebTestCase
 {
     /**
      * Test client.
@@ -41,7 +41,7 @@ class WalletControllerTest extends WebTestCase
         $expectedStatusCode = 302;
 
         // when
-        $this->httpClient->request('GET', '/wallet');
+        $this->httpClient->request('GET', '/tag');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -58,7 +58,7 @@ class WalletControllerTest extends WebTestCase
         $this->logIn($adminUser);
 
         // when
-        $this->httpClient->request('GET', '/wallet/');
+        $this->httpClient->request('GET', '/tag/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -66,20 +66,24 @@ class WalletControllerTest extends WebTestCase
     }
 
     /**
-     * Test create film for admin user.
+     * Test Tag.
      */
-    public function testCreateWalletAdminUser(): void
+    public function testTag(): void
     {
         // given
-        $expectedStatusCode = 301;
+        $expectedStatusCode = 200;
         $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
         $this->logIn($admin);
+        $expectedTag = new Tag();
+        $expectedTag->setName('TName');
+        $tagRepository = self::$container->get(TagRepository::class);
+        $tagRepository->save($expectedTag);
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
+        $this->httpClient->request('GET', '/tag/');
+        $result = $this->httpClient->getResponse()->getStatusCode();
 
         // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
+        $this->assertEquals($expectedStatusCode, $result);
     }
 
     /**
@@ -93,7 +97,7 @@ class WalletControllerTest extends WebTestCase
     {
         $passwordEncoder = self::$container->get('security.password_encoder');
         $user = new User();
-        $user->setEmail('user1@example.com');
+        $user->setEmail('user@example.com');
         $user->setRoles($roles);
         $user->setPassword(
             $passwordEncoder->encodePassword(
@@ -127,40 +131,4 @@ class WalletControllerTest extends WebTestCase
         $this->httpClient->getCookieJar()->set($cookie);
     }
 
-    /**
-     * Test index route for non authorized user FOR NEW Wallet.
-     */
-    public function testIndexRouteNonAuthorizedUser(): void
-    {
-        // given
-        $expectedStatusCode = 301;
-        $user = $this->createUser([User::ROLE_USER]);
-        $this->logIn($user);
-
-        // when
-        $this->httpClient->request('GET', '/wallet/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
-
-        // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
-    }
-
-    public function testEditWallet(): void
-    {
-        // create category
-        $wallet = new Wallet();
-        $wallet->setName('TestWallet123');
-        $wallet->setBalance(2000);
-        $walletRepository = self::$container->get(WalletRepository::class);
-        $walletRepository->save($wallet);
-
-        $expected = 'TestChangedWallet123.';
-        // change name
-        $wallet->setName('TestChangedWallet123.');
-        $wallet->setBalance(3000);
-        $walletRepository->save($wallet);
-
-        $this->assertEquals($expected, $walletRepository->findByName($expected)->getName());
-
-    }
 }

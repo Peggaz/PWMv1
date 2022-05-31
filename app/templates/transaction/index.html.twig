@@ -45,9 +45,11 @@
                         {% endfor %}</td>
                     <td>{{ transaction.comment }}</td>
                     <td>
-                        <a href="{{ url('transaction_show', {id: transaction.id}) }}" title="{{ 'action.view'|trans }}">
-                            {{ 'action.view'|trans }}
-                        </a>
+                        {% if is_granted('VIEW', transaction) %}
+                            <a href="{{ url('transaction_show', {id: transaction.id}) }}" title="{{ 'action.view'|trans }}">
+                                {{ 'action.view'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
