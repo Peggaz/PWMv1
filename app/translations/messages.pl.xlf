@@ -326,16 +326,48 @@
                 <target>Akcja</target>
             </trans-unit>
             <trans-unit id="Year">
-                    <source>Year</source>
-                    <target>Rok</target>
+                <source>Year</source>
+                <target>Rok</target>
             </trans-unit>
             <trans-unit id="Month">
-                    <source>Month</source>
-                    <target>Miesiąc</target>
-            </trans-unit><trans-unit id="Day">
-                    <source>Day</source>
-                    <target>Dzień</target>
+                <source>Month</source>
+                <target>Miesiąc</target>
             </trans-unit>
+
+            <trans-unit id="Day">
+                <source>Day</source>
+                <target>Dzień</target>
+            </trans-unit>
+            <trans-unit id="message.edited_successfully">
+                <source>message.edited_successfully</source>
+                <target>udana edycja</target>
+            </trans-unit>
+
+            <trans-unit id="action_create">
+                <source>action_create</source>
+                <target>utworzenie</target>
+            </trans-unit>
+
+            <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
+                <target>Nie znaleziono rekordu</target>
+            </trans-unit>
+
+            <trans-unit id="action_delete">
+                <source>action_delete</source>
+                <target>usuń</target>
+            </trans-unit>
+
+            <trans-unit id="action_logout">
+                <source>action_logout</source>
+                <target>wyloguj</target>
+            </trans-unit>
+
+            <trans-unit id="action_login">
+                <source>action_login</source>
+                <target>zaloguj</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

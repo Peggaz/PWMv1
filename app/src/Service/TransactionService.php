@@ -49,7 +49,7 @@ class TransactionService implements TransactionServiceInterface
      */
     public function getPaginatedList(int $page, User $author): PaginationInterface
     {
-        if (!in_array(UserRole::ROLE_ADMIN, $author->getRoles())) {
+        if (in_array(UserRole::ROLE_ADMIN->value, $author->getRoles())) {
             return $this->paginator->paginate(
                 $this->transactionRepository->queryAll(),
                 $page,

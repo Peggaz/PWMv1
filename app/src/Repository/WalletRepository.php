@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -91,33 +92,31 @@ class WalletRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-
-    // /**
-    //  * @return Wallet[] Returns an array of Wallet objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Query transactions by author.
+     *
+     * @param User $user User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(User $user): QueryBuilder
     {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $queryBuilder = $this->queryAll();
+        $queryBuilder->andWhere('wallet.user = :user')
+            ->setParameter('user', $user);
 
-    /*
-    public function findOneBySomeField($value): ?Wallet
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $queryBuilder;
     }
-    */
+
+    /**
+     * Delete entity.
+     *
+     * @param Wallet $wallet Category entity
+     */
+    public function delete(Wallet $wallet): void
+    {
+        $this->_em->remove($wallet);
+        $this->_em->flush();
+    }
+
 }

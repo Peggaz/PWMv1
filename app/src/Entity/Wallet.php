@@ -51,8 +51,9 @@ class Wallet
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="wallet")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\JoinColumn(nullable= false)
+     * @Assert\NotBlank
      */
     private ?User $user;
 

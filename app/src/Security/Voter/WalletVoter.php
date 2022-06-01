@@ -1,12 +1,12 @@
 <?php
 /**
- * Transaction voter.
+ * Wallet voter.
  */
 
 namespace App\Security\Voter;
 
 use App\Entity\Enum\UserRole;
-use App\Entity\Transaction;
+use App\Entity\Wallet;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -14,9 +14,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Class TransactionVoter.
+ * Class WalletVoter.
  */
-class TransactionVoter extends Voter
+class WalletVoter extends Voter
 {
     /**
      * Edit permission.
@@ -67,7 +67,7 @@ class TransactionVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof Transaction;
+            && $subject instanceof Wallet;
     }
 
     /**
@@ -100,44 +100,44 @@ class TransactionVoter extends Voter
     }
 
     /**
-     * Checks if user can edit transaction.
+     * Checks if user can edit wallet.
      *
-     * @param Transaction $transaction Transaction entity
+     * @param Wallet $wallet Wallet entity
      * @param User $user User
      *
      * @return bool Result
      */
-    private function canEdit(Transaction $transaction, User $user): bool
+    private function canEdit(Wallet $wallet, User $user): bool
     {
-        return $transaction->getAuthor() === $user or
+        return $wallet->getUser() === $user or
             (in_array(UserRole::ROLE_ADMIN->value, $user->getRoles()));
     }
 
     /**
-     * Checks if user can view transaction.
+     * Checks if user can view wallet.
      *
-     * @param Transaction $transaction Transaction entity
+     * @param Wallet $wallet Wallet entity
      * @param User $user User
      *
      * @return bool Result
      */
-    private function canView(Transaction $transaction, User $user): bool
+    private function canView(Wallet $wallet, User $user): bool
     {
-        return $transaction->getAuthor() === $user or
+        return $wallet->getUser() === $user or
             (in_array(UserRole::ROLE_ADMIN->value, $user->getRoles()));
     }
 
     /**
-     * Checks if user can delete transaction.
+     * Checks if user can delete wallet.
      *
-     * @param Transaction $transaction Transaction entity
+     * @param Wallet $wallet Wallet entity
      * @param User $user User
      *
      * @return bool Result
      */
-    private function canDelete(Transaction $transaction, User $user): bool
+    private function canDelete(Wallet $wallet, User $user): bool
     {
-        return $transaction->getAuthor() === $user or
+        return $wallet->getUser() === $user or
             (in_array(UserRole::ROLE_ADMIN->value, $user->getRoles()));
     }
 }

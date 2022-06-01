@@ -5,7 +5,10 @@
 
 namespace App\Service;
 
+use App\Entity\Enum\UserRole;
+use App\Entity\User;
 use App\Entity\Wallet;
+use App\Repository\TransactionRepository;
 use App\Repository\WalletRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -41,15 +44,23 @@ class WalletService implements WalletServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param User $author Author
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, User $user): PaginationInterface
     {
+        if (in_array(UserRole::ROLE_ADMIN->value, $user->getRoles())) {
+            return $this->paginator->paginate(
+                $this->walletRepository->queryAll(),
+                $page,
+                TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
         return $this->paginator->paginate(
-            $this->walletRepository->queryAll(),
+            $this->walletRepository->queryByAuthor($user),
             $page,
-            WalletRepository::PAGINATOR_ITEMS_PER_PAGE
+            TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
 
@@ -66,5 +77,16 @@ class WalletService implements WalletServiceInterface
         $wallet->setUpdatedAt(new \DateTimeImmutable());
 
         $this->walletRepository->save($wallet);
+    }
+
+    /**
+     * Delete category.
+     *
+     * @param Wallet $category Category entity
+     *
+     */
+    public function delete(Wallet $category): void
+    {
+        $this->walletRepository->delete($category);
     }
 }

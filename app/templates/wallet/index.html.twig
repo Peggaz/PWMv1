@@ -27,9 +27,11 @@
                 <td>{{ wallet.name }}</td>
                 <td>{{ wallet.balance }}</td>
                 <td>
-                    <a href="{{ url('wallet_show', {id: wallet.id}) }}" title="{{ 'action.view'|trans }}">
-                        {{ 'action.view'|trans }}
-                    </a>
+                    {% if is_granted('VIEW', wallet) %}
+                        <a href="{{ url('wallet_show', {id: wallet.id}) }}" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

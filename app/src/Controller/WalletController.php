@@ -5,12 +5,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Wallet;
+use App\Form\Type\CategoryType;
 use App\Form\Type\WalletType;
 use App\Repository\WalletRepository;
 use App\Service\WalletServiceInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,7 +65,8 @@ class WalletController extends AbstractController
     public function index(Request $request, WalletRepository $walletRepository, PaginatorInterface $paginator): Response
     {
         $pagination = $this->walletService->getPaginatedList(
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            $this->getUser()
         );
 
         return $this->render('wallet/index.html.twig', ['pagination' => $pagination]);
@@ -80,6 +85,7 @@ class WalletController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET',
     )]
+    #[IsGranted('VIEW', subject: 'wallet')]
     public function show(Wallet $wallet): Response
     {
         return $this->render(
@@ -103,6 +109,7 @@ class WalletController extends AbstractController
     public function create(Request $request): Response
     {
         $wallet = new Wallet();
+        $wallet->setUser($this->getUser());
         $form = $this->createForm(WalletType::class, $wallet);
         $form->handleRequest($request);
 
@@ -122,4 +129,85 @@ class WalletController extends AbstractController
             ['form' => $form->createView()]
         );
     }
+
+    #region update
+
+    /**
+     * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param Wallet $wallet Wallet entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/edit', name: 'wallet_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('EDIT', subject: 'wallet')]
+    public function edit(Request $request, Wallet $wallet): Response
+    {
+        $form = $this->createForm(WalletType::class, $wallet, [
+            'method' => 'PUT',
+            'action' => $this->generateUrl('wallet_edit', ['id' => $wallet->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->walletService->save($wallet);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
+
+            return $this->redirectToRoute('wallet_index');
+        }
+
+        return $this->render(
+            'wallet/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'wallet' => $wallet,
+            ]
+        );
+    }
+#endregion
+
+#region delete
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Wallet $wallet Wallet entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}/delete', name: 'wallet_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'wallet')]
+    public function delete(Request $request, Wallet $wallet): Response
+    {
+        $form = $this->createForm(FormType::class, $wallet, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('wallet_delete', ['id' => $wallet->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->walletService->delete($wallet);
+
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('wallet_index');
+        }
+
+        return $this->render(
+            'wallet/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'wallet' => $wallet,
+            ]
+        );
+    }
+#endregion
 }

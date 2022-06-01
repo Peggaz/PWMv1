@@ -22,8 +22,8 @@
                 <source>label.name</source>
                 <target>Name</target>
             </trans-unit>
-            <trans-unit id="message_empty_list">
-                <source>message_empty_list</source>
+            <trans-unit id="message.empty_list">
+                <source>message.empty_list</source>
                 <target>Empty list.</target>
             </trans-unit>
             <trans-unit id="title.category_details">
@@ -214,24 +214,24 @@
                 <source>action_login</source>
                 <target>Log in</target>
             </trans-unit>
-            <trans-unit id="message_item_not_found">
-                    <source>message_item_not_found</source>
-                    <target>Item not found</target>
+            <trans-unit id="message.item_not_found">
+                <source>message.item_not_found</source>
+                <target>Item not found</target>
             </trans-unit>
-            <trans-unit id="message_form_error">
-                    <source>message_form_error</source>
-                    <target>Form error</target>
+            <trans-unit id="message.form_error">
+                <source>message.form_error</source>
+                <target>Form error</target>
             </trans-unit>
             <trans-unit id="title.tag_create">
-                    <source>title.tag_create</source>
-                    <target>Tag create</target>
+                <source>title.tag_create</source>
+                <target>Tag create</target>
             </trans-unit>
-            <trans-unit id="message_updated_successfully">
-                    <source>message_updated_successfully</source>
-                    <target>Record updated successfully</target>
+            <trans-unit id="message.updated_successfully">
+                <source>message.updated_successfully</source>
+                <target>Record updated successfully</target>
             </trans-unit>
             <trans-unit id="title.operation_edit">
-                    <source>title.operation_edit</source>
+                <source>title.operation_edit</source>
                 <target>Operation edit</target>
             </trans-unit>
             <trans-unit id="action.change_password">
@@ -255,24 +255,24 @@
                 <target>Operation delete</target>
             </trans-unit>
             <trans-unit id="title.transaction_delete">
-                    <source>title.transaction_delete</source>
-                    <target>Transaction delete</target>
+                <source>title.transaction_delete</source>
+                <target>Transaction delete</target>
             </trans-unit>
             <trans-unit id="title.transaction_edit">
-                    <source>title.transaction_edit</source>
-                    <target>Transaction edit</target>
+                <source>title.transaction_edit</source>
+                <target>Transaction edit</target>
             </trans-unit>
-            <trans-unit id="message_created_successfully">
-                    <source>message_created_successfully</source>
-                    <target>Record created successfully</target>
+            <trans-unit id="message.created_successfully">
+                <source>message.created_successfully</source>
+                <target>Record created successfully</target>
             </trans-unit>
             <trans-unit id="Password">
-                    <source>Password</source>
-                    <target>Password</target>
+                <source>Password</source>
+                <target>Password</target>
             </trans-unit>
             <trans-unit id="Password repeated">
-                    <source>Password repeated</source>
-                    <target>Password repeated</target>
+                <source>Password repeated</source>
+                <target>Password repeated</target>
             </trans-unit>
             <trans-unit id="Save">
                     <source>Save</source>
@@ -299,9 +299,66 @@
                 <target>Month</target>
             </trans-unit>
             <trans-unit id="Day">
-                    <source>Day</source>
-                    <target>Day</target>
+                <source>Day</source>
+                <target>Day</target>
             </trans-unit>
+            <trans-unit id="title.user_list">
+                <source>title.user_list</source>
+                <target>Users</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>email</target>
+            </trans-unit>
+            <trans-unit id="label.roles">
+                <source>label.roles</source>
+                <target>Roles</target>
+            </trans-unit>
+            <trans-unit id="label.action">
+                <source>label.action</source>
+                <target>Action</target>
+            </trans-unit>
+
+            <trans-unit id="action.view">
+                <source>action.view</source>
+                <target>View</target>
+            </trans-unit>
+
+            <trans-unit id="message.deleted_successfully">
+                <source>message.deleted_successfully</source>
+                <target>deleted successfully</target>
+            </trans-unit>
+            <trans-unit id="message.edited_successfully">
+                <source>message.edited_successfully</source>
+                <target>edited successfully</target>
+            </trans-unit>
+
+            <trans-unit id="action.create ">
+                <source>action.create</source>
+                <target>create</target>
+            </trans-unit>
+
+            <trans-unit id="title.user_details ">
+                <source>title.user_details</source>
+                <target>user details</target>
+            </trans-unit>
+
+            <trans-unit id="mamessage.record_not_found">
+                <source>mamessage.record_not_found</source>
+                <target>record not found</target>
+            </trans-unit>
+
+            <trans-unit id="label.comment">
+                <source>label.comment</source>
+                <target>comment</target>
+            </trans-unit>
+
+            <trans-unit id="title.payment_edit">
+                <source>title.payment_edit</source>
+                <target>payment edit</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>
