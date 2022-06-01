@@ -155,16 +155,20 @@
                     <target>Transaction details</target>
             </trans-unit>
             <trans-unit id="title.wallet_details">
-                    <source>title.wallet_details</source>
-                    <target>Wallet details</target>
+                <source>title.wallet_details</source>
+                <target>Wallet details</target>
             </trans-unit>
             <trans-unit id="title.payment_list">
-                    <source>title.payment_list</source>
-                    <target>Payment</target>
+                <source>title.payment_list</source>
+                <target>Payment</target>
             </trans-unit>
             <trans-unit id="title.tag_list">
-                    <source>title.tag_list</source>
+                <source>title.tag_list</source>
                 <target>Tag</target>
+            </trans-unit>
+            <trans-unit id="title.please_sign_in">
+                <source>title.please_sign_in</source>
+                <target>Please sign in</target>
             </trans-unit>
             <trans-unit id="title.tag_details">
                 <source>title.tag_details</source>
@@ -357,7 +361,6 @@
                 <source>title.payment_edit</source>
                 <target>payment edit</target>
             </trans-unit>
-
 
         </body>
     </file>
