@@ -46,16 +46,17 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "fakerphp/faker": "^1.19",
-        "friendsofphp/php-cs-fixer": "^3.8",
-        "phpunit/phpunit": "^9.5",
-        "symfony/browser-kit": "5.4.x",
-        "symfony/css-selector": "5.4.x",
-        "symfony/debug-bundle": "5.4.x",
-        "symfony/maker-bundle": "^1.40",
-        "symfony/phpunit-bridge": "^5.4",
-        "symfony/stopwatch": "5.4.x",
+      "dama/doctrine-test-bundle": "^7.1",
+      "doctrine/doctrine-fixtures-bundle": "^3.4",
+      "fakerphp/faker": "^1.19",
+      "friendsofphp/php-cs-fixer": "^3.8",
+      "phpunit/phpunit": "^9.5",
+      "symfony/browser-kit": "5.4.x",
+      "symfony/css-selector": "5.4.x",
+      "symfony/debug-bundle": "5.4.x",
+      "symfony/maker-bundle": "^1.40",
+      "symfony/phpunit-bridge": "^5.4",
+      "symfony/stopwatch": "5.4.x",
         "symfony/web-profiler-bundle": "5.4.x"
     },
     "config": {

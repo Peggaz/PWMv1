@@ -40,7 +40,7 @@ class CategoryServiceTest extends KernelTestCase
     public function setUp(): void
     {
         $container = static::getContainer();
-        $this->entityManager = $container->get('doctrine.orm.entity_manager');
+        //$this->entityManager = $container->get('doctrine.orm.entity_manager');
         $this->categoryService = $container->get(CategoryService::class);
     }
 
@@ -53,7 +53,7 @@ class CategoryServiceTest extends KernelTestCase
     {
         // given
         $expectedCategory = new Category();
-        $expectedCategory->setTitle('Test Category');
+        $expectedCategory->setName('Test Category');
 
         // when
         $this->categoryService->save($expectedCategory);
@@ -80,7 +80,7 @@ class CategoryServiceTest extends KernelTestCase
     {
         // given
         $categoryToDelete = new Category();
-        $categoryToDelete->setTitle('Test Category');
+        $categoryToDelete->setName('Test Category');
         $this->entityManager->persist($categoryToDelete);
         $this->entityManager->flush();
         $deletedCategoryId = $categoryToDelete->getId();
@@ -109,7 +109,7 @@ class CategoryServiceTest extends KernelTestCase
     {
         // given
         $expectedCategory = new Category();
-        $expectedCategory->setTitle('Test Category');
+        $expectedCategory->setName('Test Category');
         $this->entityManager->persist($expectedCategory);
         $this->entityManager->flush();
         $expectedCategoryId = $expectedCategory->getId();
@@ -134,7 +134,7 @@ class CategoryServiceTest extends KernelTestCase
         $counter = 0;
         while ($counter < $dataSetSize) {
             $category = new Category();
-            $category->setTitle('Test Category #' . $counter);
+            $category->setName('Test Category #' . $counter);
             $this->categoryService->save($category);
 
             ++$counter;

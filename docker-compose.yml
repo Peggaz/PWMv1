@@ -31,7 +31,7 @@ services:
       command: "--default-authentication-plugin=mysql_native_password"
       container_name: symfony_mysql-test
       environment:
-        MYSQL_ROOT_PASSWORD: root-test
+        MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: symfony-test
         MYSQL_USER: symfony-test
         MYSQL_PASSWORD: symfony-test
