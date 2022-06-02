@@ -16,17 +16,12 @@
     <body>
     <div>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-                    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand" style="margin-left: 20px;"
+               href="{{ path('wallet_index') }}">{{ 'title.wallet_list'|trans }}</a>
+
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('wallet_index') }}"> {{ 'title.wallet_list'|trans }}</a>
-                    </li>
                     <li class="nav-item active">
                         <a class="nav-link"
                            href="{{ path('transaction_index') }}"> {{ 'title.transaction_list'|trans }}</a>
@@ -37,20 +32,24 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('operation_index') }}">{{ 'title.operation_list'|trans }}</a>
                     </li>
-                    {#                    <li class="nav-item"> #}
-                    {#                        <a class="nav-link" href="{{ path('tag_index') }}">{{ 'title.tag_list' }}</a> #}
-                    {#                    </li> #}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('category_index') }}">{{ 'title.category_list'|trans }}</a>
                     </li>
 
+
                 </ul>
-                <div style="position: relative;">
-                    <form style="display:flex; margin-left: 600px;" class="form-inline my-2 my-lg-0 ">
+                {% if app.user %}
+                    <div class="mb-3" style="display:flex; padding-right: max(20px, 1%); color: rgba(255,255,255,.55);">
+                        {{ app.user.email }} <a style="display:flex; margin-left:12px;"
+                                                href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
+                    </div>
+                {% endif %}
+                <div style="text-align: right; position: relative; padding-right: min(20px, 5%);">
+                    <form style="display:flex;" class="form-inline ">
                         <input style="display:flex; float: left;" class="form-control mr-sm-2 " type="text"
                                placeholder="Search" aria-label="Search">
                         <button style="position: revert;" class="btn btn-outline-success my-2 my-sm-0 my-lg-n5"
-                                type="submit">Search
+                                type="submit">{{ 'action.search'|trans }}
                         </button>
                     </form>
                 </div>
@@ -58,14 +57,7 @@
         </nav>
     </div>
 
-    <main role="main" class="container" style="padding-top: 150px; flex: 0;">
-
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div>{{ app.user.email }}</div>
-            <div>
-                <a href="{{ url('app_logout') }}">{{ 'action_logout'|trans }}</a>
-            </div>
-        {% endif %}
+    <main role="main" class="container" style="padding-top: 75px; flex: 0;">
 
         <div class="container-fluid">
             {% for type, messages in app.session.flashBag.all %}

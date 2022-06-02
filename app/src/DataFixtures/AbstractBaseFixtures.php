@@ -21,7 +21,7 @@ abstract class AbstractBaseFixtures extends Fixture
      *
      * @var \Faker\Generator
      */
-    protected $faker;
+    protected \Faker\Generator $faker;
 
     /**
      * Persistence object manager.

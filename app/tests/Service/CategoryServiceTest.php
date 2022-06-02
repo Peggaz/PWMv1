@@ -10,6 +10,7 @@ use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -73,13 +74,15 @@ class CategoryServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws ORMException
+     * @throws OptimisticLockException|ORMException
      */
     public function testDelete(): void
     {
         // given
         $categoryToDelete = new Category();
         $categoryToDelete->setName('Test Category');
+        $categoryToDelete->setCreatedAt(new \DateTime('now'));
+        $categoryToDelete->setUpdatedAt(new \DateTime('now'));
         $this->entityManager->persist($categoryToDelete);
         $this->entityManager->flush();
         $deletedCategoryId = $categoryToDelete->getId();
@@ -109,6 +112,8 @@ class CategoryServiceTest extends KernelTestCase
         // given
         $expectedCategory = new Category();
         $expectedCategory->setName('Test Category');
+        $expectedCategory->setCreatedAt(new \DateTime('now'));
+        $expectedCategory->setUpdatedAt(new \DateTime('now'));
         $this->entityManager->persist($expectedCategory);
         $this->entityManager->flush();
         $expectedCategoryId = $expectedCategory->getId();
@@ -127,13 +132,15 @@ class CategoryServiceTest extends KernelTestCase
     {
         // given
         $page = 1;
-        $dataSetSize = 3;
-        $expectedResultSize = 3;
+        $dataSetSize = 15;
+        $expectedResultSize = 10;
 
         $counter = 0;
         while ($counter < $dataSetSize) {
             $category = new Category();
             $category->setName('Test Category #' . $counter);
+            $category->setCreatedAt(new \DateTime('now'));
+            $category->setUpdatedAt(new \DateTime('now'));
             $this->categoryService->save($category);
 
             ++$counter;

@@ -28,7 +28,7 @@ class UserRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 9;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     public function __construct(ManagerRegistry $registry)
     {

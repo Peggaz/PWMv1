@@ -10,16 +10,25 @@ use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Class CategoryControllerTest.
  */
 class CategoryControllerTest extends WebTestCase
 {
+    /**
+     * Test route.
+     *
+     * @const string
+     */
+    public const TEST_ROUTE = '/category';
+
     /**
      * Test client.
      */
@@ -42,7 +51,7 @@ class CategoryControllerTest extends WebTestCase
         $expectedStatusCode = 302;
 
         // when
-        $this->httpClient->request('GET', '/category');
+        $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -51,15 +60,18 @@ class CategoryControllerTest extends WebTestCase
 
     /**
      * Test index route for admin user.
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     public function testIndexRouteAdminUser(): void
     {
+        // given
         $expectedStatusCode = 200;
-        $adminUser = $this->createUser([UserRole::ROLE_USER, UserRole::ROLE_ADMIN]);
-        $this->logIn($adminUser);
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user@example.com');
+        $this->httpClient->loginUser($adminUser);
 
         // when
-        $this->httpClient->request('GET', '/category/');
+        $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
@@ -67,37 +79,22 @@ class CategoryControllerTest extends WebTestCase
     }
 
     /**
-     * Test create film for admin user.
+     * Test index route for non-authorized user.
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
-    public function testCreateCategoryAdminUser(): void
+    public function testIndexRouteNonAuthorizedUser(): void
     {
         // given
-        $expectedStatusCode = 301;
-        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
-        $this->logIn($admin);
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'user1@example.com');
+        $this->httpClient->loginUser($user);
+
         // when
-        $this->httpClient->request('GET', '/category/create/');
+        $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
 
         // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
-    }
-
-    /**
-     * Test create film for common user.
-     */
-    public function testCreateCategoryCommonUser(): void
-    {
-        // given
-        $expectedStatusCode = 301;
-        $user = $this->createUser(['ROLE_USER']);
-        $this->logIn($user);
-        // when
-        $this->httpClient->request('GET', '/category/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
-
-        // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
+        $this->assertEquals(200, $resultStatusCode);
     }
 
     /**
@@ -106,94 +103,54 @@ class CategoryControllerTest extends WebTestCase
      * @param array $roles User roles
      *
      * @return User User entity
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
-    private function createUser(array $roles): User
+    private function createUser(array $roles, string $email): User
     {
-        $passwordEncoder = self::$container->get('security.password_encoder');
+        $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
-        $user->setEmail('user1@example.com');
+        $user->setEmail($email);
+        $user->setUpdatedAt(new \DateTime('now'));
+        $user->setCreatedAt(new \DateTime('now'));
         $user->setRoles($roles);
         $user->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordHasher->hashPassword(
                 $user,
                 'p@55w0rd'
             )
         );
-        $userRepository = self::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $userRepository->save($user);
 
         return $user;
     }
 
     /**
-     * Simulate user log in.
+     * Test show single category.
      *
-     * @param User $user User entity
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
-    private function logIn(User $user): void
-    {
-        $session = self::$container->get('session');
-
-        $firewallName = 'main';
-        $firewallContext = 'main';
-
-        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
-        $session->set('_security_' . $firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->httpClient->getCookieJar()->set($cookie);
-    }
-
-    /**
-     * Test index route for non authorized user FOR NEW CATEGORY.
-     */
-    public function testIndexRouteNonAuthorizedUser(): void
+    public function testShowCategory(): void
     {
         // given
-        $expectedStatusCode = 301;
-        $user = $this->createUser([User::ROLE_USER]);
-        $this->logIn($user);
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'user2@exmaple.com');
+        $this->httpClient->loginUser($adminUser);
+
+        $expectedCategory = new Category();
+        $expectedCategory->setName('Test category');
+        $expectedCategory->setCreatedAt(new \DateTime('now'));
+        $expectedCategory->setUpdatedAt(new \DateTime('now'));
+        $categoryRepository = static::getContainer()->get(CategoryRepository::class);
+        $categoryRepository->save($expectedCategory);
 
         // when
-        $this->httpClient->request('GET', '/category/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $expectedCategory->getId());
+        $result = $this->httpClient->getResponse();
 
         // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
-    }
-
-    // edit category
-    public function testEditCategory(): void
-    {
-        // create category
-        $category = new Category();
-        $category->setName('TestCategory');
-        $categoryRepository = self::$container->get(CategoryRepository::class);
-        $categoryRepository->save($category);
-
-        $expected = 'TestChanged';
-        // change name
-        $category->setName('TestChanged');
-        $categoryRepository->save($category);
-
-        $this->assertEquals($expected, $categoryRepository->findByName($expected)->getName());
-
-    }
-
-    public function testDeleteCategory(): void
-    {
-        // create category
-        $category = new Category();
-        $category->setName('TestCategory2');
-        $categoryRepository = self::$container->get(CategoryRepository::class);
-        $categoryRepository->save($category);
-
-        $expected = new Category();
-
-        // delete
-        $categoryRepository->delete($category);
-
-        $this->assertEquals($expected, $categoryRepository->findByName('TestCategory2'));
+        $this->assertEquals(200, $result->getStatusCode());
+        $this->assertSelectorTextContains('html h1', '#' . $expectedCategory->getId());
+        // ... more assertions...
     }
 }

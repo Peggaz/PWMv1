@@ -21,7 +21,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class WalletRepository extends ServiceEntityRepository
 {
 
-    public const PAGINATOR_ITEMS_PER_PAGE = 3;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * @param ManagerRegistry $registry
