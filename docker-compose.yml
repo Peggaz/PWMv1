@@ -20,9 +20,9 @@ services:
         container_name: symfony_mysql
         environment:
           MYSQL_ROOT_PASSWORD: root-test
-            MYSQL_DATABASE: symfony
-            MYSQL_USER: symfony
-            MYSQL_PASSWORD: symfony
+          MYSQL_DATABASE: symfony
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
 
     mysql-test:
       image: mysql

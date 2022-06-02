@@ -10,7 +10,6 @@ use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -40,7 +39,7 @@ class CategoryServiceTest extends KernelTestCase
     public function setUp(): void
     {
         $container = static::getContainer();
-        //$this->entityManager = $container->get('doctrine.orm.entity_manager');
+        $this->entityManager = $container->get('doctrine.orm.entity_manager');
         $this->categoryService = $container->get(CategoryService::class);
     }
 
@@ -74,7 +73,7 @@ class CategoryServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws OptimisticLockException|ORMException
+     * @throws ORMException
      */
     public function testDelete(): void
     {

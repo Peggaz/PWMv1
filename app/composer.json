@@ -57,7 +57,7 @@
       "symfony/maker-bundle": "^1.40",
       "symfony/phpunit-bridge": "^5.4",
       "symfony/stopwatch": "5.4.x",
-        "symfony/web-profiler-bundle": "5.4.x"
+      "symfony/web-profiler-bundle": "5.4.x"
     },
     "config": {
         "allow-plugins": {
