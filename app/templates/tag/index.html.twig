@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.tag_list'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.tag_list'|trans }}</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'label.id'|trans }}</th>
+            <th>{{ 'label.name'|trans }}</th>
+            <th>{{ 'label.createdAt'|trans }}</th>
+            <th>{{ 'label.updatedAt'|trans }}</th>
+            <th>{{ 'label.actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td>{{ tag.id }}</td>
+                <td>{{ tag.name }}</td>
+                <td>{{ tag.createdAt ? tag.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tag.updatedAt ? tag.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_tag_show', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">{{ 'message.record_not_found'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tag_new') }}">{{ 'title.tag_create'|trans }}</a>
+{% endblock %}

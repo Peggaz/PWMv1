@@ -167,11 +167,11 @@
             </trans-unit>
             <trans-unit id="title.transaction_create">
                 <source>title.transaction_create</source>
-                    <target>Dodaj tranzakcje</target>
+                    <target>Dodaj transakcje</target>
             </trans-unit>
             <trans-unit id="title.transaction_details">
                     <source>title.transaction_details</source>
-                    <target>Szczegóły tranzakcji</target>
+                <target>Szczegóły transakcji</target>
             </trans-unit>
             <trans-unit id="title.wallet_details">
                     <source>title.wallet_details</source>
@@ -279,15 +279,15 @@
             </trans-unit>
             <trans-unit id="title.transaction_delete">
                 <source>title.transaction_delete</source>
-                <target>Usuń tranzakcje</target>
+                <target>Usuń transakcje</target>
             </trans-unit>
             <trans-unit id="message.category_contains_transactions">
                 <source>message.category_contains_transactions</source>
-                <target>Kategoria przypisana do tranzakcji.</target>
+                <target>Kategoria przypisana do transakcji.</target>
             </trans-unit>
             <trans-unit id="title.transaction_edit">
                 <source>title.transaction_edit</source>
-                <target>Edytuj tranzakcje</target>
+                <target>Edytuj transakcje</target>
             </trans-unit>
             <trans-unit id="Password">
                 <source>Password</source>
@@ -373,6 +373,10 @@
                 <target>Szukaj</target>
             </trans-unit>
 
+            <trans-unit id="title.please_sign_in">
+                <source>title.please_sign_in</source>
+                <target>Zaloguj się</target>
+            </trans-unit>
 
         </body>
     </file>

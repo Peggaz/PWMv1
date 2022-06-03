@@ -157,12 +157,6 @@ class Transaction
     private ?User $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=Test::class, mappedBy="transaction", orphanRemoval=true)
-     */
-    private $tests;
-
-
-    /**
      * Transaction constructor.
      */
     #[Pure] public function __construct()
@@ -468,33 +462,4 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return Collection<int, Test>
-     */
-    public function getTests(): Collection
-    {
-        return $this->tests;
-    }
-
-    public function addTest(Test $test): self
-    {
-        if (!$this->tests->contains($test)) {
-            $this->tests[] = $test;
-            $test->setTransaction($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTest(Test $test): self
-    {
-        if ($this->tests->removeElement($test)) {
-            // set the owning side to null (unless already changed)
-            if ($test->getTransaction() === $this) {
-                $test->setTransaction(null);
-            }
-        }
-
-        return $this;
-    }
 }
