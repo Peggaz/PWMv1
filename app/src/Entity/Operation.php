@@ -71,6 +71,8 @@ class Operation
      */
     #[Pure] public function __construct()
     {
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
 
     /**
@@ -154,5 +156,10 @@ class Operation
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

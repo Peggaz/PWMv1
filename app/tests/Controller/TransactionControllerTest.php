@@ -6,6 +6,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Category;
+use App\Entity\Enum\UserRole;
 use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Tag;
@@ -66,8 +67,8 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 200;
-        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
-        $this->logIn($admin);
+        $admin = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transactioAdmin@example.com');
+        $this->httpClient->loginUser($admin);
         // when
         $this->httpClient->request('GET', '/transaction/');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
@@ -81,6 +82,7 @@ class TransactionControllerTest extends WebBaseTestCase
         // given
         $expectedStatusCode = 302;
         $expectedTransaction = $this->createTransaction();
+        $transactionRepository = self::$container->get(TransactionRepository::class);
         $id = $expectedTransaction->getId();
         // when
         $this->httpClient->request('GET', '/transaction/' . $id);
@@ -88,6 +90,7 @@ class TransactionControllerTest extends WebBaseTestCase
 
         // then
         $this->assertEquals($expectedStatusCode, $result);
+        $transactionRepository->delete($expectedTransaction);
     }
 
     /**
@@ -97,6 +100,8 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         $category = new Category();
         $category->setName('TName');
+        $category->setUpdatedAt(new \DateTime('now'));
+        $category->setCreatedAt(new \DateTime('now'));
         $categoryRepository = self::$container->get(CategoryRepository::class);
         $categoryRepository->save($category);
 
@@ -149,11 +154,12 @@ class TransactionControllerTest extends WebBaseTestCase
      * Create Wallet.
      * @return Wallet
      */
-    private function createWallet()
+    private function createWallet(): Wallet
     {
         $wallet = new Wallet();
         $wallet->setName('TWallet');
         $wallet->setBalance('1000');
+        $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'uu@example.com'));
         $walletRepository = self::$container->get(WalletRepository::class);
         $walletRepository->save($wallet);
 
@@ -210,12 +216,13 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction->setOperation($this->createOperation());
         $transaction->setPayment($this->createPayment());
         $transaction->addTag($this->createTag());
-        $transaction->setAuthor($this->createUser(['ROLE_ADMIN', 'ROLE_USER']));
+        $transaction->setAuthor($this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transaction3@example.com'));
 
         $transactionRepository = self::$container->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
 
         return $transaction;
+
     }
 
     /**
@@ -225,7 +232,7 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
+        $admin = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'transaction_user1@example.com');
         $this->logIn($admin);
         // when
         $this->httpClient->request('GET', '/transaction/create/');
@@ -242,7 +249,7 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $admin = $this->createUser([User::ROLE_USER]);
+        $admin = $this->createUser([UserRole::ROLE_USER->value], 'user01@example.com');
         $this->logIn($admin);
         // when
         $this->httpClient->request('GET', '/transaction/create/');
@@ -252,30 +259,6 @@ class TransactionControllerTest extends WebBaseTestCase
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
-    /**
-     * Create user.
-     *
-     * @param array $roles User roles
-     *
-     * @return User User entity
-     */
-    private function createUser(array $roles): User
-    {
-        $passwordEncoder = self::$container->get('security.password_encoder');
-        $user = new User();
-        $user->setEmail('user1@example.com');
-        $user->setRoles($roles);
-        $user->setPassword(
-            $passwordEncoder->encodePassword(
-                $user,
-                'p@w0rd'
-            )
-        );
-        $userRepository = self::$container->get(UserRepository::class);
-        $userRepository->save($user);
-
-        return $user;
-    }
 
     // edit transaction
     public function testEditTransaction(): void
@@ -283,6 +266,8 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction = $this->createTransaction();
 
         $transaction->setName('ChangedTransactionName');
+        $transaction->setUpdatedAt(new \DateTime('now'));
+        $transaction->setUpdatedAt(new \DateTime('now'));
 
         $transactionRepository = self::$container->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
@@ -290,12 +275,13 @@ class TransactionControllerTest extends WebBaseTestCase
         $expected = 'ChangedTransactionName';
 
         $this->assertEquals($expected, $transactionRepository->findByName($expected)->getName());
+        $transactionRepository->delete($transaction);
 
     }
 
     // delete transaction
 
-    /*public function testDeleteTransaction(): void
+    public function testDeleteTransaction(): void
     {
         $transaction = $this->createTransaction();
         $transaction->setName('ChangedTransactionName');
@@ -308,7 +294,8 @@ class TransactionControllerTest extends WebBaseTestCase
         $transactionRepository->delete($transaction);
 
         $this->assertEquals($expected, $transactionRepository->findByName('ChangedTransactionName')->getName());
-    }*/
+        $transactionRepository->delete($transaction);
+    }
 
 
 }

@@ -47,6 +47,8 @@ class Tag
      */
     #[Pure] public function __construct()
     {
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
 
     /**
@@ -156,5 +158,11 @@ class Tag
 
         return $this;
     }
+
 #endregion
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

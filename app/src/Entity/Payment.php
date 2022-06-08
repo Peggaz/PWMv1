@@ -70,6 +70,8 @@ class Payment
      */
     public function __construct()
     {
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
 
     /**
@@ -152,5 +154,10 @@ class Payment
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

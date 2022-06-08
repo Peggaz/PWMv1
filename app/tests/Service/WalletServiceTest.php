@@ -5,10 +5,17 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\Enum\UserRole;
+use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\TransactionRepository;
+use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Service\WalletService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -38,15 +45,45 @@ class WalletServiceTest extends KernelTestCase
     private ?TransactionRepository $transactionRepository;
 
     /**
+     * Create user.
+     *
+     * @param array $roles User roles
+     *
+     * @return User User entity
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
+     */
+    protected function createUser(array $roles, string $email): User
+    {
+        $passwordHasher = static::getContainer()->get('security.password_hasher');
+        $user = new User();
+        $user->setEmail($email);
+        $user->setUpdatedAt(new \DateTime('now'));
+        $user->setCreatedAt(new \DateTime('now'));
+        $user->setRoles($roles);
+        $user->setPassword(
+            $passwordHasher->hashPassword(
+                $user,
+                'p@55w0rd'
+            )
+        );
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $userRepository->save($user);
+
+        return $user;
+    }
+
+    /**
      * Test save.
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
         // given
         $expectedWallet = new Wallet();
         $expectedWallet->setName('Test Wallet');
+        $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user113@example.com'));
         $expectedWallet->setBalance('100');
 
         // when
@@ -62,8 +99,8 @@ class WalletServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testDelete(): void
     {
@@ -71,6 +108,9 @@ class WalletServiceTest extends KernelTestCase
         $expectedWallet = new Wallet();
         $expectedWallet->setName('Test Wallet');
         $expectedWallet->setBalance('100');
+        $expectedWallet->setUpdatedAt(new \DateTime('now'));
+        $expectedWallet->setCreatedAt(new \DateTime('now'));
+        $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user112@example.com'));
         $this->walletRepository->save($expectedWallet);
         $expectedId = $expectedWallet->getId();
 
@@ -103,7 +143,7 @@ class WalletServiceTest extends KernelTestCase
         }
 
         // when
-        $result = $this->walletService->createPaginatedList($page);
+        $result = $this->walletService->getPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

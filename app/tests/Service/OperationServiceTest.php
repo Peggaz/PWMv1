@@ -48,6 +48,8 @@ class OperationServiceTest extends KernelTestCase
         // given
         $expectedOperation = new Operation();
         $expectedOperation->setName('Test Operation');
+        $expectedOperation->setCreatedAt(new \DateTime('now'));
+        $expectedOperation->setUpdatedAt(new \DateTime('now'));
 
         // when
         $this->operationService->save($expectedOperation);
@@ -70,6 +72,8 @@ class OperationServiceTest extends KernelTestCase
         // given
         $expectedOperation = new Operation();
         $expectedOperation->setName('Test Operation');
+        $expectedOperation->setCreatedAt(new \DateTime('now'));
+        $expectedOperation->setUpdatedAt(new \DateTime('now'));
         $this->operationRepository->save($expectedOperation);
         $expectedId = $expectedOperation->getId();
 
@@ -91,17 +95,8 @@ class OperationServiceTest extends KernelTestCase
         $dataSetSize = 0;
         $expectedResultSize = 0;
 
-        $counter = 0;
-        while ($counter < $dataSetSize) {
-            $operation = new Operation();
-            $operation->setName('Test Operation #' . $counter);
-            $this->operationRepository->save($operation);
-
-            ++$counter;
-        }
-
         // when
-        $result = $this->operationService->createPaginatedList($page);
+        $result = $this->operationService->getPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

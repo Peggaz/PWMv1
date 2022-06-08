@@ -87,6 +87,8 @@ class Wallet
      */
     public function __construct()
     {
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
 
     /**
@@ -206,5 +208,10 @@ class Wallet
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

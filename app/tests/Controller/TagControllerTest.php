@@ -15,11 +15,11 @@ class TagControllerTest extends WebBaseTestCase
     private KernelBrowser $httpClient;
 
     private TagRepository $repository;
-    private string $path = '/tag/';
+    private string $path = '/tag';
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
+        $this->httpClient = static::createClient();
         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Tag::class);
 
         foreach ($this->repository->findAll() as $object) {
@@ -29,7 +29,7 @@ class TagControllerTest extends WebBaseTestCase
 
     public function testIndex(): void
     {
-        $crawler = $this->httpClient->request('GET', $this->path);
+        $this->httpClient->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tag index');

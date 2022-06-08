@@ -68,6 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private DateTimeInterface $updatedAt;
     public function __construct()
     {
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
     /**
      * Getter for id.
@@ -221,5 +223,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
     #endregion
+
+    public function __toString()
+    {
+        return $this->email;
+    }
 }

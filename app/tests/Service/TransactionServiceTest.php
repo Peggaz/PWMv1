@@ -6,6 +6,7 @@
 namespace App\Tests\Service;
 
 use App\Entity\Category;
+use App\Entity\Enum\UserRole;
 use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Tag;
@@ -21,7 +22,6 @@ use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Service\TransactionService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
 
 /**
  * Class TransactionServiceTest.
@@ -95,13 +95,15 @@ class TransactionServiceTest extends KernelTestCase
         $expectedTransaction = new Transaction();
         $expectedTransaction->setName('Test Transaction');
         $expectedTransaction->setDate(\DateTime::createFromFormat('Y-m-d', "2021-05-09"));
+        $expectedTransaction->setUpdatedAt(new \DateTime('now'));
+        $expectedTransaction->setCreatedAt(new \DateTime('now'));
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->setCategory($this->createCategory());
         $expectedTransaction->setOperation($this->createOperation());
         $expectedTransaction->addTag($this->createTag());
         $expectedTransaction->setWallet($this->createWallet());
         $expectedTransaction->setAmount('1000');
-        $expectedTransaction->setAuthor($user = $this->createUser('user999', [User::ROLE_USER, User::ROLE_ADMIN]));
+        $expectedTransaction->setAuthor($user = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user999@example.com'));
 
 
         // when
@@ -121,12 +123,14 @@ class TransactionServiceTest extends KernelTestCase
      *
      * @return User User entity
      */
-    private function createUser($userName, array $roles): User
+    private function createUser(array $roles, string $email): User
     {
         $passwordEncoder = self::$container->get('security.password_encoder');
         $user = new User();
-        $user->setEmail($userName . '@example.com');
+        $user->setEmail($email);
         $user->setRoles($roles);
+        $user->setUpdatedAt(new \DateTime('now'));
+        $user->setCreatedAt(new \DateTime('now'));
         $user->setPassword(
             $passwordEncoder->encodePassword(
                 $user,
@@ -148,6 +152,8 @@ class TransactionServiceTest extends KernelTestCase
     {
         $category = new Category();
         $category->setName('TCategory');
+        $category->setUpdatedAt(new \DateTime('now'));
+        $category->setCreatedAt(new \DateTime('now'));
         $categoryRepository = self::$container->get(CategoryRepository::class);
         $categoryRepository->save($category);
 
@@ -176,6 +182,8 @@ class TransactionServiceTest extends KernelTestCase
     {
         $operation = new Operation();
         $operation->setName('TOperation');
+        $operation->setUpdatedAt(new \DateTime('now'));
+        $operation->setCreatedAt(new \DateTime('now'));
         $operationRepository = self::$container->get(OperationRepository::class);
         $operationRepository->save($operation);
 
@@ -190,6 +198,8 @@ class TransactionServiceTest extends KernelTestCase
     {
         $tag = new Tag();
         $tag->setName('TTag');
+        $tag->setUpdatedAt(new \DateTime('now'));
+        $tag->setCreatedAt(new \DateTime('now'));
         $tagRepository = self::$container->get(TagRepository::class);
         $tagRepository->save($tag);
 
@@ -200,11 +210,14 @@ class TransactionServiceTest extends KernelTestCase
      * Create Wallet.
      * @return Wallet
      */
-    private function createWallet()
+    private function createWallet(string $user = 'userr@example.com')
     {
         $wallet = new Wallet();
         $wallet->setName('TWallet');
         $wallet->setBalance('1000');
+        $wallet->setUpdatedAt(new \DateTime('now'));
+        $wallet->setCreatedAt(new \DateTime('now'));
+        $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], $user));
         $walletRepository = self::$container->get(WalletRepository::class);
         $walletRepository->save($wallet);
 
@@ -224,24 +237,23 @@ class TransactionServiceTest extends KernelTestCase
         $expectedTransaction->setName('Test Transaction');
         $expectedTransaction->setDate((\DateTime::createFromFormat('Y-m-d', "2021-05-09")));
         $expectedTransaction->setAmount('1000');
-
+        $expectedTransaction->setUpdatedAt(new \DateTime('now'));
+        $expectedTransaction->setCreatedAt(new \DateTime('now'));
         $expectedTransaction->setCategory($this->createCategory());
-        $expectedTransaction->setWallet($this->createWallet());
+        $expectedTransaction->setWallet($this->createWallet('user2@example.com'));
         $expectedTransaction->setOperation($this->createOperation());
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->addTag($this->createTag());
 
 
         $expectedId = $expectedTransaction->getId();
-
+        //self::assertNotNull($this->transactionRepository->findOneById($expectedId));
         // when
         $this->transactionService->delete($expectedTransaction);
         $result = $this->transactionRepository->findOneById($expectedId);
 
         // then
         $this->assertNull($result);
-
-
     }
 
     /**
@@ -260,5 +272,4 @@ class TransactionServiceTest extends KernelTestCase
         $this->tagRepository = $container->get(TagRepository::class);
         $this->userRepository = $container->get(UserRepository::class);
     }
-
 }

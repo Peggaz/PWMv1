@@ -162,7 +162,8 @@ class Transaction
     #[Pure] public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->tests = new ArrayCollection();
+        $this->setUpdatedAt(new \DateTime('now'));
+        $this->setCreatedAt(new \DateTime('now'));
     }
 
     /**

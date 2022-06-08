@@ -10,6 +10,7 @@ use App\Repository\TagRepository;
 use App\Repository\TransactionRepository;
 use App\Service\TagService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class TagServiceTest.
@@ -48,7 +49,8 @@ class TagServicesTest extends KernelTestCase
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
-
+        $expectedTag->setCreatedAt(new \DateTime('now'));
+        $expectedTag->setUpdatedAt(new \DateTime('now'));
         // when
         $this->tagService->save($expectedTag);
         $resultTag = $this->tagRepository->findOneById(
@@ -70,6 +72,8 @@ class TagServicesTest extends KernelTestCase
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
+        $expectedTag->setCreatedAt(new \DateTime('now'));
+        $expectedTag->setUpdatedAt(new \DateTime('now'));
         $this->tagRepository->save($expectedTag);
         $expectedId = $expectedTag->getId();
 
@@ -92,6 +96,8 @@ class TagServicesTest extends KernelTestCase
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
+        $expectedTag->setCreatedAt(new \DateTime('now'));
+        $expectedTag->setUpdatedAt(new \DateTime('now'));
         $this->tagRepository->save($expectedTag);
 
         // when
@@ -108,20 +114,9 @@ class TagServicesTest extends KernelTestCase
     {
         // given
         $page = 1;
-        $dataSetSize = 0;
         $expectedResultSize = 0;
-
-        $counter = 0;
-        while ($counter < $dataSetSize) {
-            $tag = new Tag();
-            $tag->setName('Test Tag #' . $counter);
-            $this->tagRepository->save($tag);
-
-            ++$counter;
-        }
-
         // when
-        $result = $this->tagService->createPaginatedList($page);
+        $result = $this->tagService->getPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

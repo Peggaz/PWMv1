@@ -3,17 +3,19 @@
 namespace App\Tests\Forms;
 
 use App\Entity\Wallet;
-use App\Form\WalletType;
+use App\Form\Type\WalletType;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class WalletTypeTest extends TypeTestCase
 {
     public function testSubmitValidDate()
     {
-
+        $time = new \DateTime('now');
         $formatData = [
             'name' => 'TestWallet',
-            'balance' => 2000
+            'balance' => 2000,
+            'createdAt' => $time,
+            'updatedAt' => $time
         ];
 
         $model = new Wallet();
@@ -22,6 +24,8 @@ class WalletTypeTest extends TypeTestCase
         $expected = new Wallet();
         $expected->setName('TestWallet');
         $expected->setBalance(2000);
+        $expected->setCreatedAt($time);
+        $expected->setUpdatedAt($time);
 
         $form->submit($formatData);
         $this->assertTrue($form->isSynchronized());

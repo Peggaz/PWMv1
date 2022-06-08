@@ -5,6 +5,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\UserRepository;
@@ -54,9 +55,9 @@ class WalletControllerTest extends WebBaseTestCase
      */
     public function testIndexRouteAdminUser(): void
     {
-        $expectedStatusCode = 200;
-        $adminUser = $this->createUser([User::ROLE_USER, User::ROLE_ADMIN]);
-        $this->logIn($adminUser);
+        $expectedStatusCode = 302;
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user432@example.com');
+        $this->httpClient->loginUser($adminUser);
 
         // when
         $this->httpClient->request('GET', '/wallet/');
@@ -73,7 +74,7 @@ class WalletControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER']);
+        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER'], 'user123@example.com');
         $this->logIn($admin);
         // when
         $this->httpClient->request('GET', '/wallet/create/');
@@ -83,30 +84,6 @@ class WalletControllerTest extends WebBaseTestCase
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
-    /**
-     * Create user.
-     *
-     * @param array $roles User roles
-     *
-     * @return User User entity
-     */
-    private function createUser(array $roles): User
-    {
-        $passwordEncoder = self::$container->get('security.password_encoder');
-        $user = new User();
-        $user->setEmail('user1@example.com');
-        $user->setRoles($roles);
-        $user->setPassword(
-            $passwordEncoder->encodePassword(
-                $user,
-                'p@55w0rd'
-            )
-        );
-        $userRepository = self::$container->get(UserRepository::class);
-        $userRepository->save($user);
-
-        return $user;
-    }
 
     /**
      * Simulate user log in.
@@ -135,7 +112,7 @@ class WalletControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $user = $this->createUser([User::ROLE_USER]);
+        $user = $this->createUser(['ROLE_USER'], 'user124@example.com');
         $this->logIn($user);
 
         // when
@@ -151,6 +128,9 @@ class WalletControllerTest extends WebBaseTestCase
         // create category
         $wallet = new Wallet();
         $wallet->setName('TestWallet123');
+        $wallet->setCreatedAt(new \DateTime('now'));
+        $wallet->setUpdatedAt(new \DateTime('now'));
+        $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user1235@example.com'));
         $wallet->setBalance(2000);
         $walletRepository = self::$container->get(WalletRepository::class);
         $walletRepository->save($wallet);
@@ -161,7 +141,7 @@ class WalletControllerTest extends WebBaseTestCase
         $wallet->setBalance(3000);
         $walletRepository->save($wallet);
 
-        $this->assertEquals($expected, $walletRepository->findByName($expected)->getName());
+        $this->assertEquals($expected, $walletRepository->findOneByName($expected)->getName());
 
     }
 }

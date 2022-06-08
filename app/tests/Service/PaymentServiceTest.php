@@ -70,6 +70,8 @@ class PaymentServiceTest extends KernelTestCase
         // given
         $expectedPayment = new Payment();
         $expectedPayment->setName('Test Payment');
+        $expectedPayment->setCreatedAt(new \DateTime('now'));
+        $expectedPayment->setUpdatedAt(new \DateTime('now'));
         $this->paymentRepository->save($expectedPayment);
         $expectedId = $expectedPayment->getId();
 
@@ -89,20 +91,9 @@ class PaymentServiceTest extends KernelTestCase
     {
         // given
         $page = 1;
-        $dataSetSize = 0;
         $expectedResultSize = 0;
-
-        $counter = 0;
-        while ($counter < $dataSetSize) {
-            $payment = new Payment();
-            $payment->setName('Test Payment #' . $counter);
-            $this->paymentRepository->save($payment);
-
-            ++$counter;
-        }
-
         // when
-        $result = $this->paymentService->createPaginatedList($page);
+        $result = $this->paymentService->getPaginatedList($page);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

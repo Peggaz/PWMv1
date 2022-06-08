@@ -27,6 +27,7 @@ security:
         # where to redirect after logout
         target: app_login
 
+
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -42,6 +43,7 @@ security:
     # - { path: ^/admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
     - { path: ^/login, roles: PUBLIC_ACCESS }
+    - { path: ^/register, roles: PUBLIC_ACCESS }
     - { path: ^/, roles: ROLE_USER }
 
 when@test:
