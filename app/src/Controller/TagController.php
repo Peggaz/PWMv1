@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tag;
-use App\Form\TagType;
+use App\Form\Type\TagType;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -10,6 +10,7 @@ use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
+use App\Tests\WebBaseTestCase;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
@@ -20,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class CategoryControllerTest.
  */
-class CategoryControllerTest extends WebTestCase
+class CategoryControllerTest extends WebBaseTestCase
 {
     /**
      * Test route.
@@ -97,34 +98,7 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals(200, $resultStatusCode);
     }
 
-    /**
-     * Create user.
-     *
-     * @param array $roles User roles
-     *
-     * @return User User entity
-     *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
-     */
-    private function createUser(array $roles, string $email): User
-    {
-        $passwordHasher = static::getContainer()->get('security.password_hasher');
-        $user = new User();
-        $user->setEmail($email);
-        $user->setUpdatedAt(new \DateTime('now'));
-        $user->setCreatedAt(new \DateTime('now'));
-        $user->setRoles($roles);
-        $user->setPassword(
-            $passwordHasher->hashPassword(
-                $user,
-                'p@55w0rd'
-            )
-        );
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $userRepository->save($user);
 
-        return $user;
-    }
 
     /**
      * Test show single category.
@@ -152,5 +126,61 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals(200, $result->getStatusCode());
         $this->assertSelectorTextContains('html h1', '#' . $expectedCategory->getId());
         // ... more assertions...
+    }
+
+    //create category
+    public function testCreateCategory(): void
+    {
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
+        $result = $this->httpClient->getResponse();
+        $this->assertEquals(302, $result->getStatusCode());
+
+    }
+
+    // edit category
+    public function testEditCategory(): void
+    {
+        // create category
+        $category = new Category();
+        $category->setName('TestCategory');
+        $category->setCreatedAt(new \DateTime('now'));
+        $category->setUpdatedAt(new \DateTime('now'));
+        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository->save($category);
+
+
+        // when
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/edit');
+        $result = $this->httpClient->getResponse();
+        $this->assertEquals(302, $result->getStatusCode());
+        $category->setName('TestCategoryEdit');
+        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $category->getId() . '/edit/', ['$category' => $category]);
+
+        $this->assertEquals('TestCategoryEdit', $categoryRepository->findOneById($category->getId())->getName());
+
+        $expected = 'TestChanged';
+        // change name
+        $category->setName('TestChanged');
+        $categoryRepository->save($category);
+
+        $this->assertEquals($expected, $categoryRepository->findOneByName($expected)->getName());
+
+    }
+
+
+    public function testDeleteCategory(): void
+    {
+        // create category
+        $category = new Category();
+        $category->setName('TestCategory12');
+        $category->setCreatedAt(new \DateTime('now'));
+        $category->setUpdatedAt(new \DateTime('now'));
+        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository->save($category);
+        $this->assertCount(1, $categoryRepository->findByName('TestCategory12'));
+        // delete
+        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $category->getId() . '/delete'/*, ['category'=>'$category']*/);
+
+        $this->assertCount(0, $categoryRepository->findByName('TestCategory12'));
     }
 }

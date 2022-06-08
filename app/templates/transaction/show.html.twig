@@ -7,13 +7,36 @@
 {% block body %}
     <h1>{{ 'title.transaction_details'|trans({'%id%': transaction.id|default('')}) }}</h1>
     {% if transaction is defined and transaction|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ transaction.id }}</dd>
-            <dt>{{ 'label.name'|trans }}</dt>
-            <dd>{{ transaction.name }}</dd>
+        <table class="table">
+            <tbody>
+            <dl class="dl-horizontal">
+                <dt>{{ 'label.id'|trans }}</dt>
+                <dd>{{ transaction.id }}</dd>
+                <dt>{{ 'label.name'|trans }}</dt>
+                <dd>{{ transaction.name }}</dd>
+                <dt>{{ 'label.date'|trans }}</dt>
+                <dd>{{ transaction.date|format_date('long') }}</dd>
+                <dt>{{ 'label.amount'|trans }}</dt>
+                <dd>{{ transaction.amount }}</dd>
+                <dt>{{ 'label.category'|trans }}</dt>
+                <dd>{{ transaction.category }}</dd>
+                <dt>{{ 'label.wallet'|trans }}</dt>
+                <dd>{{ transaction.wallet }}</dd>
+                <dt>{{ 'label.payment'|trans }}</dt>
+                <dd>{{ transaction.payment }}</dd>
 
-        </dl>
+                <dt>{{ 'label.operation'|trans }}</dt>
+                <dd>{{ transaction.operation }}</dd>
+
+                <dt>{{ 'label.tags'|trans }}</dt>
+                <dd>{{ transaction.tags }}</dd>
+
+                <dt>{{ 'label.comment'|trans }}</dt>
+                <dd>{{ transaction.comment }}</dd>
+
+            </dl>
+            </tbody>
+        </table>
         <p>
             <a href="{{ url('transaction_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

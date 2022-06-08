@@ -18,12 +18,11 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.name'|trans, 'transaction.name') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.date'|trans, 'transaction.date') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.amount'|trans, 'transaction.amount') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'transaction.category.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.wallet'|trans, 'transaction.wallet.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.payment'|trans, 'transaction.payment.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.operation'|trans, 'transaction.operation.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.tags'|trans, 'transaction.tags.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.comment'|trans, 'transaction.comment') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.wallet'|trans, 'wallet.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.payment'|trans, 'payment.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.operation'|trans, 'operation.name') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.tags'|trans, 'tags.name') }}</th>
                 <th>{{ 'label.action'|trans }}</th>
             </tr>
             </thead>
@@ -35,17 +34,25 @@
                     <td>{{ transaction.name }}</td>
                     <td>{{ transaction.date|date("m.d.Y") }}</td>
                     <td>{{ transaction.amount }}</td>
-                    <td>{{ transaction.category.name }}</td>
-                    <td>{{ transaction.wallet.name }}</td>
-                    <td>{{ transaction.payment.name }}</td>
-                    <td>{{ transaction.operation.name }}</td>
+                    <td>
+                        <a href="{{ path('category_show', {'id': transaction.category.id}) }}">{{ transaction.category.name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('wallet_show', {'id': transaction.wallet.id}) }}"> {{ transaction.wallet.name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('payment_show', {'id': transaction.payment.id}) }}">{{ transaction.payment.name }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('operation_show', {'id': transaction.operation.id}) }}">{{ transaction.operation.name }}</a>
+                    </td>
                     <td>{% for item in  transaction.tags %}
-                            {{ item.name }},
+                            <a href="{{ path('app_tag_show', {'id': item.id}) }}">{{ item.name }}</a>,
                         {% endfor %}</td>
-                    <td>{{ transaction.comment }}</td>
                     <td>
                         {% if is_granted('VIEW', transaction) %}
-                            <a href="{{ url('transaction_show', {id: transaction.id}) }}" title="{{ 'action.view'|trans }}">
+                            <a href="{{ url('transaction_show', {id: transaction.id}) }}"
+                               title="{{ 'action.view'|trans }}">
                                 {{ 'action.view'|trans }}
                             </a>
                         {% endif %}

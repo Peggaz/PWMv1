@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Test\Controller;
+namespace App\Tests\Controller;
 
 use App\Entity\Tag;
 use App\Repository\TagRepository;
+use App\Tests\WebBaseTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TagControllerTest extends WebTestCase
+class TagControllerTest extends WebBaseTestCase
 {
-    private KernelBrowser $client;
+    /**
+     * Test client.
+     */
+    private KernelBrowser $httpClient;
+
     private TagRepository $repository;
     private string $path = '/tag/';
 
@@ -25,7 +29,7 @@ class TagControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $crawler = $this->request('GET', $this->path);
+        $crawler = $this->httpClient->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
         self::assertPageTitleContains('Tag index');
@@ -39,11 +43,11 @@ class TagControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $this->markTestIncomplete();
-        $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->httpClient->request('GET', sprintf('%snew', $this->path));
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->httpClient->submitForm('Save', [
             'tag[name]' => 'Testing',
             'tag[createdAt]' => 'Testing',
             'tag[updatedAt]' => 'Testing',

@@ -9,6 +9,7 @@ use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
@@ -26,26 +28,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      */
     private ?int $id = null;
-
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private ?string $email;
-
     /**
      * @ORM\Column(type="json")
      *
      * @var array<int, string>
      */
     private array $roles = [];
-
     /**
      * @var string The hashed password
      *
      * @ORM\Column(type="string")
      */
     private string $password;
-
     /**
      * Created at.
      *
@@ -57,7 +55,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      */
     private DateTimeInterface $createdAt;
-
     /**
      * Updated at.
      *
@@ -69,12 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      */
     private DateTimeInterface $updatedAt;
-
-
     public function __construct()
     {
     }
-
     /**
      * Getter for id.
      *
@@ -84,7 +78,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
-
     /**
      * Getter for email.
      *
@@ -94,7 +87,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
-
     /**
      * Setter for email.
      *
@@ -104,7 +96,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->email = $email;
     }
-
     /**
      * A visual identifier that represents this user.
      *
@@ -114,7 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string)$this->email;
     }
-
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
@@ -122,7 +112,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string)$this->email;
     }
-
     /**
      * Getter for roles.
      *
@@ -138,7 +127,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
-
     /**
      * Setter for roles.
      *
@@ -148,7 +136,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
     }
-
     /**
      * Getter for password.
      *
@@ -160,7 +147,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-
     /**
      * Setter for password.
      *
@@ -170,7 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->password = $password;
     }
-
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -181,7 +166,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return null;
     }
-
     /**
      * Removes sensitive information from the token.
      *
@@ -192,8 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-#region created updated
-
+    #region created updated
     /**
      * Getter for Create At.
      *
@@ -203,7 +186,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->createdAt;
     }
-
     /**
      * Setter for Create At.
      *
@@ -217,7 +199,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     /**
      * Getter for Update At.
      *
@@ -227,7 +208,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->updatedAt;
     }
-
     /**
      * Setter for Update At.
      *
@@ -241,5 +221,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-#endregion
+    #endregion
 }

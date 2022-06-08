@@ -32,20 +32,23 @@ class UserType extends AbstractType
             'email',
             TextType::class,
             [
-                'label' => 'label.eamil',
+                'label' => 'label.email',
                 'required' => true,
                 'attr' => ['max_length' => 64],
             ]
         );
+
         $builder->add(
-            'roles',
+            'password',
             TextType::class,
             [
-                'label' => 'label.eamil',
+                'label' => 'label.password',
                 'required' => true,
                 'attr' => ['max_length' => 255],
             ]
         );
+
+
     }
 
     /**

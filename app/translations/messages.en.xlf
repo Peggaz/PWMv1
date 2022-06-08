@@ -170,6 +170,15 @@
                 <source>title.please_sign_in</source>
                 <target>Please sign in</target>
             </trans-unit>
+            <trans-unit id="title.sign_up">
+                <source>title.sign_up</source>
+                <target>sign up</target>
+            </trans-unit>
+            <trans-unit id="label.or">
+                <source>label.or</source>
+                <target>or</target>
+            </trans-unit>
+
             <trans-unit id="title.tag_details">
                 <source>title.tag_details</source>
                 <target>Tag details</target>
@@ -360,6 +369,16 @@
             <trans-unit id="title.payment_edit">
                 <source>title.payment_edit</source>
                 <target>payment edit</target>
+            </trans-unit>
+
+            <trans-unit id="action.search">
+                <source>action.search</source>
+                <target>Search</target>
+            </trans-unit>
+
+            <trans-unit id="title.please_sign_in">
+                <source>title.please_sign_in</source>
+                <target>Please sign in</target>
             </trans-unit>
 
         </body>

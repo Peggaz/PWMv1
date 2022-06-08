@@ -378,6 +378,17 @@
                 <target>Zaloguj się</target>
             </trans-unit>
 
+            <trans-unit id="title.sign_up">
+                <source>title.sign_up</source>
+                <target>zarejestruj</target>
+            </trans-unit>
+
+            <trans-unit id="label.or">
+                <source>label.or</source>
+                <target>lub</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>

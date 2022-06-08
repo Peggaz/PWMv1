@@ -9,7 +9,9 @@
         {% endif %}
 
 
-        <h1 class="h3 mb-3 font-weight-normal">{{ 'title.please_sign_in'|trans }}</h1>
+        <h1 class="h3 mb-3 font-weight-normal">{{ 'title.please_sign_in'|trans }} {{ 'label.or' |trans }}
+            <a href="{{ url('app_register') }}">{{ 'title.sign_up'|trans }}</a>
+        </h1>
         <label for="inputEmail">{{ 'label.email'|trans }}</label>
         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                autocomplete="email" required autofocus>

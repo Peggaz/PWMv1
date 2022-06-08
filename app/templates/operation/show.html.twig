@@ -7,17 +7,26 @@
 {% block body %}
     <h1>{{ 'title.operation_details'|trans({'%id%': operation.id|default('')}) }}</h1>
     {% if operation is defined and operation|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ operation.id }}</dd>
-            <dt>{{ 'label.name' }}</dt>
-            <dd>{{ operation.name }}</dd>
-            <dt>{{ 'label.updatedAt'|trans }}</dt>
-            <dd>{{ operation.updatedAt|format_date('long') }}</dd>
-            <dt>{{ 'label.createdAt'|trans }}</dt>
-            <dd>{{ operation.createdAt|format_date('long') }}</dd>
-
-        </dl>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ 'label.id'|trans }}</th>
+                <td>{{ operation.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.name' }}</th>
+                <td>{{ operation.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.updatedAt'|trans }}</th>
+                <td>{{ operation.updatedAt|format_date('long') }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.createdAt'|trans }}</th>
+                <td>{{ operation.createdAt|format_date('long') }}</td>
+            </tr>
+            </tbody>
+        </table>
         <p>
             <a href="{{ url('operation_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}
