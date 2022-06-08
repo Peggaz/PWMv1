@@ -22,24 +22,32 @@
 
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link"
-                           href="{{ path('transaction_index') }}"> {{ 'title.transaction_list'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('payment_index') }}">{{ 'title.payment_list'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('operation_index') }}">{{ 'title.operation_list'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('category_index') }}">{{ 'title.category_list'|trans }}</a>
-                    </li>
-
-
-                </ul>
                 {% if app.user %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link"
+                               href="{{ path('transaction_index') }}"> {{ 'title.transaction_list'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('payment_index') }}">{{ 'title.payment_list'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ path('operation_index') }}">{{ 'title.operation_list'|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ path('category_index') }}">{{ 'title.category_list'|trans }}</a>
+                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_index') }}">{{ 'title.user_list'|trans }}</a>
+                            </li>
+                        {% endif %}
+
+
+                    </ul>
+
                     <div class="mb-3"
                          style="text-align: right; display:flex; padding-left: max(250px, 1%); padding-right: max(20px, 1%); color: rgba(255,255,255,.55);">
                         {{ app.user.email }} <a style="display:flex; margin-left:12px;"

@@ -7,19 +7,30 @@
 {% block body %}
     <h1>{{ 'title.wallet_details'|trans({'%id%': wallet.id|default('')}) }}</h1>
     {% if wallet is defined and wallet|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ wallet.id }}</dd>
-            <dt>{{ 'label.name'|trans }}</dt>
-            <dd>{{ wallet.name|json_encode() }}</dd>
-            <dt>{{ 'label.balance'|trans }}</dt>
-            <dd>{{ wallet.balance }}</dd>
-            <dt>{{ 'label.createdAt'|trans }}<
-            <dd>{{ wallet.createdAt |format_date('long')}}</dd>
-            <dt>{{ 'label.updateAt'|trans }}<
-            <dd>{{ wallet.updatedAt|format_date('long') }}</dd>
-
-        </dl>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ 'label.id'|trans }}</th>
+                <td>{{ wallet.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.name'|trans }}</th>
+                <td>{{ wallet.name|json_encode() }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.balance'|trans }}</th>
+                <td>{{ wallet.balance }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.createdAt'|trans }}</th>
+                <td>{{ wallet.createdAt |format_date('long') }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.updateAt'|trans }}</th>
+                <td>{{ wallet.updatedAt|format_date('long') }}</td>
+            </tr>
+            </tbody>
+        </table>
         <p>
             <a href="{{ url('wallet_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}

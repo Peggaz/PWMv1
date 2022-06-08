@@ -7,17 +7,27 @@
 {% block body %}
     <h1>{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
     {% if category is defined and category|length %}
-        <dl class="dl-horizontal">
-            <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ category.id }}</dd>
-            <dt>{{ 'label.name'}}</dt>
-            <dd>{{ category.name }}</dd>
-            <dt>{{ 'label.updatedAt'|trans }}</dt>
-            <dd>{{ category.updatedAt|format_date('long') }}</dd>
-            <dt>{{ 'label.createdAt'|trans }}</dt>
-            <dd>{{ category.createdAt|format_date('long') }}</dd>
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ 'label.id'|trans }}</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.name' }}</th>
+                <td>{{ category.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.updatedAt'|trans }}</th>
+                <td>{{ category.updatedAt|format_date('long') }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.createdAt'|trans }}</th>
+                <td>{{ category.createdAt|format_date('long') }}</td>
+            </tr>
 
-        </dl>
+            </tbody>
+        </table>
         <p>
             <a href="{{ url('category_index') }}" title="{{ 'action.back_to_list'|trans }}">
                 {{ 'action.back_to_list'|trans }}
