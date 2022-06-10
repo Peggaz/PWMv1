@@ -7,6 +7,8 @@ namespace App\Service;
 
 use App\Entity\Tag;
 use App\Repository\TagRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -61,9 +63,9 @@ class TagService implements TagServiceInterface
     public function save(Tag $tag): void
     {
         if ($tag->getId() == null) {
-            $tag->setCreatedAt(new \DateTimeImmutable());
+            $tag->setCreatedAt(new DateTimeImmutable());
         }
-        $tag->setUpdatedAt(new \DateTimeImmutable());
+        $tag->setUpdatedAt(new DateTimeImmutable());
 
         $this->tagRepository->save($tag);
     }
@@ -84,6 +86,7 @@ class TagService implements TagServiceInterface
      * @param string $name Tag name
      *
      * @return Tag|null Tag entity
+     * @throws NonUniqueResultException
      */
     public function findOneByName(string $name): ?Tag
     {

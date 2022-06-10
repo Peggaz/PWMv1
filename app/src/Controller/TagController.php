@@ -21,6 +21,8 @@ class TagController extends AbstractController
         ]);
     }
 
+    /**
+     */
     #[Route('/new', name: 'app_tag_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TagRepository $tagRepository): Response
     {
@@ -46,6 +48,8 @@ class TagController extends AbstractController
         return $this->render('tag/show.html.twig', ['tag' => $tag,]);
     }
 
+    /**
+     */
     #[Route('/{id}/edit', name: 'app_tag_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Tag $tag, TagRepository $tagRepository): Response
     {
@@ -64,6 +68,8 @@ class TagController extends AbstractController
         ]);
     }
 
+    /**
+     */
     #[Route('/{id}', name: 'app_tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag, TagRepository $tagRepository): Response
     {

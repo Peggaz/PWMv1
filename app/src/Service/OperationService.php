@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Operation;
 use App\Repository\OperationRepository;
+use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -61,9 +62,9 @@ class OperationService implements OperationServiceInterface
     public function save(Operation $operation): void
     {
         if (null == $operation->getId()) {
-            $operation->setCreatedAt(new \DateTimeImmutable());
+            $operation->setCreatedAt(new DateTimeImmutable());
         }
-        $operation->setUpdatedAt(new \DateTimeImmutable());
+        $operation->setUpdatedAt(new DateTimeImmutable());
 
         $this->operationRepository->save($operation);
     }

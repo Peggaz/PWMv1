@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,8 +31,6 @@ class WalletRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function add(Wallet $entity, bool $flush = true): void
     {
@@ -70,8 +66,6 @@ class WalletRepository extends ServiceEntityRepository
 
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function remove(Wallet $entity, bool $flush = true): void
     {

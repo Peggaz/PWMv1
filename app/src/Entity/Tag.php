@@ -5,9 +5,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,13 +24,13 @@ class Tag
     /**
      * Primary key.
      *
-     * @var int
+     * @var int|null
      *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * Name.
@@ -45,16 +45,16 @@ class Tag
     /**
      * Tag constructor.
      */
-    #[Pure] public function __construct()
+    public function __construct()
     {
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
+        $this->setUpdatedAt(new DateTime('now'));
+        $this->setCreatedAt(new DateTime('now'));
     }
 
     /**
      * Getter for Id.
      *
-     * @return int|null Resultz
+     * @return int|null Results
      */
     public function getId(): ?int
     {

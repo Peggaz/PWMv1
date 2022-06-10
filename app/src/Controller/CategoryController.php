@@ -64,7 +64,7 @@ class CategoryController extends AbstractController
         return $this->render('category/index.html.twig', ['pagination' => $pagination]);
     }
 #endregion
-#region ditail
+#region detail
     /**
      * Show action.
      *

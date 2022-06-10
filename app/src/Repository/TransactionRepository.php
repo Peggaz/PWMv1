@@ -64,7 +64,7 @@ class TransactionRepository extends ServiceEntityRepository
                 'partial wallet.{id, name}',
                 'partial tags.{id, name}'
             )
-            ->join('transaction.category', 'category')
+            ->leftJoin('transaction.category', 'category')
             ->leftJoin('transaction.payment', 'payment')
             ->leftJoin('transaction.operation', 'operation')
             ->leftJoin('transaction.wallet', 'wallet')

@@ -7,7 +7,7 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\NonUniqueResultException;
+use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -62,9 +62,9 @@ class CategoryService implements CategoryServiceInterface
     public function save(Category $category): void
     {
         if (null == $category->getId()) {
-            $category->setCreatedAt(new \DateTimeImmutable());
+            $category->setCreatedAt(new DateTimeImmutable());
         }
-        $category->setUpdatedAt(new \DateTimeImmutable());
+        $category->setUpdatedAt(new DateTimeImmutable());
 
         $this->categoryRepository->save($category);
     }

@@ -7,9 +7,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\UserType;
-use App\Repository\UserRepository;
 use App\Service\UserServiceInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +35,7 @@ class UserController extends AbstractController
     private TranslatorInterface $translator;
 
     /**
-     * Password hasher.
+     * Password hashes.
      */
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -54,8 +52,6 @@ class UserController extends AbstractController
      * Index action.
      *
      * @param Request            $request        HTTP Request
-     * @param UserRepository     $userRepository Task repository
-     * @param PaginatorInterface $paginator      Paginator
      *
      * @return Response HTTP response
      */
@@ -63,7 +59,7 @@ class UserController extends AbstractController
         name: 'user_index',
         methods: 'GET'
     )]
-    public function index(Request $request, UserRepository $userRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
         $pagination = $this->userService->getPaginatedList(
             $request->query->getInt('page', 1)

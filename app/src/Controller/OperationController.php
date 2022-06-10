@@ -64,7 +64,7 @@ class OperationController extends AbstractController
         return $this->render('operation/index.html.twig', ['pagination' => $pagination]);
     }
 #endregion
-#region ditail
+#region detail
     /**
      * Show action.
      *

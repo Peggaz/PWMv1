@@ -64,7 +64,7 @@ class PaymentController extends AbstractController
         return $this->render('payment/index.html.twig', ['pagination' => $pagination]);
     }
 #endregion
-#region ditail
+#region detail
     /**
      * Show action.
      *

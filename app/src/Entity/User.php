@@ -7,6 +7,7 @@ namespace App\Entity;
 
 use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -68,8 +69,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private DateTimeInterface $updatedAt;
     public function __construct()
     {
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
+        $this->setUpdatedAt(new DateTime('now'));
+        $this->setCreatedAt(new DateTime('now'));
     }
     /**
      * Getter for id.

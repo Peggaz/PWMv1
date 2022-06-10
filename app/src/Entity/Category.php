@@ -5,6 +5,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -23,14 +24,13 @@ class Category
     /**
      * Primary key.
      *
-     * @var int
+     * @var int|null
      *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
-
+    private ?int $id = null;
     /**
      * Name.
      *
@@ -79,8 +79,8 @@ class Category
      */
     public function __construct()
     {
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
+        $this->setUpdatedAt(new DateTime('now'));
+        $this->setCreatedAt(new DateTime('now'));
     }
 
     /**

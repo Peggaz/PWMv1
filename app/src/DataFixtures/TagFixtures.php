@@ -16,11 +16,11 @@ class TagFixtures extends AbstractBaseFixtures
     /**
      * Load data.
      *
-     * @param \Doctrine\Persistence\ObjectManager $manager Persistence object manager
+     * @param ObjectManager $manager Persistence object manager
      */
     public function loadData(ObjectManager $manager): void
     {
-        $this->createMany(20, 'tags', function ($i) {
+        $this->createMany(20, 'tags', function () {
             $tag = new Tag();
             $tag->setName($this->faker->word);
             $tag->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));

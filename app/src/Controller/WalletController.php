@@ -5,9 +5,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Entity\Wallet;
-use App\Form\Type\CategoryType;
 use App\Form\Type\WalletType;
 use App\Repository\WalletRepository;
 use App\Service\WalletServiceInterface;
@@ -62,7 +60,7 @@ class WalletController extends AbstractController
         name: 'wallet_index',
         methods: 'GET'
     )]
-    public function index(Request $request, WalletRepository $walletRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request): Response
     {
         $pagination = $this->walletService->getPaginatedList(
             $request->query->getInt('page', 1),

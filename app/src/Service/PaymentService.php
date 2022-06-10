@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Payment;
 use App\Repository\PaymentRepository;
+use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -61,9 +62,9 @@ class PaymentService implements PaymentServiceInterface
     public function save(Payment $payment): void
     {
         if ($payment->getId() == null) {
-            $payment->setCreatedAt(new \DateTimeImmutable());
+            $payment->setCreatedAt(new DateTimeImmutable());
         }
-        $payment->setUpdatedAt(new \DateTimeImmutable());
+        $payment->setUpdatedAt(new DateTimeImmutable());
 
         $this->paymentRepository->save($payment);
     }

@@ -9,6 +9,7 @@ use App\Entity\Enum\UserRole;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Repository\TransactionRepository;
+use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -71,9 +72,9 @@ class TransactionService implements TransactionServiceInterface
     public function save(Transaction $transaction): void
     {
         if (null == $transaction->getId()) {
-            $transaction->setCreatedAt(new \DateTimeImmutable());
+            $transaction->setCreatedAt(new DateTimeImmutable());
         }
-        $transaction->setUpdatedAt(new \DateTimeImmutable());
+        $transaction->setUpdatedAt(new DateTimeImmutable());
 
         $this->transactionRepository->save($transaction);
     }

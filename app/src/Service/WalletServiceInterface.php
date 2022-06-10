@@ -18,8 +18,7 @@ interface WalletServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
-     * @param User $author Author
-     *
+     * @param User $user
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page, User $user): PaginationInterface;

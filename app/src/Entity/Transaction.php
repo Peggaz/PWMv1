@@ -5,11 +5,11 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,13 +23,13 @@ class Transaction
     /**
      * Primary key.
      *
-     * @var int
+     * @var int|null
      *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * Name.
@@ -53,7 +53,7 @@ class Transaction
     /**
      * Date.
      *
-     * @var DateTimeInterface
+     * @var DateTimeInterface|null
      *
      * @ORM\Column(type="datetime")
      *
@@ -66,7 +66,7 @@ class Transaction
     /**
      * Amount.
      *
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(type="integer")
      *
@@ -159,11 +159,11 @@ class Transaction
     /**
      * Transaction constructor.
      */
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->tags = new ArrayCollection();
-        $this->setUpdatedAt(new \DateTime('now'));
-        $this->setCreatedAt(new \DateTime('now'));
+        $this->setUpdatedAt(new DateTime('now'));
+        $this->setCreatedAt(new DateTime('now'));
     }
 
     /**
@@ -179,6 +179,7 @@ class Transaction
         return $this->id;
     }
     #region name
+
     /**
      * Getter for Name.
      *
@@ -400,7 +401,6 @@ class Transaction
     }
 
     #endregion
-
 
 
     /**

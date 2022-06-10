@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\TransactionRepository;
 use App\Repository\WalletRepository;
+use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -44,8 +45,7 @@ class WalletService implements WalletServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
-     * @param User $author Author
-     *
+     * @param User $user
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page, User $user): PaginationInterface
@@ -72,9 +72,9 @@ class WalletService implements WalletServiceInterface
     public function save(Wallet $wallet): void
     {
         if ($wallet->getId() == null) {
-            $wallet->setCreatedAt(new \DateTimeImmutable());
+            $wallet->setCreatedAt(new DateTimeImmutable());
         }
-        $wallet->setUpdatedAt(new \DateTimeImmutable());
+        $wallet->setUpdatedAt(new DateTimeImmutable());
 
         $this->walletRepository->save($wallet);
     }
