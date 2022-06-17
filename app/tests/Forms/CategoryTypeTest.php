@@ -28,7 +28,8 @@ class CategoryTypeTest extends TypeTestCase
         $form->submit($formatData);
         $this->assertTrue($form->isSynchronized());
 
-        $this->assertEquals($expected, $model);
+        $this->assertEquals($expected->getName(), $model->getName());
+        $this->assertEquals($expected->getId(), $model->getId());
     }
 
 }

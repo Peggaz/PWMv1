@@ -8,12 +8,19 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class WebBaseTestCase extends WebTestCase
 {
+
+    /**
+     * Test client.
+     */
+    protected KernelBrowser $httpClient;
+
     /**
      * Create user.
      *
@@ -41,5 +48,25 @@ class WebBaseTestCase extends WebTestCase
         $userRepository->save($user);
 
         return $user;
+    }
+
+    /**
+     * Simulate user log in.
+     *
+     * @param User $user User entity
+     */
+    protected function logIn(User $user): void
+    {
+        $session = self::$container->get('session');
+
+        $firewallName = 'main';
+        $firewallContext = 'main';
+
+        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
+        $session->set('_security_' . $firewallContext, serialize($token));
+        $session->save();
+
+        $cookie = new Cookie($session->getName(), $session->getId());
+        $this->httpClient->getCookieJar()->set($cookie);
     }
 }

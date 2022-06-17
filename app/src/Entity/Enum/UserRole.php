@@ -13,6 +13,19 @@ enum UserRole: string
     case ROLE_USER = 'ROLE_USER';
     case ROLE_ADMIN = 'ROLE_ADMIN';
 
+    public function labelOne(): string
+    {
+        if ($this == UserRole::ROLE_USER)
+        {
+            return 'label.role_user';
+        } else if ($this == UserRole::ROLE_ADMIN)
+        {
+            return 'label.role_admin';
+        }
+
+        return "";
+    }
+
     /**
      * Get the role label.
      *
@@ -25,4 +38,6 @@ enum UserRole: string
             UserRole::ROLE_ADMIN => 'label.role_admin',
         };
     }
+
+
 }

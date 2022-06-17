@@ -55,6 +55,23 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
+     * Get paginated list.
+     *
+     * @param int $page Page number
+     * @param string $name Page number
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
+    public function getPaginatedListByName(int $page, string $name): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->categoryRepository->findByName($name),
+            $page,
+            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    /**
      * Save entity.
      *
      * @param Category $category Category entity

@@ -375,10 +375,18 @@
                 <source>action.search</source>
                 <target>Search</target>
             </trans-unit>
+            <trans-unit id="title.admin">
+                <source>title.admin</source>
+                <target>admin</target>
+            </trans-unit>
+            <trans-unit id="title.user">
+                <source>title.user</source>
+                <target>user</target>
+            </trans-unit>
 
-            <trans-unit id="title.please_sign_in">
-                <source>title.please_sign_in</source>
-                <target>Please sign in</target>
+            <trans-unit id="title.user_edit">
+                <source>title.user_edit</source>
+                <target>user edit</target>
             </trans-unit>
 
         </body>

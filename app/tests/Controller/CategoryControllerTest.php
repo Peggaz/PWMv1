@@ -7,16 +7,13 @@ namespace App\Tests\Controller;
 
 use App\Entity\Category;
 use App\Entity\Enum\UserRole;
-use App\Entity\User;
 use App\Repository\CategoryRepository;
-use App\Repository\UserRepository;
 use App\Tests\WebBaseTestCase;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class CategoryControllerTest.
@@ -30,10 +27,6 @@ class CategoryControllerTest extends WebBaseTestCase
      */
     public const TEST_ROUTE = '/category';
 
-    /**
-     * Test client.
-     */
-    private KernelBrowser $httpClient;
 
     /**
      * Set up tests.
@@ -49,8 +42,9 @@ class CategoryControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 302;
-
+        $expectedStatusCode = 200;
+        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'categoryindexuser@example.com');
+        $this->logIn($user);
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
@@ -154,8 +148,15 @@ class CategoryControllerTest extends WebBaseTestCase
         $result = $this->httpClient->getResponse();
         $this->assertEquals(302, $result->getStatusCode());
         $category->setName('TestCategoryEdit');
-        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $category->getId() . '/edit/', ['$category' => $category]);
-
+        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $category->getId() . '/edit/',
+            ['category' =>
+                $this->httpClient->submitForm('save', [
+                    'category[name]' => 'TestCategoryEdit',
+                    'category[createdAt]' => new DateTime('now'),
+                    'category[updatedAt]' => new DateTime('now')
+                 ])
+            ]);
+        $categoryRepository->save($category);
         $this->assertEquals('TestCategoryEdit', $categoryRepository->findOneById($category->getId())->getName());
 
         $expected = 'TestChanged';
@@ -173,14 +174,21 @@ class CategoryControllerTest extends WebBaseTestCase
         // create category
         $category = new Category();
         $category->setName('TestCategory12');
-        $category->setCreatedAt(new \DateTime('now'));
-        $category->setUpdatedAt(new \DateTime('now'));
+        $category->setCreatedAt(new DateTime('now'));
+        $category->setUpdatedAt(new DateTime('now'));
         $categoryRepository = self::$container->get(CategoryRepository::class);
         $categoryRepository->save($category);
-        $this->assertCount(1, $categoryRepository->findByName('TestCategory12'));
+        $this->assertNotNull($categoryRepository->findByName('TestCategory12'));
         // delete
-        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $category->getId() . '/delete'/*, ['category'=>'$category']*/);
-
-        $this->assertCount(0, $categoryRepository->findByName('TestCategory12'));
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/delete');
+        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $category->getId() . '/delete/',
+            ['category' =>
+                $this->httpClient->submitForm('delete', [
+                    'category[name]' => 'TestCategory12',
+                    'category[createdAt]' => $category->getCreatedAt(),
+                    'category[updatedAt]' => $category->getUpdatedAt(),
+                ])
+            ]);
+        $this->assertNull($categoryRepository->findOneByName('TestCategory12'));
     }
 }

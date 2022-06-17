@@ -131,7 +131,7 @@ class WalletServiceTest extends KernelTestCase
         $page = 1;
         $dataSetSize = 0;
         $expectedResultSize = 0;
-
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'WalletService1@example.com');
         $counter = 0;
         while ($counter < $dataSetSize) {
             $wallet = new Wallet();
@@ -143,7 +143,7 @@ class WalletServiceTest extends KernelTestCase
         }
 
         // when
-        $result = $this->walletService->getPaginatedList($page);
+        $result = $this->walletService->getPaginatedList($page, $user);
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

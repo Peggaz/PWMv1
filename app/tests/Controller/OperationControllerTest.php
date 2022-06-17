@@ -32,11 +32,6 @@ class OperationControllerTest extends WebBaseTestCase
     public const TEST_ROUTE = '/operation';
 
     /**
-     * Test client.
-     */
-    private KernelBrowser $httpClient;
-
-    /**
      * Set up tests.
      */
     public function setUp(): void
@@ -50,8 +45,9 @@ class OperationControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 302;
-
+        $expectedStatusCode = 200;
+        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'operationindexuser@example.com');
+        $this->logIn($user);
         // when
         $this->httpClient->request('GET', '/operation');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();

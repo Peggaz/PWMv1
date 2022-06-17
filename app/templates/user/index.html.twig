@@ -25,7 +25,11 @@
             <tr>
                 <td>{{ u.id }}</td>
                 <td>{{ u.email }}</td>
-                <td>{{ u.roles|json_encode()  }}</td>
+                {% if 'ROLE_ADMIN' in  u.roles|json_encode() %}
+                    <td>{{ 'title.admin'|trans  }}</td>
+                {% else %}
+                    <td>{{ 'title.user'|trans }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ url('user_show', {id: u.id}) }}" title="{{ 'action.view'|trans }}">
                         {{ 'action.view'|trans }}

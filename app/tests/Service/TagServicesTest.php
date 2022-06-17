@@ -9,6 +9,9 @@ use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Repository\TransactionRepository;
 use App\Service\TagService;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -41,8 +44,8 @@ class TagServicesTest extends KernelTestCase
     /**
      * Test save.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
@@ -64,19 +67,20 @@ class TagServicesTest extends KernelTestCase
     /**
      * Test delete.
      * @covers \App\Service\TagService
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testDelete(): void
     {
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
-        $expectedTag->setCreatedAt(new \DateTime('now'));
-        $expectedTag->setUpdatedAt(new \DateTime('now'));
+        $expectedTag->setCreatedAt(new DateTime('now'));
+        $expectedTag->setUpdatedAt(new DateTime('now'));
         $this->tagRepository->save($expectedTag);
         $expectedId = $expectedTag->getId();
-
+        $result = $this->tagRepository->findOneById($expectedId);
+        $this->assertNotNull($result);
         // when
         $this->tagService->delete($expectedTag);
         $result = $this->tagRepository->findOneById($expectedId);
@@ -88,8 +92,6 @@ class TagServicesTest extends KernelTestCase
     /**
      * Test find by id.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function testFindOneById(): void
     {

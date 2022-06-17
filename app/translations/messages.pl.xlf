@@ -388,6 +388,20 @@
                 <target>lub</target>
             </trans-unit>
 
+            <trans-unit id="title.admin">
+                <source>title.admin</source>
+                <target>administrator</target>
+            </trans-unit>
+            <trans-unit id="title.user">
+                <source>title.user</source>
+                <target>użytkownik</target>
+            </trans-unit>
+
+            <trans-unit id="title.user_edit">
+                <source>title.user_edit</source>
+                <target>edycja użytkownika</target>
+            </trans-unit>
+
 
         </body>
     </file>

@@ -21,10 +21,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class WalletControllerTest extends WebBaseTestCase
 {
-    /**
-     * Test client.
-     */
-    private KernelBrowser $httpClient;
+
 
     /**
      * Set up tests.
@@ -40,8 +37,9 @@ class WalletControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 302;
-
+        $expectedStatusCode = 200;
+        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'walletindexuser@example.com');
+        $this->logIn($user);
         // when
         $this->httpClient->request('GET', '/wallet');
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
@@ -84,26 +82,6 @@ class WalletControllerTest extends WebBaseTestCase
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
-
-    /**
-     * Simulate user log in.
-     *
-     * @param User $user User entity
-     */
-    private function logIn(User $user): void
-    {
-        $session = self::$container->get('session');
-
-        $firewallName = 'main';
-        $firewallContext = 'main';
-
-        $token = new UsernamePasswordToken($user, null, $firewallName, $user->getRoles());
-        $session->set('_security_' . $firewallContext, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->httpClient->getCookieJar()->set($cookie);
-    }
 
     /**
      * Test index route for non authorized user FOR NEW Wallet.

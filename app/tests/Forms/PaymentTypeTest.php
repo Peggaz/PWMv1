@@ -4,13 +4,14 @@ namespace App\Tests\Forms;
 
 use App\Entity\Payment;
 use App\Form\Type\PaymentType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class PaymentTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
-        $time = new \DateTime('now');
+        $time = new DateTime('now');
         $formatData = [
             'name' => 'TestPayment',
             'createdAt' => $time,
@@ -28,6 +29,7 @@ class PaymentTypeTest extends TypeTestCase
         $form->submit($formatData);
         $this->assertTrue($form->isSynchronized());
 
-        $this->assertEquals($expected, $model);
+        $this->assertEquals($expected->getName(), $model->getName());
+        $this->assertEquals($expected->getId(), $model->getId());
     }
 }

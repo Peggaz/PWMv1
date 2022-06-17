@@ -5,8 +5,10 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Entity\Wallet;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -44,14 +46,6 @@ class WalletType extends AbstractType
             IntegerType::class,
             [
                 'label' => 'label.balance',
-                'required' => true,
-            ]
-        );
-        $builder->add(
-            'user',
-            User::class,
-            [
-                'label' => 'label.user',
                 'required' => true,
             ]
         );

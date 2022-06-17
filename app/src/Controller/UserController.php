@@ -22,6 +22,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
+    /**
+     * Password hashes.
+     */
+    private UserPasswordHasherInterface $passwordHarsher;
     /**
      * User service.
      */
@@ -42,8 +47,9 @@ class UserController extends AbstractController
     /**
      * Constructor.
      */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserServiceInterface $userService, UserPasswordHasherInterface $passwordHarsher)
     {
+        $this->passwordHarsher = $passwordHarsher;
         $this->userService = $userService;
     }
 
@@ -85,7 +91,9 @@ class UserController extends AbstractController
     {
         return $this->render(
             'user/show.html.twig',
-            ['user' => $user]
+            ['user' => $user
+
+            ]
         );
     }
 
@@ -143,13 +151,21 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user, [
-            'method' => 'PUT',
-            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
-        ]);
+        $user->setPassword("");
+        $form = $this->createForm(
+            UserType::class, $user, [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('user_edit',
+                    ['id' => $user->getId()]),
+            ]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($this->passwordHarsher->hashPassword(
+                $user,
+                $user->getPassword()
+            ));
             $this->userService->save($user);
 
             $this->addFlash(

@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Repository\PaymentRepository;
 use App\Repository\UserRepository;
 use App\Tests\WebBaseTestCase;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
@@ -30,10 +31,6 @@ class PaymentControllerTest extends WebBaseTestCase
      */
     public const TEST_ROUTE = '/payment';
 
-    /**
-     * Test client.
-     */
-    private KernelBrowser $httpClient;
 
     /**
      * Set up tests.
@@ -49,8 +46,9 @@ class PaymentControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 302;
-
+        $expectedStatusCode = 200;
+        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'paymentindexuser@example.com');
+        $this->logIn($user);
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
         $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
@@ -68,7 +66,7 @@ class PaymentControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 200;
-        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user@example.com');
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user435@example.com');
         $this->httpClient->loginUser($adminUser);
 
         // when
@@ -87,7 +85,7 @@ class PaymentControllerTest extends WebBaseTestCase
     public function testIndexRouteNonAuthorizedUser(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value], 'user1@example.com');
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'user1345@example.com');
         $this->httpClient->loginUser($user);
 
         // when
@@ -96,6 +94,7 @@ class PaymentControllerTest extends WebBaseTestCase
 
         // then
         $this->assertEquals(200, $resultStatusCode);
+
     }
 
 
@@ -107,7 +106,7 @@ class PaymentControllerTest extends WebBaseTestCase
     public function testShowPayment(): void
     {
         // given
-        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'user2@exmaple.com');
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'paymentuser2@exmaple.com');
         $this->httpClient->loginUser($adminUser);
 
         $expectedPayment = new Payment();
@@ -123,7 +122,8 @@ class PaymentControllerTest extends WebBaseTestCase
 
         // then
         $this->assertEquals(200, $result->getStatusCode());
-        $this->assertSelectorTextContains('html h1', '#' . $expectedPayment->getId());
+        $this->assertSelectorTextContains('td', $expectedPayment->getId());
+        $paymentRepository->delete($expectedPayment);
         // ... more assertions...
     }
 
@@ -153,8 +153,14 @@ class PaymentControllerTest extends WebBaseTestCase
         $result = $this->httpClient->getResponse();
         $this->assertEquals(302, $result->getStatusCode());
         $payment->setName('TestPaymentEdit');
-        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $payment->getId() . '/edit/', ['$payment' => $payment]);
-
+        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $payment->getId() . '/edit/',
+            ['payment' =>
+                $this->httpClient->submitForm('save', [
+                    'payment[name]' => 'TestCategoryEdit',
+                    'payment[createdAt]' => new DateTime('now'),
+                    'payment[updatedAt]' => new DateTime('now'),
+                ])
+            ]);
         $this->assertEquals('TestPaymentEdit', $paymentRepository->findOneById($payment->getId())->getName());
 
         $expected = 'TestChanged';
@@ -178,7 +184,7 @@ class PaymentControllerTest extends WebBaseTestCase
         $paymentRepository->save($payment);
         $this->assertCount(1, $paymentRepository->findByName('TestPayment12'));
         // delete
-        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $payment->getId() . '/delete'/*, ['payment'=>'$payment']*/);
+        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $payment->getId() . '/delete', ['payment'=>$payment]);
 
         $this->assertCount(0, $paymentRepository->findByName('TestPayment12'));
     }

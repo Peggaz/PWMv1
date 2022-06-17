@@ -10,10 +10,12 @@
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ user.id }}</dd>
-            <dt>{{ 'label.password'}}</dt>
-            <dd>{{ user.password }}</dd>
             <dt>{{ 'label.roles'|trans }}</dt>
-            <dd>{{ user.roles|json_encode() }}</dd>
+            {% if 'ROLE_ADMIN' in  user.roles|json_encode() %}
+                <td>{{ 'title.admin'|trans  }}</td>
+            {% else %}
+                <td>{{ 'title.user'|trans }}</td>
+            {% endif %}
             <dt>{{ 'label.email'|trans }}</dt>
             <dd>{{ user.email }}</dd>
 

@@ -244,11 +244,14 @@ class TransactionServiceTest extends KernelTestCase
         $expectedTransaction->setOperation($this->createOperation());
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->addTag($this->createTag());
+        $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value],'transactiondeleteuser2@example.com'));
 
 
         $expectedId = $expectedTransaction->getId();
-        //self::assertNotNull($this->transactionRepository->findOneById($expectedId));
+        $this->transactionService->save($expectedTransaction);
+        self::assertNotNull($this->transactionRepository->findOneById($expectedId));
         // when
+
         $this->transactionService->delete($expectedTransaction);
         $result = $this->transactionRepository->findOneById($expectedId);
 
