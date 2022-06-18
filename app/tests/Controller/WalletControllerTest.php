@@ -6,15 +6,9 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Enum\UserRole;
-use App\Entity\User;
 use App\Entity\Wallet;
-use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Tests\WebBaseTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Class WalletControllerTest.
@@ -37,7 +31,7 @@ class WalletControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 200;
+        $expectedStatusCode = 301;
         $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'walletindexuser@example.com');
         $this->logIn($user);
         // when
@@ -53,7 +47,7 @@ class WalletControllerTest extends WebBaseTestCase
      */
     public function testIndexRouteAdminUser(): void
     {
-        $expectedStatusCode = 302;
+        $expectedStatusCode = 301;
         $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user432@example.com');
         $this->httpClient->loginUser($adminUser);
 

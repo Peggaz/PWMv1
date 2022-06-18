@@ -6,10 +6,12 @@
 namespace App\Service;
 
 use App\Entity\Operation;
+use App\Repository\CategoryRepository;
 use App\Repository\OperationRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Class OperationService.
@@ -42,16 +44,25 @@ class OperationService implements OperationServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->operationRepository->queryAll(),
-            $page,
-            OperationRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
+        if ($name == Nullable::class) {
+            return $this->paginator->paginate(
+                $this->operationRepository->queryAll(),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        } else {
+            return $this->paginator->paginate(
+                $this->operationRepository->queryLikeName($name),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
 
     /**

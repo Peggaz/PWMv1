@@ -6,10 +6,12 @@
 namespace App\Service;
 
 use App\Entity\Payment;
+use App\Repository\CategoryRepository;
 use App\Repository\PaymentRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Class PaymentService.
@@ -42,16 +44,25 @@ class PaymentService implements PaymentServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->paymentRepository->queryAll(),
-            $page,
-            PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
+        if ($name == Nullable::class) {
+            return $this->paginator->paginate(
+                $this->paymentRepository->queryAll(),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        } else {
+            return $this->paginator->paginate(
+                $this->paymentRepository->queryLikeName($name),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
 
     /**

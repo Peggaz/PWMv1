@@ -6,22 +6,22 @@
 
 {% block body %}
     <h1>{{ 'title.payment_list'|trans }}</h1>
-    {% if pagination is defined and pagination.items|length %}
+    {% if payment_pagination is defined and payment_pagination.items|length %}
 
         <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(payment_pagination) }}
         </div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'payment.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updatedAt'|trans, 'payment.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'payment.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(payment_pagination, 'label.id'|trans, 'payment.name') }}</th>
+                <th>{{ knp_pagination_sortable(payment_pagination, 'label.updatedAt'|trans, 'payment.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(payment_pagination, 'label.createdAt'|trans, 'payment.createdAt') }}</th>
                 <th>{{ 'label.action'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for item in pagination.items %}
+            {% for item in payment_pagination.items %}
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.updatedAt |format_date('long') }}</td>
@@ -37,7 +37,7 @@
         </table>
 
         <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(payment_pagination) }}
         </div>
 
     {% else %}

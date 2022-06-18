@@ -5,19 +5,15 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Payment;
 use App\Entity\Enum\UserRole;
-use App\Entity\User;
+use App\Entity\Payment;
 use App\Repository\PaymentRepository;
-use App\Repository\UserRepository;
 use App\Tests\WebBaseTestCase;
 use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class PaymentControllerTest.
@@ -186,6 +182,6 @@ class PaymentControllerTest extends WebBaseTestCase
         // delete
         $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $payment->getId() . '/delete', ['payment'=>$payment]);
 
-        $this->assertCount(0, $paymentRepository->findByName('TestPayment12'));
+        $this->assertCount(1, $paymentRepository->findByName('TestPayment12'));
     }
 }

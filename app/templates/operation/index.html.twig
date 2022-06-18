@@ -6,22 +6,22 @@
 
 {% block body %}
     <h1>{{ 'title.operation_list'|trans }}</h1>
-    {% if pagination is defined and pagination.items|length %}
+    {% if operation_pagination is defined and operation_pagination.items|length %}
 
         <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(operation_pagination) }}
         </div>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'operation.name') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updatedAt'|trans, 'operation.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.createdAt'|trans, 'operation.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(operation_pagination, 'label.id'|trans, 'operation.name') }}</th>
+                <th>{{ knp_pagination_sortable(operation_pagination, 'label.updatedAt'|trans, 'operation.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(operation_pagination, 'label.createdAt'|trans, 'operation.createdAt') }}</th>
                 <th>{{ 'label.action'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for item in pagination.items %}
+            {% for item in operation_pagination.items %}
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.updatedAt |format_date('long') }}</td>
@@ -37,7 +37,7 @@
         </table>
 
         <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
+            {{ knp_pagination_render(operation_pagination) }}
         </div>
 
     {% else %}

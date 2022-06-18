@@ -11,20 +11,14 @@ use App\Entity\Operation;
 use App\Entity\Payment;
 use App\Entity\Tag;
 use App\Entity\Transaction;
-use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\CategoryRepository;
 use App\Repository\OperationRepository;
 use App\Repository\PaymentRepository;
 use App\Repository\TagRepository;
 use App\Repository\TransactionRepository;
-use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Tests\WebBaseTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Class CategoryControllerTest.
@@ -46,7 +40,7 @@ class TransactionControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 200;
+        $expectedStatusCode = 301;
         $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'transactionexuser@example.com');
         $this->logIn($user);
         // when
@@ -63,7 +57,7 @@ class TransactionControllerTest extends WebBaseTestCase
     public function testIndexRouteAdminUser(): void
     {
         // given
-        $expectedStatusCode = 200;
+        $expectedStatusCode = 301;
         $admin = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transactioAdmin@example.com');
         $this->httpClient->loginUser($admin);
         // when
@@ -260,7 +254,7 @@ class TransactionControllerTest extends WebBaseTestCase
 
     // delete transaction
 
-    public function testDeleteTransaction(): void
+    public function testDeleteTransaction(): voiddele
     {
         $transaction = $this->createTransaction('user_transaction2@example.com');
         $transaction->setName('ChangedTransactionName');
@@ -268,11 +262,8 @@ class TransactionControllerTest extends WebBaseTestCase
         $transactionRepository = self::$container->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
 
-        $expected = new Transaction();
 
-
-
-        $this->assertEquals($expected, $transactionRepository->findOneByName('ChangedTransactionName')->getName());
+        $this->assertNull($transactionRepository->findOneByName('ChangedTransactionName')->getName());
         $transactionRepository->delete($transaction);
     }
 

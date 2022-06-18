@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+
+{% block body %}
+
+    {% include 'category/index.html.twig' %}
+    {% include'payment/index.html.twig' %}
+    {% include'operation/index.html.twig' %}
+{% endblock %}

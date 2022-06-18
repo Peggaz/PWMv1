@@ -10,6 +10,7 @@ use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Class CategoryService.
@@ -42,33 +43,25 @@ class CategoryService implements CategoryServiceInterface
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->categoryRepository->queryAll(),
-            $page,
-            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
-    }
-
-    /**
-     * Get paginated list.
-     *
-     * @param int $page Page number
-     * @param string $name Page number
-     *
-     * @return PaginationInterface<string, mixed> Paginated list
-     */
-    public function getPaginatedListByName(int $page, string $name): PaginationInterface
-    {
-        return $this->paginator->paginate(
-            $this->categoryRepository->findByName($name),
-            $page,
-            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
-        );
+        if ($name == Nullable::class) {
+            return $this->paginator->paginate(
+                $this->categoryRepository->queryAll(),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        } else {
+            return $this->paginator->paginate(
+                $this->categoryRepository->queryLikeName($name),
+                $page,
+                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
 
     /**

@@ -61,7 +61,7 @@ class OperationController extends AbstractController
             $request->query->getInt('page', 1)
         );
 
-        return $this->render('operation/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('operation/index.html.twig', ['operation_pagination' => $pagination]);
     }
 #endregion
 #region detail

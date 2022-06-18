@@ -61,7 +61,7 @@ class PaymentController extends AbstractController
             $request->query->getInt('page', 1)
         );
 
-        return $this->render('payment/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('payment/index.html.twig', ['payment_pagination' => $pagination]);
     }
 #endregion
 #region detail

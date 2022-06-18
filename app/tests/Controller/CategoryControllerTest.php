@@ -151,9 +151,7 @@ class CategoryControllerTest extends WebBaseTestCase
         $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $category->getId() . '/edit/',
             ['category' =>
                 $this->httpClient->submitForm('save', [
-                    'category[name]' => 'TestCategoryEdit',
-                    'category[createdAt]' => new DateTime('now'),
-                    'category[updatedAt]' => new DateTime('now')
+                    'name' => 'TestCategoryEdit'
                  ])
             ]);
         $categoryRepository->save($category);
@@ -168,6 +166,15 @@ class CategoryControllerTest extends WebBaseTestCase
 
     }
 
+
+    public function testNewRoutAdminUser(): void
+    {
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN, UserRole::ROLE_USER], 'categoryCreate1@example.com');
+        $this->httpClient->loginUser($adminUser);
+        $this->httpClient->followRedirect(true);
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/');
+        $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
+    }
 
     public function testDeleteCategory(): void
     {
