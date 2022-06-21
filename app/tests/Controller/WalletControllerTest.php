@@ -31,7 +31,7 @@ class WalletControllerTest extends WebBaseTestCase
     public function testIndexRouteAnonymousUser(): void
     {
         // given
-        $expectedStatusCode = 301;
+        $expectedStatusCode = 200;
         $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'walletindexuser@example.com');
         $this->logIn($user);
         // when
@@ -104,7 +104,7 @@ class WalletControllerTest extends WebBaseTestCase
         $wallet->setUpdatedAt(new \DateTime('now'));
         $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user1235@example.com'));
         $wallet->setBalance(2000);
-        $walletRepository = self::$container->get(WalletRepository::class);
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
         $walletRepository->save($wallet);
 
         $expected = 'TestChangedWallet123.';

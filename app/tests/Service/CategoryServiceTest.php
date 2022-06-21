@@ -10,7 +10,6 @@ use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -74,7 +73,7 @@ class CategoryServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws OptimisticLockException|ORMException
+     * @throws ORMException
      */
     public function testDelete(): void
     {
@@ -148,6 +147,34 @@ class CategoryServiceTest extends KernelTestCase
 
         // when
         $result = $this->categoryService->getPaginatedList($page);
+
+        // then
+        $this->assertEquals($expectedResultSize, $result->count());
+    }
+
+    /**
+     * Test pagination empty list.
+     */
+    public function testGetPaginatedSearchList(): void
+    {
+        // given
+        $page = 1;
+        $dataSetSize = 15;
+        $expectedResultSize = 10;
+
+        $counter = 0;
+        while ($counter < $dataSetSize) {
+            $category = new Category();
+            $category->setName('Test Category name#' . $counter);
+            $category->setCreatedAt(new \DateTime('now'));
+            $category->setUpdatedAt(new \DateTime('now'));
+            $this->categoryService->save($category);
+
+            ++$counter;
+        }
+
+        // when
+        $result = $this->categoryService->getPaginatedList($page, 'name');
 
         // then
         $this->assertEquals($expectedResultSize, $result->count());

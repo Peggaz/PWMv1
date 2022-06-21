@@ -73,7 +73,7 @@ class TransactionControllerTest extends WebBaseTestCase
         // given
         $expectedStatusCode = 302;
         $expectedTransaction = $this->createTransaction('user_transaction3@example.com');
-        $transactionRepository = self::$container->get(TransactionRepository::class);
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $id = $expectedTransaction->getId();
         // when
         $this->httpClient->request('GET', '/transaction/' . $id);
@@ -93,7 +93,7 @@ class TransactionControllerTest extends WebBaseTestCase
         $category->setName('TName');
         $category->setUpdatedAt(new \DateTime('now'));
         $category->setCreatedAt(new \DateTime('now'));
-        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository = self::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
 
         return $category;
@@ -107,7 +107,7 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         $payment = new Payment();
         $payment->setName('TPayment');
-        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
 
         return $payment;
@@ -121,7 +121,7 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         $operation = new Operation();
         $operation->setName('TOperation');
-        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository = self::getContainer()->get(OperationRepository::class);
         $operationRepository->save($operation);
 
         return $operation;
@@ -135,7 +135,7 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         $tag = new Tag();
         $tag->setName('TTag');
-        $tagRepository = self::$container->get(TagRepository::class);
+        $tagRepository = self::getContainer()->get(TagRepository::class);
         $tagRepository->save($tag);
 
         return $tag;
@@ -151,7 +151,7 @@ class TransactionControllerTest extends WebBaseTestCase
         $wallet->setName('TWallet');
         $wallet->setBalance('1000');
         $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], $email));
-        $walletRepository = self::$container->get(WalletRepository::class);
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
         $walletRepository->save($wallet);
 
         return $wallet;
@@ -191,7 +191,7 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction->addTag($this->createTag());
         $transaction->setAuthor($this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transaction'.$email));
 
-        $transactionRepository = self::$container->get(TransactionRepository::class);
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
 
         return $transaction;
@@ -242,7 +242,7 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction->setUpdatedAt(new \DateTime('now'));
         $transaction->setUpdatedAt(new \DateTime('now'));
 
-        $transactionRepository = self::$container->get(TransactionRepository::class);
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
 
         $expected = 'ChangedTransactionName';
@@ -254,16 +254,16 @@ class TransactionControllerTest extends WebBaseTestCase
 
     // delete transaction
 
-    public function testDeleteTransaction(): voiddele
+    public function testDeleteTransaction()
     {
         $transaction = $this->createTransaction('user_transaction2@example.com');
         $transaction->setName('ChangedTransactionName');
 
-        $transactionRepository = self::$container->get(TransactionRepository::class);
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
 
 
-        $this->assertNull($transactionRepository->findOneByName('ChangedTransactionName')->getName());
+        $this->assertNotNull($transactionRepository->findOneByName('ChangedTransactionName'));
         $transactionRepository->delete($transaction);
     }
 

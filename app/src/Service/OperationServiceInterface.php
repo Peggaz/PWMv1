@@ -7,7 +7,6 @@ namespace App\Service;
 
 use App\Entity\Operation;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Interface OperationServiceInterface.
@@ -22,7 +21,7 @@ interface OperationServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface;
+    public function getPaginatedList(int $page, ?string $name): PaginationInterface;
 
     /**
      * Save entity.

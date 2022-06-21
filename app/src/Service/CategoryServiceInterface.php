@@ -7,7 +7,6 @@ namespace App\Service;
 
 use App\Entity\Category;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Interface CategoryServiceInterface.
@@ -22,7 +21,7 @@ interface CategoryServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface;
+    public function getPaginatedList(int $page, ?string $name): PaginationInterface;
 
     /**
      * Save entity.
@@ -30,5 +29,14 @@ interface CategoryServiceInterface
      * @param Category $category Category entity
      */
     public function save(Category $category): void;
+
+    /**
+     * Can Category be deleted?
+     *
+     * @param Category $category Category entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Category $category): bool;
 
 }

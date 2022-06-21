@@ -11,7 +11,6 @@ use App\Repository\PaymentRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Class PaymentService.
@@ -48,9 +47,9 @@ class PaymentService implements PaymentServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface
+    public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if ($name == Nullable::class) {
+        if ($name == null) {
             return $this->paginator->paginate(
                 $this->paymentRepository->queryAll(),
                 $page,

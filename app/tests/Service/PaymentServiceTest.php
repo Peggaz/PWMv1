@@ -9,6 +9,8 @@ use App\Entity\Payment;
 use App\Repository\PaymentRepository;
 use App\Repository\TransactionRepository;
 use App\Service\PaymentService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -19,29 +21,23 @@ class PaymentServiceTest extends KernelTestCase
     /**
      * Payment service.
      *
-     * @var PaymentService|object|null
+     * @var PaymentService|null
      */
     private ?PaymentService $paymentService;
 
     /**
      * Payment repository.
      *
-     * @var PaymentRepository|object|null
+     * @var PaymentRepository|null
      */
     private ?PaymentRepository $paymentRepository;
 
-    /**
-     * Transaction repository.
-     *
-     * @var TransactionRepository|object|null
-     */
-    private ?TransactionRepository $transactionRepository;
 
     /**
      * Test save.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
@@ -62,8 +58,8 @@ class PaymentServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testDelete(): void
     {
@@ -91,7 +87,7 @@ class PaymentServiceTest extends KernelTestCase
     {
         // given
         $page = 1;
-        $expectedResultSize = 0;
+        $expectedResultSize = $this->paymentService->getPaginatedList($page)->count();
         // when
         $result = $this->paymentService->getPaginatedList($page);
 
@@ -105,7 +101,7 @@ class PaymentServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $container = self::$container;
+        $container = self::getContainer();
         $this->paymentRepository = $container->get(PaymentRepository::class);
         $this->paymentService = $container->get(PaymentService::class);
         $this->transactionRepository = $container->get(TransactionRepository::class);

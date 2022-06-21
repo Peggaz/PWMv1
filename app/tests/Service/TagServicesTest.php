@@ -1,122 +1,150 @@
 <?php
 /**
- * TagService tests.
+ * Tag service tests.
  */
 
 namespace App\Tests\Service;
 
 use App\Entity\Tag;
-use App\Repository\TagRepository;
-use App\Repository\TransactionRepository;
 use App\Service\TagService;
-use DateTime;
-use Doctrine\ORM\OptimisticLockException;
+use App\Service\TagServiceInterface;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class TagServiceTest.
  */
-class TagServicesTest extends KernelTestCase
+class TagServiceTest extends KernelTestCase
 {
     /**
-     * Tag service.
-     *
-     * @var TagService|object|null
-     */
-    private ?TagService $tagService;
-
-    /**
      * Tag repository.
-     *
-     * @var TagRepository|object|null
      */
-    private ?TagRepository $tagRepository;
+    private ?EntityManagerInterface $entityManager;
 
     /**
-     * Transaction repository.
-     *
-     * @var TransactionRepository|object|null
+     * Tag service.
      */
-    private ?TransactionRepository $transactionRepository;
+    private ?TagServiceInterface $tagService;
+
+    /**
+     * Set up test.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function setUp(): void
+    {
+        $container = static::getContainer();
+        $this->entityManager = $container->get('doctrine.orm.entity_manager');
+        $this->tagService = $container->get(TagService::class);
+    }
 
     /**
      * Test save.
      *
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
-        $expectedTag->setCreatedAt(new \DateTime('now'));
-        $expectedTag->setUpdatedAt(new \DateTime('now'));
+
         // when
         $this->tagService->save($expectedTag);
-        $resultTag = $this->tagRepository->findOneById(
-            $expectedTag->getId()
-        );
+
+        // then
+        $expectedTagId = $expectedTag->getId();
+        $resultTag = $this->entityManager->createQueryBuilder()
+            ->select('tag')
+            ->from(Tag::class, 'tag')
+            ->where('tag.id = :id')
+            ->setParameter(':id', $expectedTagId, Types::INTEGER)
+            ->getQuery()
+            ->getSingleResult();
+
+        $this->assertEquals($expectedTag, $resultTag);
+    }
+
+    /**
+     * Test delete.
+     *
+     * @throws ORMException
+     */
+    public function testDelete(): void
+    {
+        // given
+        $tagToDelete = new Tag();
+        $tagToDelete->setName('Test Tag');
+        $tagToDelete->setCreatedAt(new \DateTime('now'));
+        $tagToDelete->setUpdatedAt(new \DateTime('now'));
+        $this->entityManager->persist($tagToDelete);
+        $this->entityManager->flush();
+        $deletedTagId = $tagToDelete->getId();
+
+        // when
+        $this->tagService->delete($tagToDelete);
+
+        // then
+        $resultTag = $this->entityManager->createQueryBuilder()
+            ->select('tag')
+            ->from(Tag::class, 'tag')
+            ->where('tag.id = :id')
+            ->setParameter(':id', $deletedTagId, Types::INTEGER)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $this->assertNull($resultTag);
+    }
+
+    /**
+     * Test find by id.
+     *
+     * @throws ORMException
+     */
+    public function testFindById(): void
+    {
+        // given
+        $expectedTag = new Tag();
+        $expectedTag->setName('Test Tag');
+        $expectedTag->setCreatedAt(new \DateTime('now'));
+        $expectedTag->setUpdatedAt(new \DateTime('now'));
+        $this->entityManager->persist($expectedTag);
+        $this->entityManager->flush();
+        $expectedTagId = $expectedTag->getId();
+
+        // when
+        $resultTag = $this->tagService->findOneById($expectedTagId);
 
         // then
         $this->assertEquals($expectedTag, $resultTag);
     }
 
     /**
-     * Test delete.
-     * @covers \App\Service\TagService
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function testDelete(): void
-    {
-        // given
-        $expectedTag = new Tag();
-        $expectedTag->setName('Test Tag');
-        $expectedTag->setCreatedAt(new DateTime('now'));
-        $expectedTag->setUpdatedAt(new DateTime('now'));
-        $this->tagRepository->save($expectedTag);
-        $expectedId = $expectedTag->getId();
-        $result = $this->tagRepository->findOneById($expectedId);
-        $this->assertNotNull($result);
-        // when
-        $this->tagService->delete($expectedTag);
-        $result = $this->tagRepository->findOneById($expectedId);
-
-        // then
-        $this->assertNull($result);
-    }
-
-    /**
-     * Test find by id.
-     *
-     */
-    public function testFindOneById(): void
-    {
-        // given
-        $expectedTag = new Tag();
-        $expectedTag->setName('Test Tag');
-        $expectedTag->setCreatedAt(new \DateTime('now'));
-        $expectedTag->setUpdatedAt(new \DateTime('now'));
-        $this->tagRepository->save($expectedTag);
-
-        // when
-        $result = $this->tagService->findOneById($expectedTag->getId());
-
-        // then
-        $this->assertEquals($expectedTag->getId(), $result->getId());
-    }
-
-    /**
      * Test pagination empty list.
      */
-    public function testCreatePaginatedListEmptyList(): void
+    public function testGetPaginatedList(): void
     {
         // given
         $page = 1;
-        $expectedResultSize = 0;
+        $dataSetSize = 15;
+        $expectedResultSize = 10;
+
+        $counter = 0;
+        while ($counter < $dataSetSize) {
+            $tag = new Tag();
+            $tag->setName('Test Tag #' . $counter);
+            $tag->setCreatedAt(new \DateTime('now'));
+            $tag->setUpdatedAt(new \DateTime('now'));
+            $this->tagService->save($tag);
+
+            ++$counter;
+        }
+
         // when
         $result = $this->tagService->getPaginatedList($page);
 
@@ -124,15 +152,5 @@ class TagServicesTest extends KernelTestCase
         $this->assertEquals($expectedResultSize, $result->count());
     }
 
-    /**
-     * Set up test.
-     */
-    protected function setUp(): void
-    {
-        self::bootKernel();
-        $container = self::$container;
-        $this->tagRepository = $container->get(TagRepository::class);
-        $this->tagService = $container->get(TagService::class);
-        $this->transactionRepository = $container->get(TransactionRepository::class);
-    }
+    // other tests for paginated list
 }

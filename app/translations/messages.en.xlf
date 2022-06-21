@@ -389,6 +389,15 @@
                 <target>user edit</target>
             </trans-unit>
 
+            <trans-unit id="title.tag_edit">
+                <source>title.tag_edit</source>
+                <target>tag edit</target>
+            </trans-unit>
+            <trans-unit id="title.user_delete">
+                <source>title.user_delete</source>
+                <target>user delete</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

@@ -140,7 +140,7 @@ class PaymentControllerTest extends WebBaseTestCase
         $payment->setName('TestPayment');
         $payment->setCreatedAt(new \DateTime('now'));
         $payment->setUpdatedAt(new \DateTime('now'));
-        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
 
 
@@ -176,7 +176,7 @@ class PaymentControllerTest extends WebBaseTestCase
         $payment->setName('TestPayment12');
         $payment->setCreatedAt(new \DateTime('now'));
         $payment->setUpdatedAt(new \DateTime('now'));
-        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
         $this->assertCount(1, $paymentRepository->findByName('TestPayment12'));
         // delete

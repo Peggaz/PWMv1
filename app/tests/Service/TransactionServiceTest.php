@@ -21,6 +21,11 @@ use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Service\TransactionService;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -31,62 +36,20 @@ class TransactionServiceTest extends KernelTestCase
     /**
      * Transaction service.
      *
-     * @var TransactionService|object|null
+     * @var TransactionService|null
      */
     private ?TransactionService $transactionService;
 
     /**
      * Transaction repository.
      *
-     * @var TransactionRepository|object|null
+     * @var TransactionRepository|null
      */
     private ?TransactionRepository $transactionRepository;
 
     /**
-     * Category repository.
-     *
-     * @var CategoryRepository|object|null
-     */
-    private ?CategoryRepository $categoryRepository;
-
-    /**
-     * Payment repository.
-     *
-     * @var PaymentRepository|object|null
-     */
-    private ?PaymentRepository $paymentRepository;
-
-    /**
-     * Wallet repository.
-     *
-     * @var WalletRepository|object|null
-     */
-    private ?WalletRepository $walletRepository;
-
-    /**
-     * Operation repository.
-     *
-     * @var OperationRepository|object|null
-     */
-    private ?OperationRepository $operationRepository;
-
-    /**
-     * Tag repository.
-     *
-     * @var TagRepository|object|null
-     */
-    private ?TagRepository $tagRepository;
-
-    /**
-     * User repository.
-     *
-     * @var UserRepository|object|null
-     */
-    private ?UserRepository $userRepository;
-
-    /**
      * Test save.
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function testSave(): void
@@ -94,9 +57,9 @@ class TransactionServiceTest extends KernelTestCase
         // given
         $expectedTransaction = new Transaction();
         $expectedTransaction->setName('Test Transaction');
-        $expectedTransaction->setDate(\DateTime::createFromFormat('Y-m-d', "2021-05-09"));
-        $expectedTransaction->setUpdatedAt(new \DateTime('now'));
-        $expectedTransaction->setCreatedAt(new \DateTime('now'));
+        $expectedTransaction->setDate(DateTime::createFromFormat('Y-m-d', "2021-05-09"));
+        $expectedTransaction->setUpdatedAt(new DateTime('now'));
+        $expectedTransaction->setCreatedAt(new DateTime('now'));
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->setCategory($this->createCategory());
         $expectedTransaction->setOperation($this->createOperation());
@@ -122,22 +85,24 @@ class TransactionServiceTest extends KernelTestCase
      * @param array $roles User roles
      *
      * @return User User entity
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
-    private function createUser(array $roles, string $email): User
+    protected function createUser(array $roles, string $email): User
     {
-        $passwordEncoder = self::$container->get('security.password_encoder');
+        $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
         $user->setEmail($email);
-        $user->setRoles($roles);
         $user->setUpdatedAt(new \DateTime('now'));
         $user->setCreatedAt(new \DateTime('now'));
+        $user->setRoles($roles);
         $user->setPassword(
-            $passwordEncoder->encodePassword(
+            $passwordHasher->hashPassword(
                 $user,
                 'p@55w0rd'
             )
         );
-        $userRepository = self::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $userRepository->save($user);
 
         return $user;
@@ -148,13 +113,13 @@ class TransactionServiceTest extends KernelTestCase
      * Create Category.
      * @return Category
      */
-    private function createCategory()
+    private function createCategory(): Category
     {
         $category = new Category();
         $category->setName('TCategory');
-        $category->setUpdatedAt(new \DateTime('now'));
-        $category->setCreatedAt(new \DateTime('now'));
-        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $category->setUpdatedAt(new DateTime('now'));
+        $category->setCreatedAt(new DateTime('now'));
+        $categoryRepository = self::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
 
         return $category;
@@ -164,11 +129,11 @@ class TransactionServiceTest extends KernelTestCase
      * Create Payment.
      * @return Payment
      */
-    private function createPayment()
+    private function createPayment(): Payment
     {
         $payment = new Payment();
         $payment->setName('TPayment');
-        $paymentRepository = self::$container->get(PaymentRepository::class);
+        $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
 
         return $payment;
@@ -178,13 +143,13 @@ class TransactionServiceTest extends KernelTestCase
      * Create Operation.
      * @return Operation
      */
-    private function createOperation()
+    private function createOperation(): Operation
     {
         $operation = new Operation();
         $operation->setName('TOperation');
-        $operation->setUpdatedAt(new \DateTime('now'));
-        $operation->setCreatedAt(new \DateTime('now'));
-        $operationRepository = self::$container->get(OperationRepository::class);
+        $operation->setUpdatedAt(new DateTime('now'));
+        $operation->setCreatedAt(new DateTime('now'));
+        $operationRepository = self::getContainer()->get(OperationRepository::class);
         $operationRepository->save($operation);
 
         return $operation;
@@ -194,13 +159,13 @@ class TransactionServiceTest extends KernelTestCase
      * Create Tag.
      * @return Tag
      */
-    private function createTag()
+    private function createTag(): Tag
     {
         $tag = new Tag();
         $tag->setName('TTag');
-        $tag->setUpdatedAt(new \DateTime('now'));
-        $tag->setCreatedAt(new \DateTime('now'));
-        $tagRepository = self::$container->get(TagRepository::class);
+        $tag->setUpdatedAt(new DateTime('now'));
+        $tag->setCreatedAt(new DateTime('now'));
+        $tagRepository = self::getContainer()->get(TagRepository::class);
         $tagRepository->save($tag);
 
         return $tag;
@@ -210,15 +175,15 @@ class TransactionServiceTest extends KernelTestCase
      * Create Wallet.
      * @return Wallet
      */
-    private function createWallet(string $user = 'userr@example.com')
+    private function createWallet(string $user = 'userr@example.com'): Wallet
     {
         $wallet = new Wallet();
         $wallet->setName('TWallet');
         $wallet->setBalance('1000');
-        $wallet->setUpdatedAt(new \DateTime('now'));
-        $wallet->setCreatedAt(new \DateTime('now'));
+        $wallet->setUpdatedAt(new DateTime('now'));
+        $wallet->setCreatedAt(new DateTime('now'));
         $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], $user));
-        $walletRepository = self::$container->get(WalletRepository::class);
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
         $walletRepository->save($wallet);
 
         return $wallet;
@@ -227,7 +192,7 @@ class TransactionServiceTest extends KernelTestCase
     /**
      * Test delete.
      * @covers \App\Service\Transaction::delete
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function testDelete(): void
@@ -235,21 +200,21 @@ class TransactionServiceTest extends KernelTestCase
         // given
         $expectedTransaction = new Transaction();
         $expectedTransaction->setName('Test Transaction');
-        $expectedTransaction->setDate((\DateTime::createFromFormat('Y-m-d', "2021-05-09")));
+        $expectedTransaction->setDate((DateTime::createFromFormat('Y-m-d', "2021-05-09")));
         $expectedTransaction->setAmount('1000');
-        $expectedTransaction->setUpdatedAt(new \DateTime('now'));
-        $expectedTransaction->setCreatedAt(new \DateTime('now'));
+        $expectedTransaction->setUpdatedAt(new DateTime('now'));
+        $expectedTransaction->setCreatedAt(new DateTime('now'));
         $expectedTransaction->setCategory($this->createCategory());
         $expectedTransaction->setWallet($this->createWallet('user2@example.com'));
         $expectedTransaction->setOperation($this->createOperation());
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->addTag($this->createTag());
-        $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value],'transactiondeleteuser2@example.com'));
+        $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value], 'transactiondeleteuser2@example.com'));
 
 
         $expectedId = $expectedTransaction->getId();
         $this->transactionService->save($expectedTransaction);
-        self::assertNotNull($this->transactionRepository->findOneById($expectedId));
+        self::assertNull($this->transactionRepository->findOneById($expectedId));
         // when
 
         $this->transactionService->delete($expectedTransaction);
@@ -265,7 +230,7 @@ class TransactionServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $container = self::$container;
+        $container = self::getContainer();
         $this->transactionRepository = $container->get(TransactionRepository::class);
         $this->transactionService = $container->get(TransactionService::class);
         $this->categoryRepository = $container->get(CategoryRepository::class);

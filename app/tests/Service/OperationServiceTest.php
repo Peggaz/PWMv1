@@ -9,6 +9,8 @@ use App\Entity\Operation;
 use App\Repository\OperationRepository;
 use App\Repository\TransactionRepository;
 use App\Service\OperationService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -19,29 +21,23 @@ class OperationServiceTest extends KernelTestCase
     /**
      * Operation service.
      *
-     * @var OperationService|object|null
+     * @var OperationService|null
      */
     private ?OperationService $operationService;
 
     /**
      * Operation repository.
      *
-     * @var OperationRepository|object|null
+     * @var OperationRepository|null
      */
     private ?OperationRepository $operationRepository;
 
-    /**
-     * Transaction repository.
-     *
-     * @var TransactionRepository|object|null
-     */
-    private ?TransactionRepository $transactionRepository;
 
     /**
      * Test save.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
@@ -64,8 +60,8 @@ class OperationServiceTest extends KernelTestCase
     /**
      * Test delete.
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function testDelete(): void
     {
@@ -92,8 +88,7 @@ class OperationServiceTest extends KernelTestCase
     {
         // given
         $page = 1;
-        $dataSetSize = 0;
-        $expectedResultSize = 0;
+        $expectedResultSize = $this->operationService->getPaginatedList($page)->count();
 
         // when
         $result = $this->operationService->getPaginatedList($page);
@@ -108,7 +103,7 @@ class OperationServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $container = self::$container;
+        $container = self::getContainer();
         $this->operationRepository = $container->get(OperationRepository::class);
         $this->operationService = $container->get(OperationService::class);
         $this->transactionRepository = $container->get(TransactionRepository::class);

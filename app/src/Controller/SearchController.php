@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SearchController extends AbstractController
 {
@@ -17,15 +16,16 @@ class SearchController extends AbstractController
      * Category service.
      */
     private CategoryServiceInterface $categoryService;
-    private PaymentServiceInterface $paymentService;
-    private OperationServiceInterface $operationService;
 
     /**
-     * Translator.
-     *
-     * @var TranslatorInterface
+     * Payment service
      */
-    private TranslatorInterface $translator;
+    private PaymentServiceInterface $paymentService;
+
+    /**
+     * Operation Serviece
+     */
+    private OperationServiceInterface $operationService;
 
     /**
      * Constructor.
@@ -33,14 +33,12 @@ class SearchController extends AbstractController
      * @param CategoryServiceInterface $taskService Task service
      * @param PaymentServiceInterface $taskService2 Task service
      * @param OperationServiceInterface $taskService3 Task service
-     * @param TranslatorInterface $translator Translator
      */
-    public function __construct(CategoryServiceInterface $taskService, PaymentServiceInterface $taskService2, OperationServiceInterface $taskService3, TranslatorInterface $translator)
+    public function __construct(CategoryServiceInterface $taskService, PaymentServiceInterface $taskService2, OperationServiceInterface $taskService3)
     {
         $this->categoryService = $taskService;
         $this->paymentService = $taskService2;
         $this->operationService = $taskService3;
-        $this->translator = $translator;
     }
 
 #region list

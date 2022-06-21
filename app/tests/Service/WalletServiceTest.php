@@ -26,23 +26,16 @@ class WalletServiceTest extends KernelTestCase
     /**
      * Wallet service.
      *
-     * @var WalletService|object|null
+     * @var WalletService|null
      */
     private ?WalletService $walletService;
 
     /**
      * Wallet repository.
      *
-     * @var WalletRepository|object|null
+     * @var WalletRepository|null
      */
     private ?WalletRepository $walletRepository;
-
-    /**
-     * Transaction repository.
-     *
-     * @var TransactionRepository|object|null
-     */
-    private ?TransactionRepository $transactionRepository;
 
     /**
      * Create user.
@@ -156,7 +149,7 @@ class WalletServiceTest extends KernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        $container = self::$container;
+        $container = self::getContainer();
         $this->walletRepository = $container->get(WalletRepository::class);
         $this->walletService = $container->get(WalletService::class);
         $this->transactionRepository = $container->get(TransactionRepository::class);

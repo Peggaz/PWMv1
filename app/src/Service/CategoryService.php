@@ -7,10 +7,12 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
+use App\Repository\TransactionRepository;
 use DateTimeImmutable;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 /**
  * Class CategoryService.
@@ -21,6 +23,8 @@ class CategoryService implements CategoryServiceInterface
      * Category repository.
      */
     private CategoryRepository $categoryRepository;
+
+    private TransactionRepository $transactionRepository;
 
     /**
      * Paginator.
@@ -33,9 +37,10 @@ class CategoryService implements CategoryServiceInterface
      * @param CategoryRepository $categoryRepository Category repository
      * @param PaginatorInterface $paginator Paginator
      */
-    public function __construct(CategoryRepository $categoryRepository, PaginatorInterface $paginator)
+    public function __construct(CategoryRepository $categoryRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->transactionRepository = $transactionRepository;
         $this->paginator = $paginator;
     }
 
@@ -47,9 +52,9 @@ class CategoryService implements CategoryServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, string $name = Nullable::class): PaginationInterface
+    public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if ($name == Nullable::class) {
+        if ($name == null) {
             return $this->paginator->paginate(
                 $this->categoryRepository->queryAll(),
                 $page,
@@ -103,5 +108,22 @@ class CategoryService implements CategoryServiceInterface
         return $this->categoryRepository->findOneById($id);
     }
 
+    /**
+     * Can Category be deleted?
+     *
+     * @param Category $category Category entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Category $category): bool
+    {
+        try {
+            $result = $this->transactionRepository->countByCategory($category);
+
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
+    }
 
 }

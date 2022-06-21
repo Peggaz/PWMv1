@@ -5,18 +5,14 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Category;
 use App\Entity\Enum\UserRole;
 use App\Entity\Operation;
-use App\Entity\User;
-use App\Repository\CategoryRepository;
 use App\Repository\OperationRepository;
-use App\Repository\UserRepository;
 use App\Tests\WebBaseTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class OperationControllerTest.
@@ -86,7 +82,7 @@ class OperationControllerTest extends WebBaseTestCase
         $expectedOperation->setName('TName');
         $expectedOperation->setUpdatedAt(new \DateTime('now'));
         $expectedOperation->setCreatedAt(new \DateTime('now'));
-        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository = self::getContainer()->get(OperationRepository::class);
         $operationRepository->save($expectedOperation);
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
@@ -96,32 +92,77 @@ class OperationControllerTest extends WebBaseTestCase
         $this->assertEquals($expectedStatusCode, $result);
     }
 
+    /**
+     * @return void
+     */
+    public function testEditOperationUnauthorizedUser(): void
+    {
+        // given
+        $expectedHttpStatusCode = 302;
 
-    // edit
+        $operation = new Operation();
+        $operation->setName('TestOperation');
+        $operation->setCreatedAt(new \DateTime('now'));
+        $operation->setUpdatedAt(new \DateTime('now'));
+        $operationRepository =
+            static::getContainer()->get(OperationRepository::class);
+        $operationRepository->save($operation);
+
+        // when
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+            $operation->getId() . '/edit');
+        $actual = $this->httpClient->getResponse();
+
+        // then
+
+        $this->assertEquals($expectedHttpStatusCode,
+            $actual->getStatusCode());
+
+    }
+
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testEditOperation(): void
     {
-        // create operation
-        $expectedOperation = new Operation();
-        $expectedOperation->setName('TNameOperation');
-        $expectedOperation->setUpdatedAt(new \DateTime('now'));
-        $expectedOperation->setCreatedAt(new \DateTime('now'));
-        $operationRepository = self::$container->get(OperationRepository::class);
-        $operationRepository->save($expectedOperation);
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'operation_edit_user1@example.com');
+        $this->httpClient->loginUser($user);
 
-        $expected = 'TNameOperationChanged';
-        // change name
-        $expectedOperation->setName('TNameOperationChanged');
-        $expectedOperation->setUpdatedAt(new \DateTime('now'));
-        $expectedOperation->setCreatedAt(new \DateTime('now'));
-        $operationRepository->save($expectedOperation);
+        $operationRepository =
+            static::getContainer()->get(OperationRepository::class);
+        $testOperation = new Operation();
+        $testOperation->setName('TestOperation');
+        $testOperation->setCreatedAt(new \DateTime('now'));
+        $testOperation->setUpdatedAt(new \DateTime('now'));
+        $operationRepository->save($testOperation);
+        $testOperationId = $testOperation->getId();
+        $expectedNewOperationName = 'TestOperationEdit';
 
-        $this->assertEquals($expected, $operationRepository->findOneByName($expected)->getName());
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+            $testOperationId . '/edit');
+
+        // when
+        $this->httpClient->submitForm(
+            'Edytuj',
+            ['operation' => ['name' => $expectedNewOperationName]]
+        );
+
+        // then
+        $savedOperation = $operationRepository->findOneById($testOperationId);
+        $this->assertEquals($expectedNewOperationName,
+            $savedOperation->getName());
     }
 
     // delete
-    public function testDeleteCategory(): void
+    public function testDeleteOperation(): void
     {
-        $operationRepository = self::$container->get(OperationRepository::class);
+        $operationRepository = self::getContainer()->get(OperationRepository::class);
         // create operation
         $expectedOperation = new Operation();
         $countOperations = count($operationRepository->findAll());

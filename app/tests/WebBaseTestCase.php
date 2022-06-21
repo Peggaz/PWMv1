@@ -57,7 +57,7 @@ class WebBaseTestCase extends WebTestCase
      */
     protected function logIn(User $user): void
     {
-        $session = self::$container->get('session');
+        $session = self::getContainer()->get('session');
 
         $firewallName = 'main';
         $firewallContext = 'main';

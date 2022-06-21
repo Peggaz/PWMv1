@@ -125,77 +125,140 @@ class CategoryControllerTest extends WebBaseTestCase
     //create category
     public function testCreateCategory(): void
     {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'category_created_user2@example.com');
+        $this->httpClient->loginUser($user);
+        $categoryCategoryName = "createdCategor";
+        $categoryRepository = static::getContainer()->get(CategoryRepository::class);
+
         $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
+        // when
+        $this->httpClient->submitForm(
+            'Zapisz',
+            ['category' => ['name' => $categoryCategoryName]]
+        );
+
+        // then
+        $savedCategory = $categoryRepository->findOneByName($categoryCategoryName);
+        $this->assertEquals($categoryCategoryName,
+            $savedCategory->getName());
+
+
         $result = $this->httpClient->getResponse();
         $this->assertEquals(302, $result->getStatusCode());
 
     }
 
-    // edit category
-    public function testEditCategory(): void
+    /**
+     * @return void
+     */
+    public function testEditCategoryUnauthorizedUser(): void
     {
-        // create category
+        // given
+        $expectedHttpStatusCode = 302;
+
         $category = new Category();
         $category->setName('TestCategory');
         $category->setCreatedAt(new \DateTime('now'));
         $category->setUpdatedAt(new \DateTime('now'));
-        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository =
+            static::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
-
 
         // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/edit');
-        $result = $this->httpClient->getResponse();
-        $this->assertEquals(302, $result->getStatusCode());
-        $category->setName('TestCategoryEdit');
-        $this->httpClient->request('PUT', self::TEST_ROUTE . '/' . $category->getId() . '/edit/',
-            ['category' =>
-                $this->httpClient->submitForm('save', [
-                    'name' => 'TestCategoryEdit'
-                 ])
-            ]);
-        $categoryRepository->save($category);
-        $this->assertEquals('TestCategoryEdit', $categoryRepository->findOneById($category->getId())->getName());
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+            $category->getId() . '/edit');
+        $actual = $this->httpClient->getResponse();
 
-        $expected = 'TestChanged';
-        // change name
-        $category->setName('TestChanged');
-        $categoryRepository->save($category);
+        // then
 
-        $this->assertEquals($expected, $categoryRepository->findOneByName($expected)->getName());
+        $this->assertEquals($expectedHttpStatusCode,
+            $actual->getStatusCode());
 
     }
 
 
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function testEditCategory(): void
+    {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'category_edit_user1@example.com');
+        $this->httpClient->loginUser($user);
+
+        $categoryRepository =
+            static::getContainer()->get(CategoryRepository::class);
+        $testCategory = new Category();
+        $testCategory->setName('TestCategory');
+        $testCategory->setCreatedAt(new \DateTime('now'));
+        $testCategory->setUpdatedAt(new \DateTime('now'));
+        $categoryRepository->save($testCategory);
+        $testCategoryId = $testCategory->getId();
+        $expectedNewCategoryName = 'TestCategoryEdit';
+
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+            $testCategoryId . '/edit');
+
+        // when
+        $this->httpClient->submitForm(
+            'Edytuj',
+            ['category' => ['name' => $expectedNewCategoryName]]
+        );
+
+        // then
+        $savedCategory = $categoryRepository->findOneById($testCategoryId);
+        $this->assertEquals($expectedNewCategoryName,
+            $savedCategory->getName());
+    }
+
+
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     */
     public function testNewRoutAdminUser(): void
     {
-        $adminUser = $this->createUser([UserRole::ROLE_ADMIN, UserRole::ROLE_USER], 'categoryCreate1@example.com');
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'categoryCreate1@example.com');
         $this->httpClient->loginUser($adminUser);
-        $this->httpClient->followRedirect(true);
         $this->httpClient->request('GET', self::TEST_ROUTE . '/');
-        $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
+        $this->assertEquals(301, $this->httpClient->getResponse()->getStatusCode());
     }
 
+    /**
+     * @return void
+     */
     public function testDeleteCategory(): void
     {
-        // create category
+        // given
         $category = new Category();
         $category->setName('TestCategory12');
         $category->setCreatedAt(new DateTime('now'));
         $category->setUpdatedAt(new DateTime('now'));
-        $categoryRepository = self::$container->get(CategoryRepository::class);
+        $categoryRepository = self::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
         $this->assertNotNull($categoryRepository->findByName('TestCategory12'));
-        // delete
+
         $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/delete');
-        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $category->getId() . '/delete/',
-            ['category' =>
-                $this->httpClient->submitForm('delete', [
-                    'category[name]' => 'TestCategory12',
-                    'category[createdAt]' => $category->getCreatedAt(),
-                    'category[updatedAt]' => $category->getUpdatedAt(),
-                ])
-            ]);
+
+        //when
+        $this->httpClient->submitForm(
+            'Usuń',
+            ['category' => [
+
+            ]
+            ]
+        );
+
+        // then
         $this->assertNull($categoryRepository->findOneByName('TestCategory12'));
     }
 }
