@@ -50,7 +50,7 @@ class TransactionServiceTest extends KernelTestCase
     /**
      * Test save.
      * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function testSave(): void
     {
@@ -66,7 +66,10 @@ class TransactionServiceTest extends KernelTestCase
         $expectedTransaction->addTag($this->createTag());
         $expectedTransaction->setWallet($this->createWallet());
         $expectedTransaction->setAmount('1000');
-        $expectedTransaction->setAuthor($user = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user999@example.com'));
+        try {
+            $expectedTransaction->setAuthor($user = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user999@example.com'));
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
 
 
         // when
@@ -93,8 +96,8 @@ class TransactionServiceTest extends KernelTestCase
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
         $user->setEmail($email);
-        $user->setUpdatedAt(new \DateTime('now'));
-        $user->setCreatedAt(new \DateTime('now'));
+        $user->setUpdatedAt(new DateTime('now'));
+        $user->setCreatedAt(new DateTime('now'));
         $user->setRoles($roles);
         $user->setPassword(
             $passwordHasher->hashPassword(
@@ -193,7 +196,7 @@ class TransactionServiceTest extends KernelTestCase
      * Test delete.
      * @covers \App\Service\Transaction::delete
      * @throws ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws OptimisticLockException
      */
     public function testDelete(): void
     {
@@ -209,7 +212,10 @@ class TransactionServiceTest extends KernelTestCase
         $expectedTransaction->setOperation($this->createOperation());
         $expectedTransaction->setPayment($this->createPayment());
         $expectedTransaction->addTag($this->createTag());
-        $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value], 'transactiondeleteuser2@example.com'));
+        try {
+            $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value], 'transactiondeleteuser2@example.com'));
+        } catch (OptimisticLockException|NotFoundExceptionInterface|ORMException|ContainerExceptionInterface $e) {
+        }
 
 
         $expectedId = $expectedTransaction->getId();

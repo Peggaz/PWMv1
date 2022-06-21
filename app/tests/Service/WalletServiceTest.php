@@ -12,6 +12,7 @@ use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Service\WalletService;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
@@ -51,8 +52,8 @@ class WalletServiceTest extends KernelTestCase
         $passwordHasher = static::getContainer()->get('security.password_hasher');
         $user = new User();
         $user->setEmail($email);
-        $user->setUpdatedAt(new \DateTime('now'));
-        $user->setCreatedAt(new \DateTime('now'));
+        $user->setUpdatedAt(new DateTime('now'));
+        $user->setCreatedAt(new DateTime('now'));
         $user->setRoles($roles);
         $user->setPassword(
             $passwordHasher->hashPassword(
@@ -101,8 +102,8 @@ class WalletServiceTest extends KernelTestCase
         $expectedWallet = new Wallet();
         $expectedWallet->setName('Test Wallet');
         $expectedWallet->setBalance('100');
-        $expectedWallet->setUpdatedAt(new \DateTime('now'));
-        $expectedWallet->setCreatedAt(new \DateTime('now'));
+        $expectedWallet->setUpdatedAt(new DateTime('now'));
+        $expectedWallet->setCreatedAt(new DateTime('now'));
         $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user112@example.com'));
         $this->walletRepository->save($expectedWallet);
         $expectedId = $expectedWallet->getId();

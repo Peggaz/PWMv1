@@ -1403,65 +1403,65 @@
 //* poniżej przykładowe testy:
 //
 //
-public
-function testEditCategoryUnauthorizedUser(): void
-{
-    // given
-    $expectedHttpStatusCode = 302;
-
-    $category = new Category();
-    $category->setName('TestCategory');
-    $category->setCreatedAt(new \DateTime('now'));
-    $category->setUpdatedAt(new \DateTime('now'));
-    $categoryRepository =
-        static::getContainer()->get(CategoryRepository::class);
-    $categoryRepository->save($category);
-
-    // when
-    $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
-        $category->getId() . '/edit');
-    $actual = $this->httpClient->getResponse();
-
-    // then
-
-    $this->assertEquals($expectedHttpStatusCode,
-        $actual->getStatusCode());
-
-}
-
-
-public
-function testEditCategory(): void
-{
-    // given
-    $user = $this->createUser([UserRole::ROLE_USER->value],
-        'user1@example.com');
-    $this->httpClient->loginUser($user);
-
-    $categoryRepository =
-        static::getContainer()->get(CategoryRepository::class);
-    $testCategory = new Category();
-    $testCategory->setName('TestCategory');
-    $testCategory->setCreatedAt(new \DateTime('now'));
-    $testCategory->setUpdatedAt(new \DateTime('now'));
-    $categoryRepository->save($testCategory);
-    $testCategoryId = $testCategory->getId();
-    $expectedNewCategoryName = 'TestCategoryEdit';
-
-    $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
-        $testCategoryId . '/edit');
-
-    // when
-    $this->httpClient->submitForm(
-        'Edytuj',
-        ['category' => ['name' => $expectedNewCategoryName]]
-    );
-
-    // then
-    $savedCategory = $categoryRepository->findOneById($testCategoryId);
-    $this->assertEquals($expectedNewCategoryName,
-        $savedCategory->getName());
-}
+//public
+//function testEditCategoryUnauthorizedUser(): void
+//{
+//    // given
+//    $expectedHttpStatusCode = 302;
+//
+//    $category = new Category();
+//    $category->setName('TestCategory');
+//    $category->setCreatedAt(new \DateTime('now'));
+//    $category->setUpdatedAt(new \DateTime('now'));
+//    $categoryRepository =
+//        static::getContainer()->get(CategoryRepository::class);
+//    $categoryRepository->save($category);
+//
+//    // when
+//    $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+//        $category->getId() . '/edit');
+//    $actual = $this->httpClient->getResponse();
+//
+//    // then
+//
+//    $this->assertEquals($expectedHttpStatusCode,
+//        $actual->getStatusCode());
+//
+//}
+//
+//
+//public
+//function testEditCategory(): void
+//{
+//    // given
+//    $user = $this->createUser([UserRole::ROLE_USER->value],
+//        'user1@example.com');
+//    $this->httpClient->loginUser($user);
+//
+//    $categoryRepository =
+//        static::getContainer()->get(CategoryRepository::class);
+//    $testCategory = new Category();
+//    $testCategory->setName('TestCategory');
+//    $testCategory->setCreatedAt(new \DateTime('now'));
+//    $testCategory->setUpdatedAt(new \DateTime('now'));
+//    $categoryRepository->save($testCategory);
+//    $testCategoryId = $testCategory->getId();
+//    $expectedNewCategoryName = 'TestCategoryEdit';
+//
+//    $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
+//        $testCategoryId . '/edit');
+//
+//    // when
+//    $this->httpClient->submitForm(
+//        'Edytuj',
+//        ['category' => ['name' => $expectedNewCategoryName]]
+//    );
+//
+//    // then
+//    $savedCategory = $categoryRepository->findOneById($testCategoryId);
+//    $this->assertEquals($expectedNewCategoryName,
+//        $savedCategory->getName());
+//}
 //
 //
 //* lista, kod nie działa:

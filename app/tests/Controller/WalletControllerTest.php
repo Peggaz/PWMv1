@@ -9,6 +9,11 @@ use App\Entity\Enum\UserRole;
 use App\Entity\Wallet;
 use App\Repository\WalletRepository;
 use App\Tests\WebBaseTestCase;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class WalletControllerTest.
@@ -95,13 +100,20 @@ class WalletControllerTest extends WebBaseTestCase
         $this->assertEquals($expectedStatusCode, $resultStatusCode);
     }
 
+    /**
+     * @return void
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function testEditWallet(): void
     {
         // create category
         $wallet = new Wallet();
         $wallet->setName('TestWallet123');
-        $wallet->setCreatedAt(new \DateTime('now'));
-        $wallet->setUpdatedAt(new \DateTime('now'));
+        $wallet->setCreatedAt(new DateTime('now'));
+        $wallet->setUpdatedAt(new DateTime('now'));
         $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user1235@example.com'));
         $wallet->setBalance(2000);
         $walletRepository = self::getContainer()->get(WalletRepository::class);

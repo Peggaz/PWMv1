@@ -30,4 +30,13 @@ interface OperationServiceInterface
      */
     public function save(Operation $operation): void;
 
+    /**
+     * Can Operation be deleted?
+     *
+     * @param Operation $category Operation entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Operation $category): bool;
+
 }

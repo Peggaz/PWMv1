@@ -31,7 +31,7 @@ class TagController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tagRepository->add($tag, true);
+            $tagRepository->add($tag);
 
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -57,7 +57,7 @@ class TagController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tagRepository->add($tag, true);
+            $tagRepository->add($tag);
 
             return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -74,7 +74,7 @@ class TagController extends AbstractController
     public function delete(Request $request, Tag $tag, TagRepository $tagRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $tag->getId(), $request->request->get('_token'))) {
-            $tagRepository->remove($tag, true);
+            $tagRepository->remove($tag);
         }
 
         return $this->redirectToRoute('app_tag_index', [], Response::HTTP_SEE_OTHER);

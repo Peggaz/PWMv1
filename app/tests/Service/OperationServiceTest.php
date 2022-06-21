@@ -9,6 +9,7 @@ use App\Entity\Operation;
 use App\Repository\OperationRepository;
 use App\Repository\TransactionRepository;
 use App\Service\OperationService;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -44,8 +45,8 @@ class OperationServiceTest extends KernelTestCase
         // given
         $expectedOperation = new Operation();
         $expectedOperation->setName('Test Operation');
-        $expectedOperation->setCreatedAt(new \DateTime('now'));
-        $expectedOperation->setUpdatedAt(new \DateTime('now'));
+        $expectedOperation->setCreatedAt(new DateTime('now'));
+        $expectedOperation->setUpdatedAt(new DateTime('now'));
 
         // when
         $this->operationService->save($expectedOperation);
@@ -68,8 +69,8 @@ class OperationServiceTest extends KernelTestCase
         // given
         $expectedOperation = new Operation();
         $expectedOperation->setName('Test Operation');
-        $expectedOperation->setCreatedAt(new \DateTime('now'));
-        $expectedOperation->setUpdatedAt(new \DateTime('now'));
+        $expectedOperation->setCreatedAt(new DateTime('now'));
+        $expectedOperation->setUpdatedAt(new DateTime('now'));
         $this->operationRepository->save($expectedOperation);
         $expectedId = $expectedOperation->getId();
 

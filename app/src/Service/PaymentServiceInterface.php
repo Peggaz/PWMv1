@@ -30,4 +30,13 @@ interface PaymentServiceInterface
      */
     public function save(Payment $payment): void;
 
+    /**
+     * Can Payment be deleted?
+     *
+     * @param Payment $category Payment entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Payment $category): bool;
+
 }

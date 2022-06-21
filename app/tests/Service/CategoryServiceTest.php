@@ -8,6 +8,7 @@ namespace App\Tests\Service;
 use App\Entity\Category;
 use App\Service\CategoryService;
 use App\Service\CategoryServiceInterface;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -80,8 +81,8 @@ class CategoryServiceTest extends KernelTestCase
         // given
         $categoryToDelete = new Category();
         $categoryToDelete->setName('Test Category');
-        $categoryToDelete->setCreatedAt(new \DateTime('now'));
-        $categoryToDelete->setUpdatedAt(new \DateTime('now'));
+        $categoryToDelete->setCreatedAt(new DateTime('now'));
+        $categoryToDelete->setUpdatedAt(new DateTime('now'));
         $this->entityManager->persist($categoryToDelete);
         $this->entityManager->flush();
         $deletedCategoryId = $categoryToDelete->getId();
@@ -111,8 +112,8 @@ class CategoryServiceTest extends KernelTestCase
         // given
         $expectedCategory = new Category();
         $expectedCategory->setName('Test Category');
-        $expectedCategory->setCreatedAt(new \DateTime('now'));
-        $expectedCategory->setUpdatedAt(new \DateTime('now'));
+        $expectedCategory->setCreatedAt(new DateTime('now'));
+        $expectedCategory->setUpdatedAt(new DateTime('now'));
         $this->entityManager->persist($expectedCategory);
         $this->entityManager->flush();
         $expectedCategoryId = $expectedCategory->getId();
@@ -138,8 +139,8 @@ class CategoryServiceTest extends KernelTestCase
         while ($counter < $dataSetSize) {
             $category = new Category();
             $category->setName('Test Category #' . $counter);
-            $category->setCreatedAt(new \DateTime('now'));
-            $category->setUpdatedAt(new \DateTime('now'));
+            $category->setCreatedAt(new DateTime('now'));
+            $category->setUpdatedAt(new DateTime('now'));
             $this->categoryService->save($category);
 
             ++$counter;
@@ -166,8 +167,8 @@ class CategoryServiceTest extends KernelTestCase
         while ($counter < $dataSetSize) {
             $category = new Category();
             $category->setName('Test Category name#' . $counter);
-            $category->setCreatedAt(new \DateTime('now'));
-            $category->setUpdatedAt(new \DateTime('now'));
+            $category->setCreatedAt(new DateTime('now'));
+            $category->setUpdatedAt(new DateTime('now'));
             $this->categoryService->save($category);
 
             ++$counter;

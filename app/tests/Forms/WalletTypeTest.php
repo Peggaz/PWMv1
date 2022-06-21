@@ -4,13 +4,14 @@ namespace App\Tests\Forms;
 
 use App\Entity\Wallet;
 use App\Form\Type\WalletType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class WalletTypeTest extends TypeTestCase
 {
     public function testSubmitValidDate()
     {
-        $time = new \DateTime('now');
+        $time = new DateTime('now');
         $formatData = [
             'name' => 'TestWallet',
             'balance' => 2000,

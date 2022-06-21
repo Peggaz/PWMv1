@@ -106,8 +106,8 @@ class TagControllerTest extends WebBaseTestCase
 
         $expectedTag = new Tag();
         $expectedTag->setName('Test tag');
-        $expectedTag->setCreatedAt(new \DateTime('now'));
-        $expectedTag->setUpdatedAt(new \DateTime('now'));
+        $expectedTag->setCreatedAt(new DateTime('now'));
+        $expectedTag->setUpdatedAt(new DateTime('now'));
         $tagRepository = static::getContainer()->get(TagRepository::class);
         $tagRepository->save($expectedTag);
 
@@ -137,8 +137,8 @@ class TagControllerTest extends WebBaseTestCase
 
         $tag = new Tag();
         $tag->setName('TestTag');
-        $tag->setCreatedAt(new \DateTime('now'));
-        $tag->setUpdatedAt(new \DateTime('now'));
+        $tag->setCreatedAt(new DateTime('now'));
+        $tag->setUpdatedAt(new DateTime('now'));
         $tagRepository =
             static::getContainer()->get(TagRepository::class);
         $tagRepository->save($tag);
@@ -167,8 +167,8 @@ class TagControllerTest extends WebBaseTestCase
             static::getContainer()->get(TagRepository::class);
         $testTag = new Tag();
         $testTag->setName('TestTag');
-        $testTag->setCreatedAt(new \DateTime('now'));
-        $testTag->setUpdatedAt(new \DateTime('now'));
+        $testTag->setCreatedAt(new DateTime('now'));
+        $testTag->setUpdatedAt(new DateTime('now'));
         $tagRepository->save($testTag);
         $testTagId = $testTag->getId();
         $expectedNewTagName = 'TestTagEdit';
@@ -199,7 +199,7 @@ class TagControllerTest extends WebBaseTestCase
     {
         $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'tagCreate1@example.com');
         $this->httpClient->loginUser($adminUser);
-        $this->httpClient->followRedirect(true);
+        $this->httpClient->followRedirect();
         $this->httpClient->request('GET', self::TEST_ROUTE . '/');
         $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
     }

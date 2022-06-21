@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Faker\Generator;
 use InvalidArgumentException;
 use LogicException;
 
@@ -19,9 +20,9 @@ abstract class AbstractBaseFixtures extends Fixture
     /**
      * Faker.
      *
-     * @var \Faker\Generator
+     * @var Generator
      */
-    protected \Faker\Generator $faker;
+    protected Generator $faker;
 
     /**
      * Persistence object manager.
@@ -101,7 +102,7 @@ abstract class AbstractBaseFixtures extends Fixture
             $this->referencesIndex[$groupName] = [];
 
             foreach ($this->referenceRepository->getReferences() as $key => $reference) {
-                if (0 === strpos($key, $groupName.'_')) {
+                if (str_starts_with($key, $groupName . '_')) {
                     $this->referencesIndex[$groupName][] = $key;
                 }
             }

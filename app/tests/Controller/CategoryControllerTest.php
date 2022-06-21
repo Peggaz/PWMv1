@@ -7,7 +7,10 @@ namespace App\Tests\Controller;
 
 use App\Entity\Category;
 use App\Entity\Enum\UserRole;
+use App\Entity\Transaction;
+use App\Entity\User;
 use App\Repository\CategoryRepository;
+use App\Repository\TransactionRepository;
 use App\Tests\WebBaseTestCase;
 use DateTime;
 use Doctrine\ORM\OptimisticLockException;
@@ -37,13 +40,17 @@ class CategoryControllerTest extends WebBaseTestCase
     }
 
     /**
-     * Test index route for anonymous user.
+     * @return void
      */
     public function testIndexRouteAnonymousUser(): void
     {
         // given
+        $user = null;
         $expectedStatusCode = 200;
-        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'categoryindexuser@example.com');
+        try {
+            $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'categoryindexuser@example.com');
+        } catch (OptimisticLockException|NotFoundExceptionInterface|ContainerExceptionInterface|ORMException $e) {
+        }
         $this->logIn($user);
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
@@ -62,7 +69,7 @@ class CategoryControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 200;
-        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'user@example.com');
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'category_user@example.com');
         $this->httpClient->loginUser($adminUser);
 
         // when
@@ -81,7 +88,7 @@ class CategoryControllerTest extends WebBaseTestCase
     public function testIndexRouteNonAuthorizedUser(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value], 'user1@example.com');
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'category_user2@example.com');
         $this->httpClient->loginUser($user);
 
         // when
@@ -102,13 +109,13 @@ class CategoryControllerTest extends WebBaseTestCase
     public function testShowCategory(): void
     {
         // given
-        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'user2@exmaple.com');
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'category_user2@exmaple.com');
         $this->httpClient->loginUser($adminUser);
 
         $expectedCategory = new Category();
         $expectedCategory->setName('Test category');
-        $expectedCategory->setCreatedAt(new \DateTime('now'));
-        $expectedCategory->setUpdatedAt(new \DateTime('now'));
+        $expectedCategory->setCreatedAt(new DateTime('now'));
+        $expectedCategory->setUpdatedAt(new DateTime('now'));
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($expectedCategory);
 
@@ -160,8 +167,8 @@ class CategoryControllerTest extends WebBaseTestCase
 
         $category = new Category();
         $category->setName('TestCategory');
-        $category->setCreatedAt(new \DateTime('now'));
-        $category->setUpdatedAt(new \DateTime('now'));
+        $category->setCreatedAt(new DateTime('now'));
+        $category->setUpdatedAt(new DateTime('now'));
         $categoryRepository =
             static::getContainer()->get(CategoryRepository::class);
         $categoryRepository->save($category);
@@ -197,8 +204,8 @@ class CategoryControllerTest extends WebBaseTestCase
             static::getContainer()->get(CategoryRepository::class);
         $testCategory = new Category();
         $testCategory->setName('TestCategory');
-        $testCategory->setCreatedAt(new \DateTime('now'));
-        $testCategory->setUpdatedAt(new \DateTime('now'));
+        $testCategory->setCreatedAt(new DateTime('now'));
+        $testCategory->setUpdatedAt(new DateTime('now'));
         $categoryRepository->save($testCategory);
         $testCategoryId = $testCategory->getId();
         $expectedNewCategoryName = 'TestCategoryEdit';
@@ -239,26 +246,83 @@ class CategoryControllerTest extends WebBaseTestCase
     public function testDeleteCategory(): void
     {
         // given
-        $category = new Category();
-        $category->setName('TestCategory12');
-        $category->setCreatedAt(new DateTime('now'));
-        $category->setUpdatedAt(new DateTime('now'));
-        $categoryRepository = self::getContainer()->get(CategoryRepository::class);
-        $categoryRepository->save($category);
-        $this->assertNotNull($categoryRepository->findByName('TestCategory12'));
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'category_deleted_user1@example.com');
+        $this->httpClient->loginUser($user);
 
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $category->getId() . '/delete');
+        $categoryRepository =
+            static::getContainer()->get(CategoryRepository::class);
+        $testCategory = new Category();
+        $testCategory->setName('TestCategoryCreated');
+        $testCategory->setCreatedAt(new DateTime('now'));
+        $testCategory->setUpdatedAt(new DateTime('now'));
+        $categoryRepository->save($testCategory);
+        $testCategoryId = $testCategory->getId();
+
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testCategoryId . '/delete');
 
         //when
         $this->httpClient->submitForm(
-            'Usuń',
-            ['category' => [
-
-            ]
-            ]
+            'Usuń'
         );
 
         // then
-        $this->assertNull($categoryRepository->findOneByName('TestCategory12'));
+        $this->assertNull($categoryRepository->findOneByName('TestCategoryCreated'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testCantDeleteCategory(): void
+    {
+        // given
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value],
+                'category_deleted_user2@example.com');
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
+        $this->httpClient->loginUser($user);
+
+        $categoryRepository =
+            static::getContainer()->get(CategoryRepository::class);
+        $testCategory = new Category();
+        $testCategory->setName('TestCategoryCreated2');
+        $testCategory->setCreatedAt(new DateTime('now'));
+        $testCategory->setUpdatedAt(new DateTime('now'));
+        $categoryRepository->save($testCategory);
+        $testCategoryId = $testCategory->getId();
+
+        $this->createTransaction($user, $testCategory);
+
+        //when
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testCategoryId . '/delete');
+
+        // then
+        $this->assertEquals(302, $this->httpClient->getResponse()->getStatusCode());
+        $this->assertNotNull($categoryRepository->findOneByName('TestCategoryCreated2'));
+    }
+
+    /**
+     * @param User $user
+     * @param $category
+     * @return void
+     */
+    private function createTransaction(User $user, $category)
+    {
+        $transaction = new Transaction();
+        $transaction->setName('TName');
+        $transaction->setDate(DateTime::createFromFormat('Y-m-d', "2021-05-09"));
+        $transaction->setAmount('11');
+        $transaction->setCategory($category);
+        $transaction->setWallet($this->createWallet($user));
+        $transaction->setOperation($this->createOperation());
+        $transaction->setPayment($this->createPayment());
+        $transaction->addTag($this->createTag());
+        $transaction->setAuthor($user);
+
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
+        $transactionRepository->save($transaction);
+
     }
 }

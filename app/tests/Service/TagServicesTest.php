@@ -8,6 +8,7 @@ namespace App\Tests\Service;
 use App\Entity\Tag;
 use App\Service\TagService;
 use App\Service\TagServiceInterface;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -80,8 +81,8 @@ class TagServiceTest extends KernelTestCase
         // given
         $tagToDelete = new Tag();
         $tagToDelete->setName('Test Tag');
-        $tagToDelete->setCreatedAt(new \DateTime('now'));
-        $tagToDelete->setUpdatedAt(new \DateTime('now'));
+        $tagToDelete->setCreatedAt(new DateTime('now'));
+        $tagToDelete->setUpdatedAt(new DateTime('now'));
         $this->entityManager->persist($tagToDelete);
         $this->entityManager->flush();
         $deletedTagId = $tagToDelete->getId();
@@ -111,8 +112,8 @@ class TagServiceTest extends KernelTestCase
         // given
         $expectedTag = new Tag();
         $expectedTag->setName('Test Tag');
-        $expectedTag->setCreatedAt(new \DateTime('now'));
-        $expectedTag->setUpdatedAt(new \DateTime('now'));
+        $expectedTag->setCreatedAt(new DateTime('now'));
+        $expectedTag->setUpdatedAt(new DateTime('now'));
         $this->entityManager->persist($expectedTag);
         $this->entityManager->flush();
         $expectedTagId = $expectedTag->getId();
@@ -138,8 +139,8 @@ class TagServiceTest extends KernelTestCase
         while ($counter < $dataSetSize) {
             $tag = new Tag();
             $tag->setName('Test Tag #' . $counter);
-            $tag->setCreatedAt(new \DateTime('now'));
-            $tag->setUpdatedAt(new \DateTime('now'));
+            $tag->setCreatedAt(new DateTime('now'));
+            $tag->setUpdatedAt(new DateTime('now'));
             $this->tagService->save($tag);
 
             ++$counter;

@@ -9,6 +9,7 @@ use App\Entity\Payment;
 use App\Repository\PaymentRepository;
 use App\Repository\TransactionRepository;
 use App\Service\PaymentService;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -66,8 +67,8 @@ class PaymentServiceTest extends KernelTestCase
         // given
         $expectedPayment = new Payment();
         $expectedPayment->setName('Test Payment');
-        $expectedPayment->setCreatedAt(new \DateTime('now'));
-        $expectedPayment->setUpdatedAt(new \DateTime('now'));
+        $expectedPayment->setCreatedAt(new DateTime('now'));
+        $expectedPayment->setUpdatedAt(new DateTime('now'));
         $this->paymentRepository->save($expectedPayment);
         $expectedId = $expectedPayment->getId();
 

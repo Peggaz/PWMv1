@@ -4,6 +4,7 @@ namespace App\Tests\Forms;
 
 use App\Entity\Category;
 use App\Form\Type\CategoryType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class CategoryTypeTest extends TypeTestCase
@@ -11,7 +12,7 @@ class CategoryTypeTest extends TypeTestCase
 
     public function testSubmitValidDate()
     {
-        $time = new \DateTime('now');
+        $time = new DateTime('now');
         $formatData = [
             'name' => 'TestCategory',
             'createdAt' => $time,

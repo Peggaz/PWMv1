@@ -5,20 +5,15 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Category;
 use App\Entity\Enum\UserRole;
-use App\Entity\Operation;
-use App\Entity\Payment;
-use App\Entity\Tag;
 use App\Entity\Transaction;
-use App\Entity\Wallet;
-use App\Repository\CategoryRepository;
-use App\Repository\OperationRepository;
-use App\Repository\PaymentRepository;
-use App\Repository\TagRepository;
 use App\Repository\TransactionRepository;
-use App\Repository\WalletRepository;
 use App\Tests\WebBaseTestCase;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class CategoryControllerTest.
@@ -84,78 +79,6 @@ class TransactionControllerTest extends WebBaseTestCase
         $transactionRepository->delete($expectedTransaction);
     }
 
-    /**
-     * Create category.
-     */
-    private function createCategory()
-    {
-        $category = new Category();
-        $category->setName('TName');
-        $category->setUpdatedAt(new \DateTime('now'));
-        $category->setCreatedAt(new \DateTime('now'));
-        $categoryRepository = self::getContainer()->get(CategoryRepository::class);
-        $categoryRepository->save($category);
-
-        return $category;
-    }
-
-    /**
-     * Create Payment.
-     * @return Payment
-     */
-    private function createPayment()
-    {
-        $payment = new Payment();
-        $payment->setName('TPayment');
-        $paymentRepository = self::getContainer()->get(PaymentRepository::class);
-        $paymentRepository->save($payment);
-
-        return $payment;
-    }
-
-    /**
-     * Create Operation.
-     * @return Operation
-     */
-    private function createOperation()
-    {
-        $operation = new Operation();
-        $operation->setName('TOperation');
-        $operationRepository = self::getContainer()->get(OperationRepository::class);
-        $operationRepository->save($operation);
-
-        return $operation;
-    }
-
-    /**
-     * Create Tag.
-     * @return Tag
-     */
-    private function createTag()
-    {
-        $tag = new Tag();
-        $tag->setName('TTag');
-        $tagRepository = self::getContainer()->get(TagRepository::class);
-        $tagRepository->save($tag);
-
-        return $tag;
-    }
-
-    /**
-     * Create Wallet.
-     * @return Wallet
-     */
-    private function createWallet(String $email): Wallet
-    {
-        $wallet = new Wallet();
-        $wallet->setName('TWallet');
-        $wallet->setBalance('1000');
-        $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], $email));
-        $walletRepository = self::getContainer()->get(WalletRepository::class);
-        $walletRepository->save($wallet);
-
-        return $wallet;
-    }
 
     /**
      * Test index route for anonymous user.
@@ -180,16 +103,21 @@ class TransactionControllerTest extends WebBaseTestCase
      */
     private function createTransaction(string $email): Transaction
     {
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transaction' . $email);
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
         $transaction = new Transaction();
         $transaction->setName('TName');
-        $transaction->setDate(\DateTime::createFromFormat('Y-m-d', "2021-05-09"));
+        $transaction->setDate(DateTime::createFromFormat('Y-m-d', "2021-05-09"));
         $transaction->setAmount('11');
         $transaction->setCategory($this->createCategory());
-        $transaction->setWallet($this->createWallet($email));
+        $transaction->setWallet($this->createWallet($user));
         $transaction->setOperation($this->createOperation());
         $transaction->setPayment($this->createPayment());
         $transaction->addTag($this->createTag());
-        $transaction->setAuthor($this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'transaction'.$email));
+        $transaction->setAuthor($user);
 
         $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $transactionRepository->save($transaction);
@@ -205,7 +133,11 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $admin = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'transaction_user1@example.com');
+        $admin = null;
+        try {
+            $admin = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'transaction_user1@example.com');
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
         $this->logIn($admin);
         // when
         $this->httpClient->request('GET', '/transaction/create/');
@@ -222,7 +154,11 @@ class TransactionControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $admin = $this->createUser([UserRole::ROLE_USER->value], 'user01@example.com');
+        $admin = null;
+        try {
+            $admin = $this->createUser([UserRole::ROLE_USER->value], 'user01@example.com');
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
         $this->logIn($admin);
         // when
         $this->httpClient->request('GET', '/transaction/create/');
@@ -239,8 +175,8 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction = $this->createTransaction('user_transaction@example.com');
 
         $transaction->setName('ChangedTransactionName');
-        $transaction->setUpdatedAt(new \DateTime('now'));
-        $transaction->setUpdatedAt(new \DateTime('now'));
+        $transaction->setUpdatedAt(new DateTime('now'));
+        $transaction->setUpdatedAt(new DateTime('now'));
 
         $transactionRepository = self::getContainer()->get(TransactionRepository::class);
         $transactionRepository->save($transaction);

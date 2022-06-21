@@ -6,9 +6,11 @@
 namespace App\Service;
 
 use App\Entity\Payment;
-use App\Repository\CategoryRepository;
 use App\Repository\PaymentRepository;
+use App\Repository\TransactionRepository;
 use DateTimeImmutable;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -22,6 +24,7 @@ class PaymentService implements PaymentServiceInterface
      */
     private PaymentRepository $paymentRepository;
 
+    private TransactionRepository $transactionRepository;
     /**
      * Paginator.
      */
@@ -33,8 +36,9 @@ class PaymentService implements PaymentServiceInterface
      * @param PaymentRepository $paymentRepository Payment repository
      * @param PaginatorInterface $paginator Paginator
      */
-    public function __construct(PaymentRepository $paymentRepository, PaginatorInterface $paginator)
+    public function __construct(PaymentRepository $paymentRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
+        $this->transactionRepository = $transactionRepository;
         $this->paymentRepository = $paymentRepository;
         $this->paginator = $paginator;
     }
@@ -53,13 +57,13 @@ class PaymentService implements PaymentServiceInterface
             return $this->paginator->paginate(
                 $this->paymentRepository->queryAll(),
                 $page,
-                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+                PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
             );
         } else {
             return $this->paginator->paginate(
                 $this->paymentRepository->queryLikeName($name),
                 $page,
-                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+                PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
             );
         }
     }
@@ -88,5 +92,23 @@ class PaymentService implements PaymentServiceInterface
     public function delete(Payment $payment): void
     {
         $this->paymentRepository->delete($payment);
+    }
+
+    /**
+     * Can Payment be deleted?
+     *
+     * @param Payment $category Payment entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Payment $category): bool
+    {
+        try {
+            $result = $this->transactionRepository->countByPayment($category);
+
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
     }
 }

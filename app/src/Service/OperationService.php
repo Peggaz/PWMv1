@@ -8,7 +8,10 @@ namespace App\Service;
 use App\Entity\Operation;
 use App\Repository\CategoryRepository;
 use App\Repository\OperationRepository;
+use App\Repository\TransactionRepository;
 use DateTimeImmutable;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -26,6 +29,7 @@ class OperationService implements OperationServiceInterface
      * Paginator.
      */
     private PaginatorInterface $paginator;
+    private TransactionRepository $transactionRepository;
 
     /**
      * Constructor.
@@ -33,8 +37,9 @@ class OperationService implements OperationServiceInterface
      * @param OperationRepository $operationRepository Operation repository
      * @param PaginatorInterface $paginator Paginator
      */
-    public function __construct(OperationRepository $operationRepository, PaginatorInterface $paginator)
+    public function __construct(OperationRepository $operationRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
+        $this->transactionRepository = $transactionRepository;
         $this->operationRepository = $operationRepository;
         $this->paginator = $paginator;
     }
@@ -88,5 +93,23 @@ class OperationService implements OperationServiceInterface
     public function delete(Operation $operation): void
     {
         $this->operationRepository->delete($operation);
+    }
+
+    /**
+     * Can Payment be deleted?
+     *
+     * @param Operation $category Operation entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(Operation $category): bool
+    {
+        try {
+            $result = $this->transactionRepository->countByOperation($category);
+
+            return !($result > 0);
+        } catch (NoResultException|NonUniqueResultException) {
+            return false;
+        }
     }
 }

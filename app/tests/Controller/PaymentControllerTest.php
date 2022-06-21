@@ -107,8 +107,8 @@ class PaymentControllerTest extends WebBaseTestCase
 
         $expectedPayment = new Payment();
         $expectedPayment->setName('Test payment');
-        $expectedPayment->setCreatedAt(new \DateTime('now'));
-        $expectedPayment->setUpdatedAt(new \DateTime('now'));
+        $expectedPayment->setCreatedAt(new DateTime('now'));
+        $expectedPayment->setUpdatedAt(new DateTime('now'));
         $paymentRepository = static::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($expectedPayment);
 
@@ -138,8 +138,8 @@ class PaymentControllerTest extends WebBaseTestCase
         // create payment
         $payment = new Payment();
         $payment->setName('TestPayment');
-        $payment->setCreatedAt(new \DateTime('now'));
-        $payment->setUpdatedAt(new \DateTime('now'));
+        $payment->setCreatedAt(new DateTime('now'));
+        $payment->setUpdatedAt(new DateTime('now'));
         $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
 
@@ -174,13 +174,13 @@ class PaymentControllerTest extends WebBaseTestCase
         // create payment
         $payment = new Payment();
         $payment->setName('TestPayment12');
-        $payment->setCreatedAt(new \DateTime('now'));
-        $payment->setUpdatedAt(new \DateTime('now'));
+        $payment->setCreatedAt(new DateTime('now'));
+        $payment->setUpdatedAt(new DateTime('now'));
         $paymentRepository = self::getContainer()->get(PaymentRepository::class);
         $paymentRepository->save($payment);
         $this->assertCount(1, $paymentRepository->findByName('TestPayment12'));
         // delete
-        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $payment->getId() . '/delete', ['payment'=>$payment]);
+        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $payment->getId() . '/delete', ['payment' => $payment]);
 
         $this->assertCount(1, $paymentRepository->findByName('TestPayment12'));
     }

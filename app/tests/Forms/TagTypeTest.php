@@ -4,14 +4,17 @@ namespace App\Tests\Forms;
 
 use App\Entity\Tag;
 use App\Form\Type\TagType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class TagTypeTest extends TypeTestCase
 {
-
+    /**
+     * @return void
+     */
     public function testSubmitValidDate()
     {
-        $time = new \DateTime('now');
+        $time = new DateTime('now');
         $formatData = [
             'name' => 'TestTag',
             'createdAt' => $time,
