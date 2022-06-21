@@ -97,6 +97,34 @@ class PaymentServiceTest extends KernelTestCase
     }
 
     /**
+     * Test pagination empty list.
+     */
+    public function testGetPaginatedSearchList(): void
+    {
+        // given
+        $page = 1;
+        $dataSetSize = 15;
+        $expectedResultSize = 10;
+
+        $counter = 0;
+        while ($counter < $dataSetSize) {
+            $payment = new Payment();
+            $payment->setName('payent#' . $counter);
+            $payment->setCreatedAt(new DateTime('now'));
+            $payment->setUpdatedAt(new DateTime('now'));
+            $this->paymentService->save($payment);
+
+            ++$counter;
+        }
+
+        // when
+        $result = $this->paymentService->getPaginatedList($page, 'payent');
+
+        // then
+        $this->assertEquals($expectedResultSize, $result->count());
+    }
+
+    /**
      * Set up test.
      */
     protected function setUp(): void

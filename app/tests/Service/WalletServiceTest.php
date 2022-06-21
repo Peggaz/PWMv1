@@ -104,7 +104,10 @@ class WalletServiceTest extends KernelTestCase
         $expectedWallet->setBalance('100');
         $expectedWallet->setUpdatedAt(new DateTime('now'));
         $expectedWallet->setCreatedAt(new DateTime('now'));
-        $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user112@example.com'));
+        try {
+            $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user112@example.com'));
+        } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
+        }
         $this->walletRepository->save($expectedWallet);
         $expectedId = $expectedWallet->getId();
 
@@ -125,7 +128,10 @@ class WalletServiceTest extends KernelTestCase
         $page = 1;
         $dataSetSize = 0;
         $expectedResultSize = 0;
-        $user = $this->createUser([UserRole::ROLE_USER->value], 'WalletService1@example.com');
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value], 'WalletService1@example.com');
+        } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
+        }
         $counter = 0;
         while ($counter < $dataSetSize) {
             $wallet = new Wallet();

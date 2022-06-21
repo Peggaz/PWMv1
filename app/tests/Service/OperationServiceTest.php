@@ -99,6 +99,34 @@ class OperationServiceTest extends KernelTestCase
     }
 
     /**
+     * Test pagination empty list.
+     */
+    public function testGetPaginatedSearchList(): void
+    {
+        // given
+        $page = 1;
+        $dataSetSize = 15;
+        $expectedResultSize = 10;
+
+        $counter = 0;
+        while ($counter < $dataSetSize) {
+            $category = new Operation();
+            $category->setName('Test Category name#' . $counter);
+            $category->setCreatedAt(new DateTime('now'));
+            $category->setUpdatedAt(new DateTime('now'));
+            $this->operationService->save($category);
+
+            ++$counter;
+        }
+
+        // when
+        $result = $this->operationService->getPaginatedList($page, 'name');
+
+        // then
+        $this->assertEquals($expectedResultSize, $result->count());
+    }
+
+    /**
      * Set up test.
      */
     protected function setUp(): void
