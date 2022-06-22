@@ -57,19 +57,19 @@ class OperationService implements OperationServiceInterface
      */
     public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if ($name == null) {
+        if (null == $name) {
             return $this->paginator->paginate(
                 $this->operationRepository->queryAll(),
                 $page,
                 CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
             );
-        } else {
-            return $this->paginator->paginate(
-                $this->operationRepository->queryLikeName($name),
-                $page,
-                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
-            );
         }
+
+        return $this->paginator->paginate(
+            $this->operationRepository->queryLikeName($name),
+            $page,
+            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
     }
 
     /**

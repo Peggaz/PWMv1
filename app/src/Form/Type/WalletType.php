@@ -5,10 +5,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Payment;
-use App\Entity\User;
 use App\Entity\Wallet;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,7 +22,7 @@ class WalletType extends AbstractType
      *
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
-     *
+     * @param FormBuilderInterface $builder
      * @param array<string, mixed> $options
      *
      * @see FormTypeExtensionInterface::buildForm()
@@ -53,6 +50,10 @@ class WalletType extends AbstractType
 
     /**
      * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver
+     *
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

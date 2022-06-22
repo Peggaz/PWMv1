@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * search and present operation, category and payment
+ */
 class SearchController extends AbstractController
 {
     /**
@@ -23,7 +26,7 @@ class SearchController extends AbstractController
     private PaymentServiceInterface $paymentService;
 
     /**
-     * Operation Serviece
+     * Operation Service
      */
     private OperationServiceInterface $operationService;
 

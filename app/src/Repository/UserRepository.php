@@ -28,6 +28,9 @@ class UserRepository extends ServiceEntityRepository
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -51,7 +54,6 @@ class UserRepository extends ServiceEntityRepository
      * @param QueryBuilder|null $queryBuilder Query builder
      *
      * @return QueryBuilder Query builder
-     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -59,6 +61,10 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param User $entity
+     * @param bool $flush
+     *
+     * @return void
      */
     public function add(User $entity, bool $flush = true): void
     {
@@ -69,6 +75,10 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param User $entity
+     * @param bool $flush
+     *
+     * @return void
      */
     public function remove(User $entity, bool $flush = true): void
     {

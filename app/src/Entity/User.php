@@ -67,11 +67,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      */
     private DateTimeInterface $updatedAt;
+
+    /**
+     * construct
+     */
     public function __construct()
     {
         $this->setUpdatedAt(new DateTime('now'));
         $this->setCreatedAt(new DateTime('now'));
     }
+
     /**
      * Getter for id.
      *
@@ -99,10 +104,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->email = $email;
     }
+
     /**
      * A visual identifier that represents this user.
      *
+     * @return string
      * @see UserInterface
+     *
      */
     public function getUserIdentifier(): string
     {
@@ -110,6 +118,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     *
+     * @return string
      */
     public function getUsername(): string
     {
@@ -150,20 +160,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
+
     /**
      * Setter for password.
+     * @param string $password
      *
-     * @param string $password User password
+     * @return void
      */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
+
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
+     * @return string|null
      */
     public function getSalt(): ?string
     {
@@ -227,6 +239,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     // endregion
 
+    /**
+     * @return string|null
+     */
     public function __toString()
     {
         return $this->email;

@@ -55,7 +55,6 @@ class TagRepository extends ServiceEntityRepository
      * @param QueryBuilder|null $queryBuilder Query builder
      *
      * @return QueryBuilder Query builder
-     * @return QueryBuilder Query builder
      */
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
@@ -63,6 +62,10 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Tag $entity
+     * @param bool $flush
+     *
+     * @return void
      */
     public function add(Tag $entity, bool $flush = true): void
     {
@@ -73,6 +76,10 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param Tag $entity
+     * @param bool $flush
+     *
+     * @return void
      */
     public function remove(Tag $entity, bool $flush = true): void
     {

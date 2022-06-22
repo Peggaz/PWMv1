@@ -10,19 +10,14 @@ namespace App\Entity\Enum;
  */
 enum UserRole: string
 {
+    /**
+     * role user
+     */
     case ROLE_USER = 'ROLE_USER';
+    /**
+     * role admin
+     */
     case ROLE_ADMIN = 'ROLE_ADMIN';
-
-    public function labelOne(): string
-    {
-        if ($this == UserRole::ROLE_USER) {
-            return 'label.role_user';
-        } elseif ($this == UserRole::ROLE_ADMIN) {
-            return 'label.role_admin';
-        }
-
-        return "";
-    }
 
     /**
      * Get the role label.

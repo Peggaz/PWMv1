@@ -54,19 +54,19 @@ class PaymentService implements PaymentServiceInterface
      */
     public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if ($name == null) {
+        if (null == $name) {
             return $this->paginator->paginate(
                 $this->paymentRepository->queryAll(),
                 $page,
                 PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
             );
-        } else {
-            return $this->paginator->paginate(
-                $this->paymentRepository->queryLikeName($name),
-                $page,
-                PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
-            );
         }
+
+        return $this->paginator->paginate(
+            $this->paymentRepository->queryLikeName($name),
+            $page,
+            PaymentRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
     }
 
     /**

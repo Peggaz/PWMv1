@@ -35,6 +35,7 @@ class TransactionType extends AbstractType
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
+     *
      */
     public function __construct(TagsDataTransformer $tagsDataTransformer)
     {
@@ -48,6 +49,7 @@ class TransactionType extends AbstractType
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
+     * @param FormBuilderInterface $builder
      * @param array<string, mixed> $options
      *
      * @see FormTypeExtensionInterface::buildForm()
@@ -142,6 +144,10 @@ class TransactionType extends AbstractType
 
     /**
      * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver
+     *
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

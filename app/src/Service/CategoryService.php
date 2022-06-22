@@ -55,19 +55,19 @@ class CategoryService implements CategoryServiceInterface
      */
     public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if ($name == null) {
+        if (null == $name) {
             return $this->paginator->paginate(
                 $this->categoryRepository->queryAll(),
                 $page,
                 CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
             );
-        } else {
-            return $this->paginator->paginate(
-                $this->categoryRepository->queryLikeName($name),
-                $page,
-                CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
-            );
         }
+
+        return $this->paginator->paginate(
+            $this->categoryRepository->queryLikeName($name),
+            $page,
+            CategoryRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
     }
 
     /**

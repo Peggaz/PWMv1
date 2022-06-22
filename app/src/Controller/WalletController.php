@@ -7,9 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Wallet;
 use App\Form\Type\WalletType;
-use App\Repository\WalletRepository;
 use App\Service\WalletServiceInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -39,6 +37,9 @@ class WalletController extends AbstractController
 
     /**
      * Constructor.
+     *
+     * @param WalletServiceInterface $walletService
+     * @param TranslatorInterface $translator
      */
     public function __construct(WalletServiceInterface $walletService, TranslatorInterface $translator)
     {
@@ -51,8 +52,6 @@ class WalletController extends AbstractController
      * Index action.
      *
      * @param Request $request HTTP Request
-     * @param WalletRepository $walletRepository Task repository
-     * @param PaginatorInterface $paginator Paginator
      *
      * @return Response HTTP response
      */
