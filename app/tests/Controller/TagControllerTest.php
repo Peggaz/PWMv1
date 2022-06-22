@@ -238,9 +238,12 @@ class TagControllerTest extends WebBaseTestCase
      */
     public function testNewRoutAdminUser(): void
     {
+        //given
         $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'tagCreate1@example.com');
         $this->httpClient->loginUser($adminUser);
+        //when
         $this->httpClient->request('GET', self::TEST_ROUTE . '/');
+        //then
         $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
     }
 
@@ -250,8 +253,12 @@ class TagControllerTest extends WebBaseTestCase
     public function testDeleteTag(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value],
-            'tag_deleted_user1@example.com');
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value],
+                'tag_deleted_user1@example.com');
+        } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
+        }
         $this->httpClient->loginUser($user);
 
         $tagRepository =

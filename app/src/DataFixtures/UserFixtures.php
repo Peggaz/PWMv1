@@ -17,7 +17,8 @@ class UserFixtures extends AbstractBaseFixtures
 {
 
     /**
-     * Password hashes.
+     * Tworzy hasher do tworzenia haseł
+     * @var UserPasswordHasherInterface
      */
     private UserPasswordHasherInterface $passwordHarsher;
 
@@ -66,6 +67,7 @@ class UserFixtures extends AbstractBaseFixtures
             );
             $user->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             $user->setUpdatedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
+
             return $user;
         });
 

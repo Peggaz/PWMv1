@@ -316,8 +316,7 @@
 //
 //composer require --dev squizlabs/php_codesniffer
 //composer require --dev escapestudios/symfony2-coding-standard
-//vendor/bin/phpcs --config-set installed_paths $(realpath
-//vendor/escapestudios/symfony2-coding-standard)
+//vendor/bin/phpcs --config-set installed_paths $(realpathvendor/escapestudios/symfony2-coding-standard)
 //vendor/bin/phpcs --config-set default_standard Symfony
 //
 //Sprawdzenie odpalamy poleceniem: vendor/bin/phpcs --standard=Symfony src/

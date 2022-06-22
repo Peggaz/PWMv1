@@ -46,7 +46,7 @@
             <tr>
                 <th>{{ 'label.tags'|trans }}</th>
                 <td>{% for item in  transaction.tags %}
-                        <a href="{{ path('app_tag_show', {'id': item.id}) }}">{{ item.name }}</a>,
+                        <a href="{{ path('tag_show', {'id': item.id}) }}">{{ item.name }}</a>,
                     {% endfor %}</td>
                 <td>
             </tr>

@@ -88,4 +88,15 @@ class UserRepository extends ServiceEntityRepository
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    /**
+     * Delete entity.
+     *
+     * @param User $wallet Category entity
+     */
+    public function delete(User $wallet): void
+    {
+        $this->_em->remove($wallet);
+        $this->_em->flush();
+    }
 }

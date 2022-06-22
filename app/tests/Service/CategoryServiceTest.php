@@ -105,7 +105,6 @@ class CategoryServiceTest extends KernelTestCase
     /**
      * Test find by id.
      *
-     * @throws ORMException
      */
     public function testFindById(): void
     {
