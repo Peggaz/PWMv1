@@ -1,34 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag{% endblock %}
+{% block title %}
+    {{ 'title.tag_details'|trans({'%id%': tag.id|default('')}) }}
+{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.tag'|trans }}</h1>
+    <h1>{{ 'title.tag_details'|trans({'%id%': tag.id|default('')}) }}</h1>
+    {% if tag is defined and tag|length %}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>{{ 'label.id'|trans }}</th>
+                <td>{{ tag.id }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.name'|trans }}</th>
+                <td>{{ tag.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.updatedAt'|trans }}</th>
+                <td>{{ tag.updatedAt|format_date('long') }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'label.createdAt'|trans }}</th>
+                <td>{{ tag.createdAt|format_date('long') }}</td>
+            </tr>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>{{ 'label.id'|trans }}</th>
-            <td>{{ tag.id }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'label.name'|trans }}</th>
-            <td>{{ tag.name }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'label.createdAt'|trans }}</th>
-            <td>{{ tag.createdAt ? tag.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'label.updatedAt'|trans }}</th>
-            <td>{{ tag.updatedAt ? tag.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_tag_index') }}">{{ 'action.back_to_list'|trans }}</a>
-
-    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">{{ 'action.edit'|trans }}</a>
-
-    {{ include('tag/_delete_form.html.twig') }}
+            </tbody>
+        </table>
+        <p>
+            <a href="{{ url('tag_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+        <div class="btn btn-light">
+            <a href="{{ url('tag_edit', {id: tag.id}) }}" title="{{ 'action.edit'|trans }}">
+                {{ 'action.edit'|trans }}</a>
+        </div>
+        <div class="btn btn-light">
+            <a href="{{ url('tag_delete', {id: tag.id}) }}" title="{{ 'action.delete'|trans }}">
+                {{ 'action.delete'|trans }}</a>
+        </div>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
 {% endblock %}

@@ -397,6 +397,14 @@
                 <source>title.user_delete</source>
                 <target>user delete</target>
             </trans-unit>
+            <trans-unit id="This_method_can_be_blank">
+                <source>This_method_can_be_blank</source>
+                <target>This method can be blank - it will be intercepted by the logout key on your firewall.</target>
+            </trans-unit>
+            <trans-unit id="0">
+                <source>title.tag_delete</source>
+                <target>messages</target>
+            </trans-unit>
 
         </body>
     </file>

@@ -105,7 +105,7 @@ class WalletServiceTest extends KernelTestCase
         $expectedWallet->setUpdatedAt(new DateTime('now'));
         $expectedWallet->setCreatedAt(new DateTime('now'));
         try {
-            $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user112@example.com'));
+            $expectedWallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'userserdelete112@example.com'));
         } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
         }
         $this->walletRepository->save($expectedWallet);

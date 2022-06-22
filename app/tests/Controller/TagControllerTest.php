@@ -37,13 +37,17 @@ class TagControllerTest extends WebBaseTestCase
     }
 
     /**
-     * Test index route for anonymous user.
+     * @return void
      */
     public function testIndexRouteAnonymousUser(): void
     {
         // given
+        $user = null;
         $expectedStatusCode = 301;
-        $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'tagindexuser@example.com');
+        try {
+            $user = $this->createUser([UserRole::ROLE_ADMIN->value], 'tagindexuser@example.com');
+        } catch (OptimisticLockException|NotFoundExceptionInterface|ContainerExceptionInterface|ORMException $e) {
+        }
         $this->logIn($user);
         // when
         $this->httpClient->request('GET', self::TEST_ROUTE);
@@ -62,7 +66,7 @@ class TagControllerTest extends WebBaseTestCase
     {
         // given
         $expectedStatusCode = 301;
-        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'taguser@example.com');
+        $adminUser = $this->createUser([UserRole::ROLE_USER->value, UserRole::ROLE_ADMIN->value], 'tag_user@example.com');
         $this->httpClient->loginUser($adminUser);
 
         // when
@@ -81,7 +85,7 @@ class TagControllerTest extends WebBaseTestCase
     public function testIndexRouteNonAuthorizedUser(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value], 'taguser1@example.com');
+        $user = $this->createUser([UserRole::ROLE_USER->value], 'tag_user2@example.com');
         $this->httpClient->loginUser($user);
 
         // when
@@ -93,6 +97,7 @@ class TagControllerTest extends WebBaseTestCase
     }
 
 
+
     /**
      * Test show single tag.
      *
@@ -101,7 +106,7 @@ class TagControllerTest extends WebBaseTestCase
     public function testShowTag(): void
     {
         // given
-        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'taguser2@exmaple.com');
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'tag_user2@exmaple.com');
         $this->httpClient->loginUser($adminUser);
 
         $expectedTag = new Tag();
@@ -117,19 +122,48 @@ class TagControllerTest extends WebBaseTestCase
 
         // then
         $this->assertEquals(200, $result->getStatusCode());
-        $this->assertSelectorTextContains('td', $expectedTag->getId());
+        $this->assertSelectorTextContains('html td', $expectedTag->getId());
         // ... more assertions...
     }
 
     //create tag
+
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     */
     public function testCreateTag(): void
     {
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'tag_created_user2@example.com');
+        $this->httpClient->loginUser($user);
+        $tagTagName = "createdTag";
+        $tagRepository = static::getContainer()->get(TagRepository::class);
+
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/new');
+        // when
+        $this->httpClient->submitForm(
+            'Zapisz',
+            ['tag' => ['name' => $tagTagName]]
+        );
+
+        // then
+        $savedTag = $tagRepository->findOneByName($tagTagName);
+        $this->assertEquals($tagTagName,
+            $savedTag->getName());
+
+
         $result = $this->httpClient->getResponse();
-        $this->assertEquals(302, $result->getStatusCode());
+        $this->assertEquals(303, $result->getStatusCode());
 
     }
 
+    /**
+     * @return void
+     */
     public function testEditTagUnauthorizedUser(): void
     {
         // given
@@ -156,6 +190,13 @@ class TagControllerTest extends WebBaseTestCase
     }
 
 
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testEditTag(): void
     {
         // given
@@ -179,13 +220,7 @@ class TagControllerTest extends WebBaseTestCase
         // when
         $this->httpClient->submitForm(
             'Edytuj',
-            ['tag' => [
-                'id' => $testTagId,
-                'name' => $expectedNewTagName,
-                'updatedAt' => $testTag->getUpdatedAt(),
-                'createdAt' => $testTag->getCreatedAt(),
-            ]
-            ]
+            ['tag' => ['name' => $expectedNewTagName]]
         );
 
         // then
@@ -195,31 +230,47 @@ class TagControllerTest extends WebBaseTestCase
     }
 
 
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     */
     public function testNewRoutAdminUser(): void
     {
         $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'tagCreate1@example.com');
         $this->httpClient->loginUser($adminUser);
-        $this->httpClient->followRedirect();
         $this->httpClient->request('GET', self::TEST_ROUTE . '/');
         $this->assertEquals(200, $this->httpClient->getResponse()->getStatusCode());
     }
 
+    /**
+     * @return void
+     */
     public function testDeleteTag(): void
     {
-        // create tag
-        $tag = new Tag();
-        $tag->setName('TestTag12');
-        $tag->setCreatedAt(new DateTime('now'));
-        $tag->setUpdatedAt(new DateTime('now'));
-        $tagRepository = self::getContainer()->get(TagRepository::class);
-        $tagRepository->save($tag);
-        $this->assertNotNull($tagRepository->findByName('TestTag12'));
-        // delete
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $tag->getId() . '/delete');
-        $this->httpClient->request('DELETE', self::TEST_ROUTE . '/' . $tag->getId() . '/delete/',
-            ['tag' =>
-                $this->httpClient->submitForm('delete', [])
-            ]);
-        $this->assertNull($tagRepository->findOneByName('TestTag12'));
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'tag_deleted_user1@example.com');
+        $this->httpClient->loginUser($user);
+
+        $tagRepository =
+            static::getContainer()->get(TagRepository::class);
+        $testTag = new Tag();
+        $testTag->setName('TestTagCreated');
+        $testTag->setCreatedAt(new DateTime('now'));
+        $testTag->setUpdatedAt(new DateTime('now'));
+        $tagRepository->save($testTag);
+        $testTagId = $testTag->getId();
+
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testTagId . '/delete');
+
+        //when
+        $this->httpClient->submitForm(
+            'Usuń'
+        );
+
+        // then
+        $this->assertNull($tagRepository->findOneByName('TestTagCreated'));
     }
 }

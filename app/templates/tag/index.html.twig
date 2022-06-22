@@ -1,39 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.tag_list'|trans }}{% endblock %}
+{% block title %}
+    {{ 'title.tag_list'|trans }}
+{% endblock %}
 
 {% block body %}
     <h1>{{ 'title.tag_list'|trans }}</h1>
+    {% if tag_pagination is defined and tag_pagination.items|length %}
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>{{ 'label.id'|trans }}</th>
-            <th>{{ 'label.name'|trans }}</th>
-            <th>{{ 'label.createdAt'|trans }}</th>
-            <th>{{ 'label.updatedAt'|trans }}</th>
-            <th>{{ 'label.actions'|trans }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for tag in tags %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tag_pagination) }}
+        </div>
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>{{ tag.id }}</td>
-                <td>{{ tag.name }}</td>
-                <td>{{ tag.createdAt ? tag.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tag.updatedAt ? tag.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
-                </td>
+                <th>{{ knp_pagination_sortable(tag_pagination, 'label.id'|trans, 'tag.id') }}</th>
+                <th>{{ knp_pagination_sortable(tag_pagination, 'label.name'|trans, 'tag.name') }}</th>
+                <th>{{ knp_pagination_sortable(tag_pagination, 'label.updatedAt'|trans, 'tag.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(tag_pagination, 'label.createdAt'|trans, 'tag.createdAt') }}</th>
+                <th>{{ 'label.action'|trans }}</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">{{ 'message.record_not_found'|trans }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for item in tag_pagination.items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.updatedAt |format_date('long') }}</td>
+                    <td>{{ item.createdAt |format_date('long') }}</td>
+                    <td>
+                        <a href="{{ url('tag_show', {id: item.id}) }}" title="{{ 'action.view'|trans }}">
+                            {{ 'action.view'|trans }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_tag_new') }}">{{ 'title.tag_create'|trans }}</a>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tag_pagination) }}
+        </div>
+
+    {% else %}
+        {% include 'default/_single_alert_message.html.twig' with {
+            type: 'warning',
+            message: 'message.empty_list'|trans
+        } %}
+    {% endif %}
+    <div class="btn btn-light">
+        <a href="{{ url('tag_new') }}" title="{{ 'action.create'|trans }}">
+            {{ 'action.create'|trans }}</a>
+    </div>
 {% endblock %}
