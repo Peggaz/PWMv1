@@ -109,7 +109,7 @@ class Tag
         return $this;
     }
 
-    #region create update
+    // region create update
 
     /**
      * Getter for Created At.
@@ -159,7 +159,7 @@ class Tag
         return $this;
     }
 
-#endregion
+// endregion
 
     public function __toString()
     {

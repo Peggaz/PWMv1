@@ -152,6 +152,7 @@ class Transaction
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable= false)
+     *
      * @Assert\NotBlank
      */
     private ?User $author;
@@ -176,9 +177,10 @@ class Transaction
         if (!isset($this->id)) {
             return 0;
         }
+
         return $this->id;
     }
-    #region name
+    // region name
 
     /**
      * Getter for Name.
@@ -203,8 +205,8 @@ class Transaction
 
         return $this;
     }
-    #endregion
-    #region data
+    // endregion
+    // region data
     /**
      * Getter for Date.
      *
@@ -228,8 +230,8 @@ class Transaction
 
         return $this;
     }
-    #endregion
-    #region amount
+    // endregion
+    // region amount
     /**
      * Getter for Amount.
      *
@@ -250,10 +252,11 @@ class Transaction
     public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
         return $this;
     }
-    #endregion
-    #region create update
+    // endregion
+    // region create update
     /**
      * Getter for Created At.
      *
@@ -301,7 +304,7 @@ class Transaction
 
         return $this;
     }
-    #endregion
+    // endregion
 
     /**
      * Getter for category.
@@ -312,8 +315,8 @@ class Transaction
     {
         return $this->category;
     }
-    #endregion
-    #region ManyToOne
+    // endregion
+    // region ManyToOne
     /**
      * Setter for category.
      *
@@ -400,7 +403,7 @@ class Transaction
         return $this;
     }
 
-    #endregion
+    // endregion
 
 
     /**
@@ -462,5 +465,4 @@ class Transaction
 
         return $this;
     }
-
 }

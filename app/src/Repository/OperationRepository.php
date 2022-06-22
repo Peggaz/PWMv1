@@ -48,6 +48,7 @@ class OperationRepository extends ServiceEntityRepository
     public function queryLikeName(string $name): QueryBuilder
     {
         $qb = $this->getOrCreateQueryBuilder();
+
         return $qb
             ->select('partial operation.{id, createdAt, updatedAt, name}')
             ->where(

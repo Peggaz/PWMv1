@@ -179,7 +179,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-    #region created updated
+    // region created updated
     /**
      * Getter for Create At.
      *
@@ -225,7 +225,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    #endregion
+    // endregion
 
     public function __toString()
     {

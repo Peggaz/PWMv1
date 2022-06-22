@@ -41,7 +41,7 @@ class SearchController extends AbstractController
         $this->operationService = $taskService3;
     }
 
-#region list
+// region list
 
     /**
      * Index action.
@@ -67,14 +67,15 @@ class SearchController extends AbstractController
             $name
         );
 
-        return $this->render('search/index.html.twig',
+        return $this->render(
+            'search/index.html.twig',
             [
                 'name' => $name,
                 'category_pagination' => $category_pagination,
                 'payment_pagination' => $payment_pagination,
-                'operation_pagination' => $operation_pagination
+                'operation_pagination' => $operation_pagination,
             ]
         );
     }
-#endregion
+// endregion
 }

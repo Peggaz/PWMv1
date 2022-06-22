@@ -93,7 +93,6 @@ class TransactionVoter extends Voter
             self::DELETE => $this->canDelete($subject, $user),
             default => false,
         };
-
     }
 
     /**

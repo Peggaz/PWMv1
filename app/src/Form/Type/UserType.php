@@ -6,19 +6,13 @@
 namespace App\Form\Type;
 
 use App\Entity\Enum\UserRole;
-use App\Entity\Payment;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\DependencyInjection\Compiler\CheckArgumentsValidityPass;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * Class UserType.
@@ -32,6 +26,7 @@ class UserType extends AbstractType
      * top most type. Type extensions can further modify the form.
      *
      * @param array<string, mixed> $options
+     * @param FormBuilderInterface $builder
      *
      * @see FormTypeExtensionInterface::buildForm()
      */
@@ -59,13 +54,13 @@ class UserType extends AbstractType
 
         $builder->add('roles', ChoiceType::class, [
             'choices' => [UserRole::ROLE_ADMIN, UserRole::ROLE_USER],
-            'attr' => ['class' => 'dropdown']
-        ]
-        );
+            'attr' => ['class' => 'dropdown'],
+        ]);
     }
 
     /**
      * Configures the options for this type.
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

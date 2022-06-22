@@ -112,5 +112,4 @@ class WalletRepository extends ServiceEntityRepository
         $this->_em->remove($wallet);
         $this->_em->flush();
     }
-
 }

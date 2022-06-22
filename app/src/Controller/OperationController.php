@@ -45,7 +45,7 @@ class OperationController extends AbstractController
         $this->translator = $translator;
     }
 
-#region list
+// region list
 
     /**
      * Index action.
@@ -63,8 +63,8 @@ class OperationController extends AbstractController
 
         return $this->render('operation/index.html.twig', ['operation_pagination' => $pagination]);
     }
-#endregion
-#region detail
+// endregion
+// region detail
     /**
      * Show action.
      *
@@ -82,8 +82,8 @@ class OperationController extends AbstractController
     {
         return $this->render('operation/show.html.twig', ['operation' => $operation]);
     }
-#endregion
-#region create
+// endregion
+// region create
     /**
      * Create action.
      *
@@ -118,8 +118,8 @@ class OperationController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-#endregion
-#region update
+// endregion
+// region update
     /**
      * Edit action.
      *
@@ -156,9 +156,9 @@ class OperationController extends AbstractController
             ]
         );
     }
-#endregion
+// endregion
 
-#region delete
+// region delete
     /**
      * Delete action.
      *
@@ -208,6 +208,5 @@ class OperationController extends AbstractController
             ]
         );
     }
-#endregion
-
+// endregion
 }

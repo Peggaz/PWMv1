@@ -45,7 +45,7 @@ class CategoryController extends AbstractController
         $this->translator = $translator;
     }
 
-#region list
+// region list
 
     /**
      * Index action.
@@ -63,8 +63,8 @@ class CategoryController extends AbstractController
 
         return $this->render('category/index.html.twig', ['category_pagination' => $pagination]);
     }
-#endregion
-#region detail
+// endregion
+// region detail
     /**
      * Show action.
      *
@@ -82,8 +82,8 @@ class CategoryController extends AbstractController
     {
         return $this->render('category/show.html.twig', ['category' => $category]);
     }
-#endregion
-#region create
+// endregion
+// region create
     /**
      * Create action.
      *
@@ -118,8 +118,8 @@ class CategoryController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-#endregion
-#region update
+// endregion
+// region update
     /**
      * Edit action.
      *
@@ -156,9 +156,9 @@ class CategoryController extends AbstractController
             ]
         );
     }
-#endregion
+// endregion
 
-#region delete
+// region delete
     /**
      * Delete action.
      *
@@ -208,6 +208,5 @@ class CategoryController extends AbstractController
             ]
         );
     }
-#endregion
-
+// endregion
 }

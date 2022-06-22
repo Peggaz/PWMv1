@@ -151,8 +151,4 @@ class TagController extends AbstractController
             'tag' => $tag,
         ]);
     }
-
-
-
-
 }

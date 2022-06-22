@@ -93,7 +93,6 @@ class WalletVoter extends Voter
             self::DELETE => $this->canDelete($subject, $user),
             default => false,
         };
-
     }
 
     /**

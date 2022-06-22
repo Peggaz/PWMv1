@@ -19,6 +19,7 @@ interface WalletServiceInterface
      *
      * @param int $page Page number
      * @param User $user
+     *
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page, User $user): PaginationInterface;
@@ -29,5 +30,4 @@ interface WalletServiceInterface
      * @param Wallet $wallet User entity
      */
     public function save(Wallet $wallet): void;
-
 }

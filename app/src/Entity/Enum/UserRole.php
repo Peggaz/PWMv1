@@ -15,11 +15,9 @@ enum UserRole: string
 
     public function labelOne(): string
     {
-        if ($this == UserRole::ROLE_USER)
-        {
+        if ($this == UserRole::ROLE_USER) {
             return 'label.role_user';
-        } else if ($this == UserRole::ROLE_ADMIN)
-        {
+        } elseif ($this == UserRole::ROLE_ADMIN) {
             return 'label.role_admin';
         }
 
@@ -38,6 +36,4 @@ enum UserRole: string
             UserRole::ROLE_ADMIN => 'label.role_admin',
         };
     }
-
-
 }

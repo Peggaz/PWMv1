@@ -34,6 +34,7 @@ class PaymentService implements PaymentServiceInterface
      * Constructor.
      *
      * @param PaymentRepository $paymentRepository Payment repository
+     * @param TransactionRepository $transactionRepository
      * @param PaginatorInterface $paginator Paginator
      */
     public function __construct(PaymentRepository $paymentRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)

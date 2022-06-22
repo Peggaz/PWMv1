@@ -184,5 +184,4 @@ class TransactionRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
-
 }

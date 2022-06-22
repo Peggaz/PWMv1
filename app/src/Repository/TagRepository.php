@@ -29,6 +29,10 @@ class TagRepository extends ServiceEntityRepository
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tag::class);
@@ -84,6 +88,7 @@ class TagRepository extends ServiceEntityRepository
      * @param string $name Id
      *
      * @return Tag|null Tag entity
+     *
      * @throws NonUniqueResultException
      */
     public function findOneByName(string $name): ?Tag
@@ -105,5 +110,4 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->persist($tag);
         $this->_em->flush();
     }
-
 }

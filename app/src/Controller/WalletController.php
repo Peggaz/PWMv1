@@ -50,9 +50,9 @@ class WalletController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request            $request        HTTP Request
-     * @param WalletRepository     $walletRepository Task repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param Request $request HTTP Request
+     * @param WalletRepository $walletRepository Task repository
+     * @param PaginatorInterface $paginator Paginator
      *
      * @return Response HTTP response
      */
@@ -128,7 +128,7 @@ class WalletController extends AbstractController
         );
     }
 
-    #region update
+    // region update
 
     /**
      * Edit action.
@@ -167,9 +167,9 @@ class WalletController extends AbstractController
             ]
         );
     }
-#endregion
+// endregion
 
-#region delete
+// region delete
     /**
      * Delete action.
      *
@@ -207,5 +207,5 @@ class WalletController extends AbstractController
             ]
         );
     }
-#endregion
+// endregion
 }

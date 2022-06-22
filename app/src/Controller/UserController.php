@@ -57,7 +57,7 @@ class UserController extends AbstractController
     /**
      * Index action.
      *
-     * @param Request            $request        HTTP Request
+     * @param Request $request HTTP Request
      *
      * @return Response HTTP response
      */
@@ -91,7 +91,7 @@ class UserController extends AbstractController
     {
         return $this->render(
             'user/show.html.twig',
-            ['user' => $user
+            ['user' => $user,
 
             ]
         );
@@ -138,7 +138,7 @@ class UserController extends AbstractController
         );
     }
 
-    #region update
+    // region update
 
     /**
      * Edit action.
@@ -153,10 +153,14 @@ class UserController extends AbstractController
     {
         $user->setPassword("");
         $form = $this->createForm(
-            UserType::class, $user, [
+            UserType::class,
+            $user,
+            [
                 'method' => 'PUT',
-                'action' => $this->generateUrl('user_edit',
-                    ['id' => $user->getId()]),
+                'action' => $this->generateUrl(
+                    'user_edit',
+                    ['id' => $user->getId()]
+                ),
             ]
         );
         $form->handleRequest($request);
@@ -184,9 +188,9 @@ class UserController extends AbstractController
             ]
         );
     }
-    #endregion
+    // endregion
 
-    #region delete
+    // region delete
     /**
      * Delete action.
      *
@@ -223,5 +227,5 @@ class UserController extends AbstractController
             ]
         );
     }
-    #endregion
+    // endregion
 }

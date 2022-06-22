@@ -38,5 +38,4 @@ interface OperationServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Operation $category): bool;
-
 }

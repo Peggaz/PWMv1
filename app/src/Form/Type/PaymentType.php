@@ -22,6 +22,7 @@ class PaymentType extends AbstractType
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
+     * @param FormBuilderInterface $builder
      * @param array<string, mixed> $options
      *
      * @see FormTypeExtensionInterface::buildForm()
@@ -35,7 +36,8 @@ class PaymentType extends AbstractType
                 'label' => 'label.name',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ]);
+            ]
+        );
     }
 
     /**

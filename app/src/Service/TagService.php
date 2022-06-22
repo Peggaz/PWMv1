@@ -86,6 +86,7 @@ class TagService implements TagServiceInterface
      * @param string $name Tag name
      *
      * @return Tag|null Tag entity
+     *
      * @throws NonUniqueResultException
      */
     public function findOneByName(string $name): ?Tag

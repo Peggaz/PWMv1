@@ -60,6 +60,7 @@ class CategoryRepository extends ServiceEntityRepository
     public function queryLikeName(string $name): QueryBuilder
     {
         $qb = $this->getOrCreateQueryBuilder();
+
         return $qb
             ->select('partial category.{id, createdAt, updatedAt, name}')
             ->where(

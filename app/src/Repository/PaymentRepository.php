@@ -60,6 +60,7 @@ class PaymentRepository extends ServiceEntityRepository
     public function queryLikeName(string $name): QueryBuilder
     {
         $qb = $this->getOrCreateQueryBuilder();
+
         return $qb
             ->select('partial payment.{id, createdAt, updatedAt, name}')
             ->where(

@@ -38,5 +38,4 @@ interface PaymentServiceInterface
      * @return bool Result
      */
     public function canBeDeleted(Payment $category): bool;
-
 }

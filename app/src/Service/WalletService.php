@@ -32,8 +32,8 @@ class WalletService implements WalletServiceInterface
     /**
      * Constructor.
      *
-     * @param WalletRepository     $walletRepository Wallet repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param WalletRepository $walletRepository Wallet repository
+     * @param PaginatorInterface $paginator Paginator
      */
     public function __construct(WalletRepository $walletRepository, PaginatorInterface $paginator)
     {
@@ -46,6 +46,7 @@ class WalletService implements WalletServiceInterface
      *
      * @param int $page Page number
      * @param User $user
+     *
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page, User $user): PaginationInterface
@@ -57,6 +58,7 @@ class WalletService implements WalletServiceInterface
                 TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
             );
         }
+
         return $this->paginator->paginate(
             $this->walletRepository->queryByAuthor($user),
             $page,

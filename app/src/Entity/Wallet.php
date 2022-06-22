@@ -54,6 +54,7 @@ class Wallet
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable= false)
+     *
      * @Assert\NotBlank
      */
     private ?User $user;
@@ -198,7 +199,9 @@ class Wallet
         return $this;
     }
 
-
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;

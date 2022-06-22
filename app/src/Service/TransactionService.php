@@ -57,6 +57,7 @@ class TransactionService implements TransactionServiceInterface
                 TransactionRepository::PAGINATOR_ITEMS_PER_PAGE
             );
         }
+
         return $this->paginator->paginate(
             $this->transactionRepository->queryByAuthor($author),
             $page,
@@ -88,7 +89,4 @@ class TransactionService implements TransactionServiceInterface
     {
         $this->transactionRepository->delete($transaction);
     }
-
-
 }
-

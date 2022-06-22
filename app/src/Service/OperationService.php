@@ -29,13 +29,16 @@ class OperationService implements OperationServiceInterface
      * Paginator.
      */
     private PaginatorInterface $paginator;
+
+    /**
+     * @var TransactionRepository
+     */
     private TransactionRepository $transactionRepository;
 
     /**
-     * Constructor.
-     *
-     * @param OperationRepository $operationRepository Operation repository
-     * @param PaginatorInterface $paginator Paginator
+     * @param OperationRepository $operationRepository
+     * @param TransactionRepository $transactionRepository
+     * @param PaginatorInterface $paginator
      */
     public function __construct(OperationRepository $operationRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {

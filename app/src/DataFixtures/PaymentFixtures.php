@@ -31,5 +31,4 @@ class PaymentFixtures extends AbstractBaseFixtures
 
         $manager->flush();
     }
-
 }
