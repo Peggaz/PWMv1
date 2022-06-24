@@ -1,5 +1,5 @@
 {% include 'default/_form.html.twig' with {
-    page_title: 'title.user_create',
+    page_title: 'title.user_create'|trns,
     attr: {
         method: 'POST',
         action: url('user_create')

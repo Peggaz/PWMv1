@@ -246,8 +246,12 @@ class CategoryControllerTest extends WebBaseTestCase
     public function testDeleteCategory(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value],
-            'category_deleted_user1@example.com');
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value],
+                'category_deleted_user1@example.com');
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
         $this->httpClient->loginUser($user);
 
         $categoryRepository =

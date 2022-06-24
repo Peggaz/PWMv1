@@ -128,4 +128,70 @@ class WalletControllerTest extends WebBaseTestCase
         $this->assertEquals($expected, $walletRepository->findOneByName($expected)->getName());
 
     }
+
+    /**
+     * Test show single wallet.
+     *
+     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
+     */
+    public function testShowWallet(): void
+    {
+        // given
+        $adminUser = $this->createUser([UserRole::ROLE_ADMIN->value, UserRole::ROLE_USER->value], 'wallet_user2@exmaple.com');
+        $this->httpClient->loginUser($adminUser);
+
+        $wallet = new Wallet();
+        $wallet->setName('TestWallet123');
+        $wallet->setCreatedAt(new DateTime('now'));
+        $wallet->setUpdatedAt(new DateTime('now'));
+        $wallet->setUser($adminUser);
+        $wallet->setBalance(2000);
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
+        $walletRepository->save($wallet);
+
+        // when
+        $this->httpClient->request('GET', '/wallet/' . $wallet->getId());
+        $result = $this->httpClient->getResponse();
+
+        // then
+        $this->assertEquals(200, $result->getStatusCode());
+        $this->assertSelectorTextContains('html td', $wallet->getId());
+        // ... more assertions...
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteWallet(): void
+    {
+        // given
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value],
+                'wallet_deleted_user1@example.com');
+        } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
+        }
+        $this->httpClient->loginUser($user);
+
+        $wallet = new Wallet();
+        $wallet->setName('TestWallet123');
+        $wallet->setCreatedAt(new DateTime('now'));
+        $wallet->setUpdatedAt(new DateTime('now'));
+        $wallet->setUser($user);
+        $wallet->setBalance(2000);
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
+        $walletRepository->save($wallet);
+        $testWalletId = $wallet->getId();
+
+        $this->httpClient->request('GET', '/wallet/' . $testWalletId . '/delete');
+
+        //when
+        $this->httpClient->submitForm(
+            'usuń'
+        );
+
+        // then
+        $this->assertNull($walletRepository->findOneByName('TestWalletCreated'));
+    }
+
 }

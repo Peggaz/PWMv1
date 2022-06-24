@@ -28,6 +28,8 @@
                 <td>{{ wallet.id }}</td>
                 <td>{{ wallet.name }}</td>
                 <td>{{ wallet.balance }}</td>
+                <td>{{ wallet.createdAt|date("m.d.Y") }}</td>
+                <td>{{ wallet.updatedAt|date("m.d.Y") }}</td>
                 <td>
                     {% if is_granted('VIEW', wallet) %}
                         <a href="{{ url('wallet_show', {id: wallet.id}) }}" title="{{ 'action.view'|trans }}">
@@ -35,8 +37,6 @@
                         </a>
                     {% endif %}
                 </td>
-                <td>{{ wallet.createdAt|date("m.d.Y") }}</td>
-                <td>{{ wallet.updatedAt|date("m.d.Y") }}</td>
             </tr>
         {% endfor %}
         </tbody>

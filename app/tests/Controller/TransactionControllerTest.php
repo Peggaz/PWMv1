@@ -299,8 +299,12 @@ class TransactionControllerTest extends WebBaseTestCase
     public function testDeleteTransaction(): void
     {
         // given
-        $user = $this->createUser([UserRole::ROLE_USER->value],
-            'transaction_deleted_user1@example.com');
+        $user = null;
+        try {
+            $user = $this->createUser([UserRole::ROLE_USER->value],
+                'transaction_deleted_user1@example.com');
+        } catch (OptimisticLockException|ORMException|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+        }
         $this->httpClient->loginUser($user);
 
         $transactionRepository =

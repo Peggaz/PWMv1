@@ -193,44 +193,6 @@ class TransactionServiceTest extends KernelTestCase
     }
 
     /**
-     * Test delete.
-     * @covers \App\Service\Transaction::delete
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function testDelete(): void
-    {
-        // given
-        $expectedTransaction = new Transaction();
-        $expectedTransaction->setName('Test Transaction');
-        $expectedTransaction->setDate((DateTime::createFromFormat('Y-m-d', "2021-05-09")));
-        $expectedTransaction->setAmount('1000');
-        $expectedTransaction->setUpdatedAt(new DateTime('now'));
-        $expectedTransaction->setCreatedAt(new DateTime('now'));
-        $expectedTransaction->setCategory($this->createCategory());
-        $expectedTransaction->setWallet($this->createWallet('user2@example.com'));
-        $expectedTransaction->setOperation($this->createOperation());
-        $expectedTransaction->setPayment($this->createPayment());
-        $expectedTransaction->addTag($this->createTag());
-        try {
-            $expectedTransaction->setAuthor($this->createUser([UserRole::ROLE_USER->value], 'transactiondeleteuser2@example.com'));
-        } catch (OptimisticLockException|NotFoundExceptionInterface|ORMException|ContainerExceptionInterface $e) {
-        }
-
-
-        $expectedId = $expectedTransaction->getId();
-        $this->transactionService->save($expectedTransaction);
-        self::assertNull($this->transactionRepository->findOneById($expectedId));
-        // when
-
-        $this->transactionService->delete($expectedTransaction);
-        $result = $this->transactionRepository->findOneById($expectedId);
-
-        // then
-        $this->assertNull($result);
-    }
-
-    /**
      * Set up test.
      */
     protected function setUp(): void
