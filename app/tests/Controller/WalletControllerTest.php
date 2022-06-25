@@ -10,10 +10,6 @@ use App\Entity\Wallet;
 use App\Repository\WalletRepository;
 use App\Tests\WebBaseTestCase;
 use DateTime;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class WalletControllerTest.
@@ -70,15 +66,26 @@ class WalletControllerTest extends WebBaseTestCase
     public function testCreateWalletAdminUser(): void
     {
         // given
-        $expectedStatusCode = 301;
-        $admin = $this->createUser(['ROLE_ADMIN', 'ROLE_USER'], 'user123@example.com');
-        $this->logIn($admin);
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'wallet_created_user1@example.com');
+        $this->httpClient->loginUser($user);
+        $expected = "name";
+        $walletRepository = self::getContainer()->get(WalletRepository::class);
         // when
-        $this->httpClient->request('GET', '/wallet/create/');
-        $resultStatusCode = $this->httpClient->getResponse()->getStatusCode();
+        $this->httpClient->request('GET', '/wallet/create');
 
-        // then
-        $this->assertEquals($expectedStatusCode, $resultStatusCode);
+        $this->httpClient->submitForm(
+            'utworzenie',
+            ['wallet' =>
+                [
+                    'name' => $expected,
+                    'balance' => 300,
+                ]
+            ]
+        );
+
+        $this->assertEquals($expected, $walletRepository->findOneByName($expected)->getName());
+
     }
 
 
@@ -102,28 +109,34 @@ class WalletControllerTest extends WebBaseTestCase
 
     /**
      * @return void
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function testEditWallet(): void
     {
-        // create category
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'wallet_created_user2@example.com');
+        $this->httpClient->loginUser($user);
         $wallet = new Wallet();
         $wallet->setName('TestWallet123');
-        $wallet->setCreatedAt(new DateTime('now'));
-        $wallet->setUpdatedAt(new DateTime('now'));
-        $wallet->setUser($this->createUser([UserRole::ROLE_USER->value], 'user1235@example.com'));
+        $wallet->setUser($user );
         $wallet->setBalance(2000);
         $walletRepository = self::getContainer()->get(WalletRepository::class);
         $walletRepository->save($wallet);
-
         $expected = 'TestChangedWallet123.';
-        // change name
-        $wallet->setName('TestChangedWallet123.');
-        $wallet->setBalance(3000);
-        $walletRepository->save($wallet);
+        // when
+
+        $this->httpClient->request('GET', '/wallet/' .
+            $wallet->getId() . '/edit');
+
+        $this->httpClient->submitForm(
+            'Edytuj',
+            ['wallet' =>
+                [
+                    'name' => $expected,
+                    'balance' => 300,
+                ]
+            ]
+        );
 
         $this->assertEquals($expected, $walletRepository->findOneByName($expected)->getName());
 
@@ -131,8 +144,6 @@ class WalletControllerTest extends WebBaseTestCase
 
     /**
      * Test show single wallet.
-     *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     public function testShowWallet(): void
     {
@@ -165,12 +176,8 @@ class WalletControllerTest extends WebBaseTestCase
     public function testDeleteWallet(): void
     {
         // given
-        $user = null;
-        try {
-            $user = $this->createUser([UserRole::ROLE_USER->value],
+        $user = $this->createUser([UserRole::ROLE_USER->value],
                 'wallet_deleted_user1@example.com');
-        } catch (OptimisticLockException|ORMException|ContainerExceptionInterface $e) {
-        }
         $this->httpClient->loginUser($user);
 
         $wallet = new Wallet();
@@ -183,9 +190,8 @@ class WalletControllerTest extends WebBaseTestCase
         $walletRepository->save($wallet);
         $testWalletId = $wallet->getId();
 
-        $this->httpClient->request('GET', '/wallet/' . $testWalletId . '/delete');
-
         //when
+        $this->httpClient->request('GET', '/wallet/' . $testWalletId . '/delete');
         $this->httpClient->submitForm(
             'usuń'
         );

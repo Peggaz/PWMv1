@@ -15,10 +15,6 @@ use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use DateTime;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -38,8 +34,6 @@ class WebBaseTestCase extends WebTestCase
      * @param array $roles User roles
      *
      * @return User User entity
-     *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     protected function createUser(array $roles, string $email): User
     {

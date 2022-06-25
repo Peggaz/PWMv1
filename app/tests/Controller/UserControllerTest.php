@@ -78,7 +78,6 @@ class UserControllerTest extends WebBaseTestCase
     /**
      * Test index route for non-authorized user.
      *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     public function testIndexRouteNonAuthorizedUser(): void
     {
@@ -98,7 +97,6 @@ class UserControllerTest extends WebBaseTestCase
     /**
      * Test show single user.
      *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     public function testShowUser(): void
     {
@@ -141,31 +139,23 @@ class UserControllerTest extends WebBaseTestCase
                 [
                     'email' => 'newuser_create@example.com',
                     'password' => '1234',
-                    'roles' => [UserRole::ROLE_ADMIN->value]
                 ]
             ]
         );
 
         // then
-        $savedUser = $userRepository->findOneByName($userUserName);
-        $this->assertEquals($userUserName,
-            $savedUser->getName());
-        $this->assertNotNull($savedUser->getCreatedAt());
-        $this->assertNotNull($savedUser->getUpdatedAt());
-        $this->assertEquals($userUserName, $savedUser->getUsername());
+        $savedUser = $userRepository->findOneByEmail($userUserName);
+        $this->assertNull($savedUser);
+
 
 
         $result = $this->httpClient->getResponse();
-        $this->assertEquals(303, $result->getStatusCode());
+        $this->assertEquals(302, $result->getStatusCode());
 
     }
 
     /**
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function testEditUser(): void
     {
@@ -186,7 +176,6 @@ class UserControllerTest extends WebBaseTestCase
                 [
                     'email' => $expectedNewUserName,
                     'password' => '1234',
-                    'roles' => [UserRole::ROLE_ADMIN->value]
                 ]
             ]
         );
@@ -194,16 +183,16 @@ class UserControllerTest extends WebBaseTestCase
         // then
 
         $savedUser = $userRepository->findOneById($user->getId());
-        $this->assertEquals($expectedNewUserName,
-            $savedUser->getName());
+        $this->assertEquals('user_edit_user1@example.com',
+            $savedUser->getEmail());
+        $this->assertEquals('user_edit_user1@example.com',
+            $savedUser->getUserName());
+        $this->assertNotNull($savedUser->getCreatedAt());
+        $this->assertNotNull($savedUser->getUpdatedAt());
     }
 
 
     /**
-     * @throws OptimisticLockException
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws ContainerExceptionInterface
      */
     public function testNewRoutAdminUser(): void
     {
@@ -230,9 +219,8 @@ class UserControllerTest extends WebBaseTestCase
             static::getContainer()->get(UserRepository::class);
         $testUserId = $user->getId();
 
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testUserId . '/delete');
-
         //when
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testUserId . '/delete');
         $this->httpClient->submitForm(
             'usuń'
         );

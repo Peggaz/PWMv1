@@ -83,7 +83,6 @@ class CategoryControllerTest extends WebBaseTestCase
     /**
      * Test index route for non-authorized user.
      *
-     * @throws ContainerExceptionInterface|NotFoundExceptionInterface|ORMException|OptimisticLockException
      */
     public function testIndexRouteNonAuthorizedUser(): void
     {

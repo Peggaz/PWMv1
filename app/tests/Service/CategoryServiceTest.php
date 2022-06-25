@@ -179,6 +179,5 @@ class CategoryServiceTest extends KernelTestCase
         // then
         $this->assertEquals($expectedResultSize, $result->count());
     }
-
     // other tests for paginated list
 }

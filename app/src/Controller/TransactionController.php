@@ -36,7 +36,7 @@ class TransactionController extends AbstractController
      * Constructor.
      *
      * @param TransactionServiceInterface $transactionService Transaction service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface         $translator         Translator
      */
     public function __construct(TransactionServiceInterface $transactionService, TranslatorInterface $translator)
     {
@@ -116,7 +116,7 @@ class TransactionController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
+     * @param Request     $request     HTTP request
      * @param Transaction $transaction Transaction entity
      *
      * @return Response HTTP response
@@ -152,7 +152,7 @@ class TransactionController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request $request HTTP request
+     * @param Request     $request     HTTP request
      * @param Transaction $transaction Transaction entity
      *
      * @return Response HTTP response
