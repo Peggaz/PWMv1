@@ -42,9 +42,9 @@ class UserController extends AbstractController
     /**
      * Constructor.
      *
-     * @param UserServiceInterface $userService
+     * @param UserServiceInterface        $userService
      * @param UserPasswordHasherInterface $passwordHarsher
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface         $translator
      */
     public function __construct(UserServiceInterface $userService, UserPasswordHasherInterface $passwordHarsher, TranslatorInterface $translator)
     {
@@ -144,7 +144,7 @@ class UserController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param User $user User entity
+     * @param User    $user    User entity
      *
      * @return Response HTTP response
      */
@@ -195,7 +195,7 @@ class UserController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param User $user User entity
+     * @param User    $user    User entity
      *
      * @return Response HTTP response
      */

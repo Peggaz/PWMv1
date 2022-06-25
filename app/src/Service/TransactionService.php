@@ -32,7 +32,7 @@ class TransactionService implements TransactionServiceInterface
      * Constructor.
      *
      * @param TransactionRepository $transactionRepository Transaction repository
-     * @param PaginatorInterface $paginator Paginator
+     * @param PaginatorInterface    $paginator             Paginator
      */
     public function __construct(TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
@@ -43,7 +43,7 @@ class TransactionService implements TransactionServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int  $page   Page number
      * @param User $author Author
      *
      * @return PaginationInterface<string, mixed> Paginated list

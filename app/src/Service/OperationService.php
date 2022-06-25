@@ -36,9 +36,9 @@ class OperationService implements OperationServiceInterface
     private TransactionRepository $transactionRepository;
 
     /**
-     * @param OperationRepository $operationRepository
+     * @param OperationRepository   $operationRepository
      * @param TransactionRepository $transactionRepository
-     * @param PaginatorInterface $paginator
+     * @param PaginatorInterface    $paginator
      */
     public function __construct(OperationRepository $operationRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
@@ -50,7 +50,7 @@ class OperationService implements OperationServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int         $page Page number
      * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list

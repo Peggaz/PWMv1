@@ -33,9 +33,9 @@ class PaymentService implements PaymentServiceInterface
     /**
      * Constructor.
      *
-     * @param PaymentRepository $paymentRepository Payment repository
+     * @param PaymentRepository     $paymentRepository     Payment repository
      * @param TransactionRepository $transactionRepository
-     * @param PaginatorInterface $paginator Paginator
+     * @param PaginatorInterface    $paginator             Paginator
      */
     public function __construct(PaymentRepository $paymentRepository, TransactionRepository $transactionRepository, PaginatorInterface $paginator)
     {
@@ -47,7 +47,7 @@ class PaymentService implements PaymentServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int         $page Page number
      * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list

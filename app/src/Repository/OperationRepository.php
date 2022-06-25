@@ -52,7 +52,7 @@ class OperationRepository extends ServiceEntityRepository
         return $qb
             ->select('partial operation.{id, createdAt, updatedAt, name}')
             ->where(
-                $qb->expr()->like('operation.name', $qb->expr()->literal('%' . $name . '%'))
+                $qb->expr()->like('operation.name', $qb->expr()->literal('%'.$name.'%'))
             )
             ->orderBy('operation.updatedAt', 'DESC');
     }

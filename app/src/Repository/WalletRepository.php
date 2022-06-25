@@ -32,7 +32,7 @@ class WalletRepository extends ServiceEntityRepository
 
     /**
      * @param Wallet $entity
-     * @param bool $flush
+     * @param bool   $flush
      *
      * @return void
      */
@@ -70,7 +70,7 @@ class WalletRepository extends ServiceEntityRepository
 
     /**
      * @param Wallet $entity
-     * @param bool $flush
+     * @param bool   $flush
      *
      * @return void
      */

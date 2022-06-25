@@ -14,7 +14,7 @@ class TagType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      *
      * @return void
      */

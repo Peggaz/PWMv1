@@ -62,7 +62,7 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Tag $entity
+     * @param Tag  $entity
      * @param bool $flush
      *
      * @return void
@@ -76,7 +76,7 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Tag $entity
+     * @param Tag  $entity
      * @param bool $flush
      *
      * @return void

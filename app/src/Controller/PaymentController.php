@@ -37,7 +37,7 @@ class PaymentController extends AbstractController
      * Constructor.
      *
      * @param PaymentServiceInterface $taskService Task service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface     $translator  Translator
      */
     public function __construct(PaymentServiceInterface $taskService, TranslatorInterface $translator)
     {

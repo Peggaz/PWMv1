@@ -16,7 +16,7 @@ interface PaymentServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int         $page Page number
      * @param string|null $name
      *
      * @return PaginationInterface<string, mixed> Paginated list

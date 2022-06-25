@@ -37,7 +37,7 @@ class CategoryController extends AbstractController
      * Constructor.
      *
      * @param CategoryServiceInterface $taskService Task service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface      $translator  Translator
      */
     public function __construct(CategoryServiceInterface $taskService, TranslatorInterface $translator)
     {
@@ -123,7 +123,7 @@ class CategoryController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
+     * @param Request  $request  HTTP request
      * @param Category $category Category entity
      *
      * @return Response HTTP response
@@ -162,7 +162,7 @@ class CategoryController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request $request HTTP request
+     * @param Request  $request  HTTP request
      * @param Category $category Category entity
      *
      * @return Response HTTP response

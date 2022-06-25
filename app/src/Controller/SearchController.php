@@ -33,8 +33,8 @@ class SearchController extends AbstractController
     /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $taskService Task service
-     * @param PaymentServiceInterface $taskService2 Task service
+     * @param CategoryServiceInterface  $taskService  Task service
+     * @param PaymentServiceInterface   $taskService2 Task service
      * @param OperationServiceInterface $taskService3 Task service
      */
     public function __construct(CategoryServiceInterface $taskService, PaymentServiceInterface $taskService2, OperationServiceInterface $taskService3)

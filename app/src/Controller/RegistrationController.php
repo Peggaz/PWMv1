@@ -20,11 +20,11 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @param Request $request
+     * @param Request                     $request
      * @param UserPasswordHasherInterface $userPasswordHarsher
-     * @param UserAuthenticatorInterface $userAuthenticator
-     * @param LoginFormAuthenticator $authenticator
-     * @param EntityManagerInterface $entityManager
+     * @param UserAuthenticatorInterface  $userAuthenticator
+     * @param LoginFormAuthenticator      $authenticator
+     * @param EntityManagerInterface      $entityManager
      *
      * @return Response
      */
@@ -35,8 +35,7 @@ class RegistrationController extends AbstractController
         UserAuthenticatorInterface  $userAuthenticator,
         LoginFormAuthenticator      $authenticator,
         EntityManagerInterface      $entityManager
-    ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

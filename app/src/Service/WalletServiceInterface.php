@@ -17,7 +17,7 @@ interface WalletServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int  $page Page number
      * @param User $user
      *
      * @return PaginationInterface<string, mixed> Paginated list

@@ -39,7 +39,7 @@ class WalletController extends AbstractController
      * Constructor.
      *
      * @param WalletServiceInterface $walletService
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface    $translator
      */
     public function __construct(WalletServiceInterface $walletService, TranslatorInterface $translator)
     {
@@ -133,7 +133,7 @@ class WalletController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param Wallet $wallet Wallet entity
+     * @param Wallet  $wallet  Wallet entity
      *
      * @return Response HTTP response
      */
@@ -173,7 +173,7 @@ class WalletController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Wallet $wallet Wallet entity
+     * @param Wallet  $wallet  Wallet entity
      *
      * @return Response HTTP response
      */

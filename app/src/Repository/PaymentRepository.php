@@ -64,7 +64,7 @@ class PaymentRepository extends ServiceEntityRepository
         return $qb
             ->select('partial payment.{id, createdAt, updatedAt, name}')
             ->where(
-                $qb->expr()->like('payment.name', $qb->expr()->literal('%' . $name . '%'))
+                $qb->expr()->like('payment.name', $qb->expr()->literal('%'.$name.'%'))
             )
             ->orderBy('payment.updatedAt', 'DESC');
     }

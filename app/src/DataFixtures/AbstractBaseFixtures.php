@@ -102,7 +102,7 @@ abstract class AbstractBaseFixtures extends Fixture
             $this->referencesIndex[$groupName] = [];
 
             foreach ($this->referenceRepository->getReferences() as $key => $reference) {
-                if (str_starts_with($key, $groupName . '_')) {
+                if (str_starts_with($key, $groupName.'_')) {
                     $this->referencesIndex[$groupName][] = $key;
                 }
             }

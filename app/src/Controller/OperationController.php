@@ -37,7 +37,7 @@ class OperationController extends AbstractController
      * Constructor.
      *
      * @param OperationServiceInterface $taskService Task service
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface       $translator  Translator
      */
     public function __construct(OperationServiceInterface $taskService, TranslatorInterface $translator)
     {
@@ -123,7 +123,7 @@ class OperationController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request $request HTTP request
+     * @param Request   $request   HTTP request
      * @param Operation $operation Operation entity
      *
      * @return Response HTTP response
@@ -162,7 +162,7 @@ class OperationController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request $request HTTP request
+     * @param Request   $request   HTTP request
      * @param Operation $operation Operation entity
      *
      * @return Response HTTP response

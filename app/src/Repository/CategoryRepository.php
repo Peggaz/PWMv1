@@ -64,7 +64,7 @@ class CategoryRepository extends ServiceEntityRepository
         return $qb
             ->select('partial category.{id, createdAt, updatedAt, name}')
             ->where(
-                $qb->expr()->like('category.name', $qb->expr()->literal('%' . $name . '%'))
+                $qb->expr()->like('category.name', $qb->expr()->literal('%'.$name.'%'))
             )
             ->orderBy('category.updatedAt', 'DESC');
     }
