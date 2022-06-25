@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class UserController.
@@ -32,13 +33,24 @@ class UserController extends AbstractController
     private UserServiceInterface $userService;
 
     /**
+     * Translator.
+     *
+     * @var TranslatorInterface
+     */
+    private TranslatorInterface $translator;
+
+    /**
      * Constructor.
      *
      * @param UserServiceInterface $userService
+     * @param UserPasswordHasherInterface $passwordHarsher
+     * @param TranslatorInterface $translator
      */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserServiceInterface $userService, UserPasswordHasherInterface $passwordHarsher, TranslatorInterface $translator)
     {
         $this->userService = $userService;
+        $this->passwordHarsher = $passwordHarsher;
+        $this->translator = $translator;
     }
 
 
@@ -105,7 +117,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
-                $this->passwordHasher->hashPassword(
+                $this->passwordHarsher->hashPassword(
                     $user,
                     $user->getPassword()
                 )

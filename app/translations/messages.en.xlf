@@ -11,7 +11,7 @@
                 <target>Category</target>
             </trans-unit>
             <trans-unit id="label.action_view">
-                <source>action_view</source>
+                <source>label.action_view</source>
                 <target>Show record</target>
             </trans-unit>
             <trans-unit id="label.id">
@@ -31,7 +31,7 @@
                 <target>Task details #%id%</target>
             </trans-unit>
             <trans-unit id="action.back_to_list">
-                <source>action_back_to_list</source>
+                <source>action.back_to_list</source>
                 <target>Back to list</target>
             </trans-unit>
             <trans-unit id="title.transaction_list">
@@ -39,7 +39,7 @@
                 <target>Transactions</target>
             </trans-unit>
             <trans-unit id="action.logout">
-                <source>action_logout</source>
+                <source>action.logout</source>
                 <target>Log out</target>
             </trans-unit>
             <trans-unit id="action.create">
@@ -87,11 +87,11 @@
                 <target>Operations</target>
             </trans-unit>
             <trans-unit id="action.edit">
-                <source>action_edit</source>
+                <source>action.edit</source>
                 <target>Edit</target>
             </trans-unit>
             <trans-unit id="action.delete">
-                <source>action_delete</source>
+                <source>action.delete</source>
                 <target>Delete</target>
             </trans-unit>
             <trans-unit id="title.wallet_edit">
@@ -103,7 +103,7 @@
                 <target>Balance</target>
             </trans-unit>
             <trans-unit id="action.save">
-                <source>action_save</source>
+                <source>action.save</source>
                 <target>Save</target>
             </trans-unit>
             <trans-unit id="label.created_at">
@@ -220,11 +220,11 @@
                 <target>Password</target>
             </trans-unit>
             <trans-unit id="action.sign_in">
-                <source>action_sign_in</source>
+                <source>action.sign_in</source>
                 <target>Sign in</target>
             </trans-unit>
             <trans-unit id="action.login">
-                <source>action_login</source>
+                <source>action.login</source>
                 <target>Log in</target>
             </trans-unit>
             <trans-unit id="message.item_not_found">
@@ -248,7 +248,7 @@
                 <target>Operation edit</target>
             </trans-unit>
             <trans-unit id="action.change_password">
-                <source>action_change_password</source>
+                <source>action.change_password</source>
                 <target>Change password</target>
             </trans-unit>
             <trans-unit id="massage_change_password">
@@ -356,8 +356,8 @@
                 <target>user details</target>
             </trans-unit>
 
-            <trans-unit id="mamessage.record_not_found">
-                <source>mamessage.record_not_found</source>
+            <trans-unit id="message.record_not_found">
+                <source>message.record_not_found</source>
                 <target>record not found</target>
             </trans-unit>
 
@@ -404,6 +404,29 @@
             <trans-unit id="0">
                 <source>title.tag_delete</source>
                 <target>messages</target>
+            </trans-unit>
+            <trans-unit id="message.category_contains_transactions">
+                <source>message.category_contains_transactions</source>
+                <target>category contains transactions</target>
+            </trans-unit>
+
+            <trans-unit id="message.operation_contains_transactions">
+                <source>message.operation_contains_transactions</source>
+                <target>operation contains transactionss</target>
+            </trans-unit>
+            <trans-unit id="message.payment_contains_transactions">
+                <source>message.payment_contains_transactions</source>
+                <target>payment contains transactions</target>
+            </trans-unit>
+
+            <trans-unit id="action_delete">
+                <source>action_delete</source>
+                <target>delete</target>
+            </trans-unit>
+
+            <trans-unit id="title.user_create">
+                <source>title.user_create</source>
+                <target>create</target>
             </trans-unit>
 
         </body>

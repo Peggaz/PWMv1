@@ -136,6 +136,13 @@ class TransactionType extends AbstractType
             ]
         );
 
+//        $builder->add('tags', CollectionType::class, [
+//            'entry_type' => TagType::class,
+//            'entry_options' => ['label' => false],
+//            'allow_add' => true,
+//            'by_reference' => false,
+//        ]);
+
 
         $builder->get('tags')->addModelTransformer(
             $this->tagsDataTransformer

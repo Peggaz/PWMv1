@@ -84,7 +84,7 @@ class WebBaseTestCase extends WebTestCase
     /**
      * Create category.
      */
-    protected function createCategory()
+    protected function createCategory(): Category
     {
         $category = new Category();
         $category->setName('TName');
@@ -100,7 +100,7 @@ class WebBaseTestCase extends WebTestCase
      * Create Payment.
      * @return Payment
      */
-    protected function createPayment()
+    protected function createPayment(): Payment
     {
         $payment = new Payment();
         $payment->setName('TPayment');
@@ -114,7 +114,7 @@ class WebBaseTestCase extends WebTestCase
      * Create Operation.
      * @return Operation
      */
-    protected function createOperation()
+    protected function createOperation(): Operation
     {
         $operation = new Operation();
         $operation->setName('TOperation');
@@ -128,7 +128,7 @@ class WebBaseTestCase extends WebTestCase
      * Create Tag.
      * @return Tag
      */
-    protected function createTag()
+    protected function createTag(): Tag
     {
         $tag = new Tag();
         $tag->setName('TTag');

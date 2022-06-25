@@ -27,6 +27,8 @@ class TransactionControllerTest extends WebBaseTestCase
      */
     public const TEST_ROUTE = '/transaction';
 
+    public $date;
+
 
     /**
      * Set up tests.
@@ -34,6 +36,12 @@ class TransactionControllerTest extends WebBaseTestCase
     public function setUp(): void
     {
         $this->httpClient = static::createClient();
+        $time = time();
+        $this->date = [
+            'year' => (int)date('Y', $time),
+            'month' => (int)date('m', $time),
+            'day' => (int)date('d', $time),
+        ];
     }
 
     /**
@@ -147,25 +155,19 @@ class TransactionControllerTest extends WebBaseTestCase
         $this->httpClient->loginUser($user);
         $transactionTransactionName = "createdTransaction";
         $transactionRepository = static::getContainer()->get(TransactionRepository::class);
-        $tomorrow = time();
-        $date = [
-            'year' => (int)date('Y', $tomorrow),
-            'month' => (int)date('m', $tomorrow),
-            'day' => (int)date('d', $tomorrow),
-        ];
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/new');
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/create');
         // when
         $this->httpClient->submitForm(
             'Zapisz',
             ['transaction' =>
                 [
                     'name' => $transactionTransactionName,
-                    'date' => $date,
-                    'wallet' => $this->createWallet($user)->getId(),
-                    'category' => $this->createCategory()->getId(),
-                    'operation' => $this->createOperation()->getId(),
-                    'payment' => $this->createPayment()->getId(),
-                    'tags' => $this->createTag()->getName()
+                    'date' => $this->date,
+                    'wallet' => 1,
+                    'category' => 1,
+                    'operation' => 1,
+                    'payment' => 1,
+                    'tags' => 1
                 ]
             ]
         );
@@ -177,46 +179,7 @@ class TransactionControllerTest extends WebBaseTestCase
 
 
         $result = $this->httpClient->getResponse();
-        $this->assertEquals(303, $result->getStatusCode());
-
-    }
-
-    /**
-     * @return void
-     */
-    public function testEditTransactionUnauthorizedUser(): void
-    {
-        // given
-        $expectedHttpStatusCode = 302;
-        $user = null;
-        try {
-            $user = $this->createUser([UserRole::ROLE_USER->value],
-                'transaction_auto_user1@example.com');
-        } catch (OptimisticLockException|ContainerExceptionInterface|ORMException $e) {
-        }
-        $transaction = new Transaction();
-        $transaction->setName('TName');
-        $transaction->setDate(DateTime::createFromFormat('Y-m-d', "2021-05-09"));
-        $transaction->setAmount('11');
-        $transaction->setCategory($this->createCategory());
-        $transaction->setWallet($this->createWallet($user));
-        $transaction->setOperation($this->createOperation());
-        $transaction->setPayment($this->createPayment());
-        $transaction->addTag($this->createTag());
-        $transaction->setAuthor($user);
-        $transactionRepository =
-            static::getContainer()->get(TransactionRepository::class);
-        $transactionRepository->save($transaction);
-
-        // when
-        $this->httpClient->request('GET', self::TEST_ROUTE . '/' .
-            $transaction->getId() . '/edit');
-        $actual = $this->httpClient->getResponse();
-
-        // then
-
-        $this->assertEquals($expectedHttpStatusCode,
-            $actual->getStatusCode());
+        $this->assertEquals(302, $result->getStatusCode());
 
     }
 
@@ -246,6 +209,7 @@ class TransactionControllerTest extends WebBaseTestCase
         $transaction->setOperation($this->createOperation());
         $transaction->setPayment($this->createPayment());
         $transaction->addTag($this->createTag());
+        $transaction->setComment("ala ma kota");
         $transaction->setAuthor($user);
         $transactionRepository->save($transaction);
         $testTransactionId = $transaction->getId();
@@ -258,13 +222,14 @@ class TransactionControllerTest extends WebBaseTestCase
         $this->httpClient->submitForm(
             'Edytuj',
             ['transaction' =>
-                ['name' => $expectedNewTransactionName,
-                    'date' => new DateTime('now'),
-                    'category' => $this->createCategory(),
-                    'wallet' => $this->createWallet($user),
-                    'operation' => $this->createOperation(),
-                    'payment' => $this->createPayment(),
-                    'tags' => $this->createTag()->getName()
+                [
+                    'name' => $expectedNewTransactionName,
+                    'date' => $this->date,
+                    'category' => 1,
+                    'wallet' => 1,
+                    'operation' => 1,
+                    'payment' => 1,
+                    'tags' => 1
                 ]
             ]
         );
@@ -273,6 +238,10 @@ class TransactionControllerTest extends WebBaseTestCase
         $savedTransaction = $transactionRepository->findOneById($testTransactionId);
         $this->assertEquals($expectedNewTransactionName,
             $savedTransaction->getName());
+
+        $this->assertNotNull($savedTransaction->getComment());
+        $this->assertNotNull($savedTransaction->getUpdatedAt());
+        $this->assertNotNull($savedTransaction->getCreatedAt());
     }
 
 

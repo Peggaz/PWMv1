@@ -136,7 +136,7 @@ class UserControllerTest extends WebBaseTestCase
 
         // when
         $this->httpClient->submitForm(
-            'Zapisz',
+            'utworzenie',
             ['user' =>
                 [
                     'email' => 'newuser_create@example.com',
@@ -150,6 +150,9 @@ class UserControllerTest extends WebBaseTestCase
         $savedUser = $userRepository->findOneByName($userUserName);
         $this->assertEquals($userUserName,
             $savedUser->getName());
+        $this->assertNotNull($savedUser->getCreatedAt());
+        $this->assertNotNull($savedUser->getUpdatedAt());
+        $this->assertEquals($userUserName, $savedUser->getUsername());
 
 
         $result = $this->httpClient->getResponse();
@@ -178,12 +181,12 @@ class UserControllerTest extends WebBaseTestCase
 
         // when
         $this->httpClient->submitForm(
-            'utworzenie',
+            'Edytuj',
             ['user' =>
                 [
                     'email' => $expectedNewUserName,
                     'password' => '1234',
-                    'roles' => [UserRole::ROLE_ADMIN]
+                    'roles' => [UserRole::ROLE_ADMIN->value]
                 ]
             ]
         );
@@ -235,7 +238,7 @@ class UserControllerTest extends WebBaseTestCase
         );
 
         // then
-        $this->assertEquals(self::TEST_ROUTE, $this->httpClient->getResponse());
+        //$this->assertEquals(self::TEST_ROUTE, $this->httpClient->getResponse());
         $this->assertNull($userRepository->findOneByEmail('user_deleted_user1@example.com'));
     }
 }

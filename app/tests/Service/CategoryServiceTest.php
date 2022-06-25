@@ -103,29 +103,6 @@ class CategoryServiceTest extends KernelTestCase
     }
 
     /**
-     * Test file delete.
-     *
-     * @throws ORMException
-     */
-    public function testFileDelete(): void
-    {
-        //given
-        $expectedCategory = new Category();
-        $expectedCategory->setName('Test Category');
-        $expectedCategory->setCreatedAt(new DateTime('now'));
-        $expectedCategory->setUpdatedAt(new DateTime('now'));
-        $this->entityManager->persist($expectedCategory);
-        $this->entityManager->flush();
-        $expectedCategoryId = $expectedCategory->getId();
-
-        //when
-        $result = $this->categoryService->canBeDeleted(null);
-
-        //then
-        $this->assertTrue(!$result);
-    }
-
-    /**
      * Test find by id.
      *
      */

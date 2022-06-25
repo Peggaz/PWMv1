@@ -130,6 +130,13 @@ class CategoryControllerTest extends WebBaseTestCase
     }
 
     //create category
+
+    /**
+     * @throws OptimisticLockException
+     * @throws NotFoundExceptionInterface
+     * @throws ORMException
+     * @throws ContainerExceptionInterface
+     */
     public function testCreateCategory(): void
     {
         // given

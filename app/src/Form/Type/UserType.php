@@ -5,9 +5,9 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Enum\UserRole;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,10 +52,31 @@ class UserType extends AbstractType
             ]
         );
 
-        $builder->add('roles', ChoiceType::class, [
-            'choices' => [UserRole::ROLE_ADMIN, UserRole::ROLE_USER],
-            'attr' => ['class' => 'dropdown'],
-        ]);
+        $builder
+            ->add('Roles', ChoiceType::class, [
+                'required' => true,
+                'multiple' => false,
+                'expanded' => false,
+                'choices' => [
+                    'User' => 'ROLE_USER',
+                    'Partner' => 'ROLE_PARTNER',
+                    'Admin' => 'ROLE_ADMIN',
+                ],
+            ]);
+
+
+        // Data transformer
+        $builder->get('Roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesArray) {
+                    // transform the array to a string
+                    return count($rolesArray) ? $rolesArray[0] : null;
+                },
+                function ($rolesString) {
+                    // transform the string back to an array
+                    return [$rolesString];
+                }
+            ));
     }
 
     /**
