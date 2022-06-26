@@ -83,7 +83,7 @@ class TransactionController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'transaction_create', methods: 'GET|POST',)]
+    #[Route('/create', name: 'transaction_create', methods: 'GET|POST')]
     public function create(Request $request): Response
     {
         /** @var User $user */

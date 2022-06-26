@@ -57,15 +57,15 @@ class SearchController extends AbstractController
     public function index(Request $request): Response
     {
         $name = $request->query->get("name");
-        $category_pagination = $this->categoryService->getPaginatedList(
+        $categoryPagination = $this->categoryService->getPaginatedList(
             $request->query->getInt('page', 1),
             $name
         );
-        $payment_pagination = $this->paymentService->getPaginatedList(
+        $paymentPagination = $this->paymentService->getPaginatedList(
             $request->query->getInt('page', 1),
             $name
         );
-        $operation_pagination = $this->operationService->getPaginatedList(
+        $operationPagination = $this->operationService->getPaginatedList(
             $request->query->getInt('page', 1),
             $name
         );
@@ -74,9 +74,9 @@ class SearchController extends AbstractController
             'search/index.html.twig',
             [
                 'name' => $name,
-                'category_pagination' => $category_pagination,
-                'payment_pagination' => $payment_pagination,
-                'operation_pagination' => $operation_pagination,
+                'category_pagination' => $categoryPagination,
+                'payment_pagination' => $paymentPagination,
+                'operation_pagination' => $operationPagination,
             ]
         );
     }

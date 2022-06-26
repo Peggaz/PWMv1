@@ -114,6 +114,17 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function supports(Request $request): bool
+    {
+        return self::LOGIN_ROUTE === $request->attributes->get('_route')
+            && $request->isMethod('POST');
+    }
+
+    /**
      * Get login URL.
      *
      * @param Request $request HTTP request
@@ -123,16 +134,5 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
-    public function supports(Request $request): bool
-    {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
     }
 }
