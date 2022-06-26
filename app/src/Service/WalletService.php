@@ -73,7 +73,7 @@ class WalletService implements WalletServiceInterface
      */
     public function save(Wallet $wallet): void
     {
-        if ($wallet->getId() == null) {
+        if (is_null($wallet->getId())) {
             $wallet->setCreatedAt(new DateTimeImmutable());
         }
         $wallet->setUpdatedAt(new DateTimeImmutable());

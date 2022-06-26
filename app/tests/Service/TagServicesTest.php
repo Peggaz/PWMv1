@@ -104,8 +104,6 @@ class TagServiceTest extends KernelTestCase
 
     /**
      * Test find by id.
-     *
-     * @throws ORMException
      */
     public function testFindById(): void
     {
@@ -120,6 +118,27 @@ class TagServiceTest extends KernelTestCase
 
         // when
         $resultTag = $this->tagService->findOneById($expectedTagId);
+
+        // then
+        $this->assertEquals($expectedTag, $resultTag);
+    }
+
+    /**
+     * Test find by id.
+     */
+    public function testFindByName(): void
+    {
+        // given
+        $expectedTag = new Tag();
+        $expectedTag->setName('Test Tag1');
+        $expectedTag->setCreatedAt(new DateTime('now'));
+        $expectedTag->setUpdatedAt(new DateTime('now'));
+        $this->entityManager->persist($expectedTag);
+        $this->entityManager->flush();
+        $expectedTagId = $expectedTag->getName();
+
+        // when
+        $resultTag = $this->tagService->findOneByName($expectedTagId);
 
         // then
         $this->assertEquals($expectedTag, $resultTag);

@@ -52,7 +52,7 @@ class PaymentService implements PaymentServiceInterface
      */
     public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if (null == $name) {
+        if (is_null($name)) {
             return $this->paginator->paginate(
                 $this->paymentRepository->queryAll(),
                 $page,
@@ -74,7 +74,7 @@ class PaymentService implements PaymentServiceInterface
      */
     public function save(Payment $payment): void
     {
-        if ($payment->getId() == null) {
+        if (is_null($payment->getId())) {
             $payment->setCreatedAt(new DateTimeImmutable());
         }
         $payment->setUpdatedAt(new DateTimeImmutable());

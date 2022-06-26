@@ -72,7 +72,7 @@ class UserService implements UserServiceInterface
      */
     public function save(User $user): void
     {
-        if ($user->getId() == null) {
+        if (is_null($user->getId())) {
             $user->setCreatedAt(new DateTimeImmutable());
         }
         $user->setUpdatedAt(new DateTimeImmutable());

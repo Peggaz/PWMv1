@@ -62,7 +62,7 @@ class TagService implements TagServiceInterface
      */
     public function save(Tag $tag): void
     {
-        if ($tag->getId() == null) {
+        if (is_null($tag->getId())) {
             $tag->setCreatedAt(new DateTimeImmutable());
         }
         $tag->setUpdatedAt(new DateTimeImmutable());

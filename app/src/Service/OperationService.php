@@ -55,7 +55,7 @@ class OperationService implements OperationServiceInterface
      */
     public function getPaginatedList(int $page, ?string $name = null): PaginationInterface
     {
-        if (null == $name) {
+        if (is_null($name)) {
             return $this->paginator->paginate(
                 $this->operationRepository->queryAll(),
                 $page,
@@ -77,7 +77,7 @@ class OperationService implements OperationServiceInterface
      */
     public function save(Operation $operation): void
     {
-        if (null == $operation->getId()) {
+        if (is_null($operation->getId())) {
             $operation->setCreatedAt(new DateTimeImmutable());
         }
         $operation->setUpdatedAt(new DateTimeImmutable());

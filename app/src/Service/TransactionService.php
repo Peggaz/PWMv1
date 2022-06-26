@@ -72,7 +72,7 @@ class TransactionService implements TransactionServiceInterface
      */
     public function save(Transaction $transaction): void
     {
-        if (null == $transaction->getId()) {
+        if (is_null($transaction->getId())) {
             $transaction->setCreatedAt(new DateTimeImmutable());
         }
         $transaction->setUpdatedAt(new DateTimeImmutable());
