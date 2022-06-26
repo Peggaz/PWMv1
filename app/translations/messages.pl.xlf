@@ -426,11 +426,11 @@
             </trans-unit>
             <trans-unit id="1">
                 <source>message.category_contains_tasks</source>
-                <target>messages</target>
+                <target>nie można usunąć kategorii jest przypisana</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>message.user_contains_tasks</source>
-                <target>messages</target>
+                <target>nie można usunąć użytkownika dopóki ma przypisane tranzakcje</target>
             </trans-unit>
 
         </body>

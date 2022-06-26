@@ -166,8 +166,7 @@ class TransactionControllerTest extends WebBaseTestCase
                     'wallet' => 1,
                     'category' => 1,
                     'operation' => 1,
-                    'payment' => 1,
-                    'tags' => 1
+                    'payment' => 1
                 ]
             ]
         );
@@ -229,7 +228,7 @@ class TransactionControllerTest extends WebBaseTestCase
                     'wallet' => 1,
                     'operation' => 1,
                     'payment' => 1,
-                    'tags' => 1
+                    'tags' => ""
                 ]
             ]
         );

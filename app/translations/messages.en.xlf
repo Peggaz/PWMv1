@@ -430,7 +430,11 @@
             </trans-unit>
             <trans-unit id="1">
                 <source>message.category_contains_tasks</source>
-                <target>messages</target>
+                <target>category contains tasks</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>message.user_contains_tasks</source>
+                <target>user contains tasks</target>
             </trans-unit>
 
         </body>
