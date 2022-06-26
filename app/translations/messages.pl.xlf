@@ -424,6 +424,14 @@
                 <source>title.user_create</source>
                 <target>utwórz użytkownika</target>
             </trans-unit>
+            <trans-unit id="1">
+                <source>message.category_contains_tasks</source>
+                <target>messages</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>message.user_contains_tasks</source>
+                <target>messages</target>
+            </trans-unit>
 
         </body>
     </file>

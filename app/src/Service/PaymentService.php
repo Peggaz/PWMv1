@@ -9,8 +9,6 @@ use App\Entity\Payment;
 use App\Repository\PaymentRepository;
 use App\Repository\TransactionRepository;
 use DateTimeImmutable;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -104,12 +102,8 @@ class PaymentService implements PaymentServiceInterface
      */
     public function canBeDeleted(Payment $category): bool
     {
-        try {
-            $result = $this->transactionRepository->countByPayment($category);
+        $result = $this->transactionRepository->countByPayment($category);
 
-            return !($result > 0);
-        } catch (NoResultException|NonUniqueResultException) {
-            return false;
-        }
+        return !($result > 0);
     }
 }

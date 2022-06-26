@@ -202,6 +202,15 @@ class UserController extends AbstractController
     #[Route('/{id}/delete', name: 'user_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, User $user): Response
     {
+        if (!$this->userService->canBeDeleted($user)) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.user_contains_tasks')
+            );
+
+            return $this->redirectToRoute('category_index');
+        }
+
         $form = $this->createForm(FormType::class, $user, [
             'method' => 'DELETE',
             'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),

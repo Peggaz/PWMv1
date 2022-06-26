@@ -70,7 +70,7 @@ class TagsDataTransformer implements DataTransformerInterface
         foreach ($tagNames as $tagName) {
             if ('' !== trim($tagName)) {
                 $tag = $this->tagService->findOneByName(strtolower($tagName));
-                if (null == $tag) {
+                if ($tag) {
                     $tag = new Tag();
                     $tag->setName($tagName);
 

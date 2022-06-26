@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -27,15 +28,25 @@ class UserService implements UserServiceInterface
     private PaginatorInterface $paginator;
 
     /**
+     * @var TransactionRepository
+     */
+    private TransactionRepository $transactionRepository;
+
+    /**
      * Constructor.
      *
-     * @param UserRepository     $userRepository User repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param UserRepository        $userRepository        User repository
+     * @param PaginatorInterface    $paginator             Paginator
+     * @param TransactionRepository $transactionRepository Transaction Repository
+     *
+     * @parem TransactionRepository $transactionRepository Transaction Repository
+
      */
-    public function __construct(UserRepository $userRepository, PaginatorInterface $paginator)
+    public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, TransactionRepository $transactionRepository)
     {
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
+        $this->transactionRepository = $transactionRepository;
     }
 
     /**
@@ -91,5 +102,19 @@ class UserService implements UserServiceInterface
     public function findOneById(int $id): ?User
     {
         return $this->userRepository->findOneById($id);
+    }
+
+    /**
+     * Can User be deleted?
+     *
+     * @param User $user User entity
+     *
+     * @return bool Result
+     */
+    public function canBeDeleted(User $user): bool
+    {
+        $result = $this->transactionRepository->countByUser($user);
+
+        return !($result > 0);
     }
 }

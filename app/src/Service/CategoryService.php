@@ -9,8 +9,6 @@ use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\TransactionRepository;
 use DateTimeImmutable;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -24,6 +22,9 @@ class CategoryService implements CategoryServiceInterface
      */
     private CategoryRepository $categoryRepository;
 
+    /**
+     * @var TransactionRepository
+     */
     private TransactionRepository $transactionRepository;
 
     /**
@@ -118,12 +119,8 @@ class CategoryService implements CategoryServiceInterface
      */
     public function canBeDeleted(Category $category): bool
     {
-        try {
-            $result = $this->transactionRepository->countByCategory($category);
+        $result = $this->transactionRepository->countByCategory($category);
 
-            return !($result > 0);
-        } catch (NoResultException|NonUniqueResultException) {
-            return false;
-        }
+        return !($result > 0);
     }
 }

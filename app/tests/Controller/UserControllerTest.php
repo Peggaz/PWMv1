@@ -6,8 +6,12 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Enum\UserRole;
+use App\Entity\Transaction;
+use App\Entity\User;
+use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use App\Tests\WebBaseTestCase;
+use DateTime;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Psr\Container\ContainerExceptionInterface;
@@ -228,5 +232,51 @@ class UserControllerTest extends WebBaseTestCase
         // then
         //$this->assertEquals(self::TEST_ROUTE, $this->httpClient->getResponse());
         $this->assertNull($userRepository->findOneByEmail('user_deleted_user1@example.com'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testCantDeleteUser(): void
+    {
+        // given
+        $user = $this->createUser([UserRole::ROLE_USER->value],
+            'user_deleted_user2@example.com');
+        $this->httpClient->loginUser($user);
+        $this->createTransaction($user);
+        $testUserId = $user->getId();
+        $userRepository =
+            static::getContainer()->get(UserRepository::class);
+
+
+        //when
+        $this->httpClient->request('GET', self::TEST_ROUTE . '/' . $testUserId . '/delete');
+
+        // then
+        $this->assertEquals(302, $this->httpClient->getResponse()->getStatusCode());
+        $this->assertNotNull($userRepository->findOneByEmail('user_deleted_user2@example.com'));
+    }
+
+    /**
+     * @param User $user
+     * @param $user
+     * @return void
+     */
+    private function createTransaction(User $user)
+    {
+        $transaction = new Transaction();
+        $transaction->setName('TName');
+        $transaction->setDate(DateTime::createFromFormat('Y-m-d', "2021-05-09"));
+        $transaction->setAmount('11');
+        $transaction->setCategory($this->createCategory());
+        $transaction->setWallet($this->createWallet($user));
+        $transaction->setOperation($this->createOperation());
+        $transaction->setPayment($this->createPayment());
+        $transaction->addTag($this->createTag());
+        $transaction->setAuthor($user);
+
+        $transactionRepository = self::getContainer()->get(TransactionRepository::class);
+        $transactionRepository->save($transaction);
+
     }
 }
