@@ -58,7 +58,7 @@ class TransactionRepository extends ServiceEntityRepository
     {
         return $this->getOrCreateQueryBuilder()
             ->select(
-                'partial transaction.{id, date, createdAt, updatedAt, name}',
+                'partial transaction.{id, date, createdAt, updatedAt, name, amount}',
                 'partial payment.{id, name}',
                 'partial category.{id, name}',
                 'partial wallet.{id, name}',

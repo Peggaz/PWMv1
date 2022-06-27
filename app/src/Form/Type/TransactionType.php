@@ -14,6 +14,7 @@ use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -123,6 +124,18 @@ class TransactionType extends AbstractType
                 'label' => 'label.payment',
                 'placeholder' => 'label.none',
                 'required' => true,
+            ]
+        );
+
+        $builder->add(
+            'amount',
+            NumberType::class,
+            [
+                'label' => 'label.amount',
+                'required' => false,
+                'attr' => [
+                    'int' => true,
+                ]
             ]
         );
 

@@ -194,10 +194,6 @@ class CategoryControllerTest extends WebBaseTestCase
 
     /**
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function testEditCategory(): void
     {
@@ -233,10 +229,7 @@ class CategoryControllerTest extends WebBaseTestCase
 
 
     /**
-     * @throws OptimisticLockException
-     * @throws NotFoundExceptionInterface
-     * @throws ORMException
-     * @throws ContainerExceptionInterface
+     * @return void
      */
     public function testNewRoutAdminUser(): void
     {
