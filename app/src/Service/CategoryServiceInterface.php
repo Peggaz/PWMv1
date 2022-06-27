@@ -17,7 +17,7 @@ interface CategoryServiceInterface
      * Get paginated list.
      *
      * @param int         $page Page number
-     * @param string|null $name
+     * @param string|null $name name
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */

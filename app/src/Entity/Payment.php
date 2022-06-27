@@ -78,7 +78,7 @@ class Payment
     /**
      * Getter for Id.
      *
-     * @return int|null
+     * @return int|null id this obj
      */
     public function getId(): ?int
     {
@@ -100,7 +100,7 @@ class Payment
      *
      * @param string $name Name
      *
-     * @return Payment
+     * @return Payment this obj
      */
     public function setName(string $name): self
     {
@@ -112,7 +112,7 @@ class Payment
     /**
      * Getter for Create At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null data this obj
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -122,9 +122,9 @@ class Payment
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $createdAt date to set
      *
-     * @return $this
+     * @return $this obj
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -136,7 +136,7 @@ class Payment
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null get date
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
@@ -146,9 +146,9 @@ class Payment
     /**
      * Setter for Update At.
      *
-     * @param DateTimeInterface $updatedAt
+     * @param DateTimeInterface $updatedAt date to set
      *
-     * @return $this
+     * @return $this obj
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -158,7 +158,7 @@ class Payment
     }
 
     /**
-     * @return string
+     * @return string name this entity
      */
     public function __toString()
     {

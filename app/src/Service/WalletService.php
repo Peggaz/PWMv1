@@ -45,7 +45,7 @@ class WalletService implements WalletServiceInterface
      * Get paginated list.
      *
      * @param int  $page Page number
-     * @param User $user
+     * @param User $user User
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */

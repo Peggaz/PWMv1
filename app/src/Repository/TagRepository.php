@@ -40,7 +40,7 @@ class TagRepository extends ServiceEntityRepository
 
 
     /**
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry to manage our registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -59,8 +59,8 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Tag  $entity
-     * @param bool $flush
+     * @param Tag  $entity our entity
+     * @param bool $flush  to change entyti
      *
      * @return void
      */
@@ -73,8 +73,8 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Tag  $entity
-     * @param bool $flush
+     * @param Tag  $entity our entity
+     * @param bool $flush  to change entity
      *
      * @return void
      */

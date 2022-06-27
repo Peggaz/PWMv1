@@ -31,15 +31,15 @@ class WalletController extends AbstractController
     /**
      * Translator.
      *
-     * @var TranslatorInterface
+     * @var TranslatorInterface interfece transaltror
      */
     private TranslatorInterface $translator;
 
     /**
      * Constructor.
      *
-     * @param WalletServiceInterface $walletService
-     * @param TranslatorInterface    $translator
+     * @param WalletServiceInterface $walletService wallet service to change entity
+     * @param TranslatorInterface    $translator    translator to translate label
      */
     public function __construct(WalletServiceInterface $walletService, TranslatorInterface $translator)
     {

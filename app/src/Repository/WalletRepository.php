@@ -31,7 +31,7 @@ class WalletRepository extends ServiceEntityRepository
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry registry
      *
      */
     public function __construct(ManagerRegistry $registry)
@@ -40,8 +40,8 @@ class WalletRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Wallet $entity
-     * @param bool   $flush
+     * @param Wallet $entity entity
+     * @param bool   $flush  to change entity
      *
      * @return void
      */
@@ -66,8 +66,8 @@ class WalletRepository extends ServiceEntityRepository
 
 
     /**
-     * @param Wallet $entity
-     * @param bool   $flush
+     * @param Wallet $entity our entity
+     * @param bool   $flush  to change entity
      *
      * @return void
      */

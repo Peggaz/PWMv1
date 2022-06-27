@@ -62,7 +62,7 @@ class PaymentRepository extends ServiceEntityRepository
     /**
      * Query records like name.
      *
-     * @param string $name
+     * @param string $name name who we search
      *
      * @return QueryBuilder Query builder
      */

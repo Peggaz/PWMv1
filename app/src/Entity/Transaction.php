@@ -197,7 +197,7 @@ class Transaction
      *
      * @param string $name Name
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setName(string $name): self
     {
@@ -222,7 +222,7 @@ class Transaction
      *
      * @param DateTimeInterface $date Date
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setDate(DateTimeInterface $date): self
     {
@@ -247,7 +247,7 @@ class Transaction
      *
      * @param int $amount Amount
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setAmount(int $amount): self
     {
@@ -272,7 +272,7 @@ class Transaction
      *
      * @param DateTimeInterface $createdAt Created at
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -296,7 +296,7 @@ class Transaction
      *
      * @param DateTimeInterface $updatedAt Updated at
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -322,7 +322,7 @@ class Transaction
      *
      * @param Category|null $category Category
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setCategory(?Category $category): self
     {
@@ -346,7 +346,7 @@ class Transaction
      *
      * @param Wallet|null $wallet Wallet
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setWallet(?Wallet $wallet): self
     {
@@ -370,7 +370,7 @@ class Transaction
      *
      * @param Payment|null $payment Payment
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setPayment(?Payment $payment): self
     {
@@ -394,7 +394,7 @@ class Transaction
      *
      * @param Operation|null $operation Operation
      *
-     * @return Transaction
+     * @return Transaction object
      */
     public function setOperation(?Operation $operation): self
     {
@@ -409,7 +409,7 @@ class Transaction
     /**
      * Getter for Comment.
      *
-     * @return string|null
+     * @return string|null getter coment
      */
     public function getComment(): ?string
     {
@@ -421,7 +421,7 @@ class Transaction
      *
      * @param string|null $comment
      *
-     * @return $this
+     * @return $this object
      */
     public function setComment(?string $comment): self
     {
@@ -431,7 +431,7 @@ class Transaction
     }
 
     /**
-     * @return Collection<int, Tag>
+     * @return Collection<int, Tag> collectrion to tag
      */
     public function getTags(): Collection
     {
@@ -439,9 +439,9 @@ class Transaction
     }
 
     /**
-     * @param Tag $tag
+     * @param Tag $tag add tag
      *
-     * @return $this
+     * @return $this object
      */
     public function addTag(Tag $tag): self
     {
@@ -453,9 +453,9 @@ class Transaction
     }
 
     /**
-     * @param Tag $tag
+     * @param Tag $tag tag to remove
      *
-     * @return $this
+     * @return $this object
      */
     public function removeTag(Tag $tag): self
     {
@@ -465,7 +465,7 @@ class Transaction
     }
 
     /**
-     * @return User|null
+     * @return User|null user
      */
     public function getAuthor(): ?User
     {
@@ -473,9 +473,9 @@ class Transaction
     }
 
     /**
-     * @param User|null $author
+     * @param User|null $author user to set author
      *
-     * @return $this
+     * @return $this object
      */
     public function setAuthor(?User $author): self
     {

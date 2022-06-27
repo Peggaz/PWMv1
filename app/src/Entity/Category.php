@@ -116,7 +116,7 @@ class Category
     /**
      * Getter for Create At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null getter date
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -126,9 +126,9 @@ class Category
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $createdAt setter date
      *
-     * @return $this
+     * @return $this object
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -140,7 +140,7 @@ class Category
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null idate
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
@@ -150,9 +150,9 @@ class Category
     /**
      * Setter for Update At.
      *
-     * @param DateTimeInterface $updatedAt
+     * @param DateTimeInterface $updatedAt setter date
      *
-     * @return $this
+     * @return $this object
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -162,7 +162,7 @@ class Category
     }
 
     /**
-     * @return string
+     * @return string return name this entity
      */
     public function __toString()
     {

@@ -78,7 +78,7 @@ class Operation
     /**
      * Getter for Id.
      *
-     * @return int|null
+     * @return int|null return our id
      */
     public function getId(): ?int
     {
@@ -88,7 +88,7 @@ class Operation
     /**
      * Getter for Name.
      *
-     * @return string|null
+     * @return string|null string name entity
      */
     public function getName(): ?string
     {
@@ -98,9 +98,9 @@ class Operation
     /**
      * Setter for Name.
      *
-     * @param string $name
+     * @param string $name name to set entity
      *
-     * @return $this
+     * @return $this return this obj
      */
     public function setName(string $name): self
     {
@@ -113,7 +113,7 @@ class Operation
     /**
      * Getter for Create At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null our created date
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -123,9 +123,9 @@ class Operation
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $createdAt setter to createdAt
      *
-     * @return $this
+     * @return $this object
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -137,7 +137,7 @@ class Operation
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null return Uptedetd
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
@@ -147,9 +147,9 @@ class Operation
     /**
      * Setter for Update At.
      *
-     * @param DateTimeInterface $updatedAt
+     * @param DateTimeInterface $updatedAt date to change updated
      *
-     * @return $this
+     * @return $this return this obj
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -159,7 +159,7 @@ class Operation
     }
 
     /**
-     * @return string
+     * @return string return name filed
      */
     public function __toString()
     {

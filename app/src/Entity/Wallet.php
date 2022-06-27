@@ -118,7 +118,7 @@ class Wallet
      *
      * @param string $name Name
      *
-     * @return Wallet
+     * @return Wallet object
      */
     public function setName(string $name): self
     {
@@ -130,7 +130,7 @@ class Wallet
     /**
      * Getter for Balance.
      *
-     * @return int|null
+     * @return int|null balance
      */
     public function getBalance(): ?int
     {
@@ -142,7 +142,7 @@ class Wallet
      *
      * @param int $balance Balance
      *
-     * @return $this
+     * @return $this object
      */
     public function setBalance(int $balance): self
     {
@@ -154,7 +154,7 @@ class Wallet
     /**
      * Getter for Created At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null data
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -166,7 +166,7 @@ class Wallet
      *
      * @param DateTimeInterface $createdAt Created At
      *
-     * @return $this
+     * @return $this object
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -178,7 +178,7 @@ class Wallet
     /**
      * Getter for Updated At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null gettet date
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
@@ -190,7 +190,7 @@ class Wallet
      *
      * @param DateTimeInterface $updatedAt Updated At
      *
-     * @return $this
+     * @return $this object
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -200,7 +200,7 @@ class Wallet
     }
 
     /**
-     * @return User|null
+     * @return User|null getter user
      */
     public function getUser(): ?User
     {
@@ -208,9 +208,9 @@ class Wallet
     }
 
     /**
-     * @param User|null $user
+     * @param User|null $user setter user
      *
-     * @return $this
+     * @return $this objcect
      */
     public function setUser(?User $user): self
     {
@@ -220,7 +220,7 @@ class Wallet
     }
 
     /**
-     * @return string
+     * @return string return name this entity
      */
     public function __toString()
     {

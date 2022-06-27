@@ -50,10 +50,10 @@ class TransactionType extends AbstractType
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
-     * @param FormBuilderInterface $builder
-     * @param array<string, mixed> $options
+     * @param FormBuilderInterface $builder bulider
+     * @param array<string, mixed> $options options
      *
-     * @see FormTypeExtensionInterface::buildForm()
+     * @see FormTypeExtensionInterface::buildForm() bulidform
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -135,7 +135,7 @@ class TransactionType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'int' => true,
-                ]
+                ],
             ]
         );
 
@@ -165,9 +165,9 @@ class TransactionType extends AbstractType
     /**
      * Configures the options for this type.
      *
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver resolver
      *
-     * @return void
+     * @return void void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -180,7 +180,7 @@ class TransactionType extends AbstractType
      * The block prefix defaults to the underscored short class name with
      * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
      *
-     * @return string
+     * @return string name entity
      */
     public function getBlockPrefix(): string
     {

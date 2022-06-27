@@ -35,16 +35,16 @@ class UserController extends AbstractController
     /**
      * Translator.
      *
-     * @var TranslatorInterface
+     * @var TranslatorInterface local translator to translate label
      */
     private TranslatorInterface $translator;
 
     /**
      * Constructor.
      *
-     * @param UserServiceInterface        $userService
-     * @param UserPasswordHasherInterface $passwordHarsher
-     * @param TranslatorInterface         $translator
+     * @param UserServiceInterface        $userService     service to modifai
+     * @param UserPasswordHasherInterface $passwordHarsher haser pass to change password
+     * @param TranslatorInterface         $translator      translator to translate label
      */
     public function __construct(UserServiceInterface $userService, UserPasswordHasherInterface $passwordHarsher, TranslatorInterface $translator)
     {

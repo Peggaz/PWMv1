@@ -23,10 +23,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TagType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param FormBuilderInterface $builder bulid
+     * @param array                $options options
      *
-     * @return void
+     * @return void return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,9 +35,9 @@ class TagType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $resolver resolver
      *
-     * @return void
+     * @return void void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

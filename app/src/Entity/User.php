@@ -108,9 +108,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * A visual identifier that represents this user.
      *
-     * @return string
+     * @return string email this user
      *
-     * @see UserInterface
+     * @see UserInterface interface
      *
      */
     public function getUserIdentifier(): string
@@ -118,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
     /**
-     * @return string
+     * @return string return this user email
      */
     public function getUsername(): string
     {
@@ -129,7 +129,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @return array<int, string> Roles
      *
-     * @see UserInterface
+     * @see UserInterface user interface
      */
     public function getRoles(): array
     {
@@ -153,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @return string|null Password
      *
-     * @see PasswordAuthenticatedUserInterface
+     * @see PasswordAuthenticatedUserInterface unterface
      */
     public function getPassword(): ?string
     {
@@ -162,9 +162,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Setter for password.
-     * @param string $password
+     * @param string $password seting password
      *
-     * @return void
+     * @return void return none
      */
     public function setPassword(string $password): void
     {
@@ -174,7 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     * @return string|null
+     * @return string|null retrun salt to this user
      */
     public function getSalt(): ?string
     {
@@ -183,7 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Removes sensitive information from the token.
      *
-     * @see UserInterface
+     * @see UserInterface interface
      */
     public function eraseCredentials(): void
     {
@@ -194,7 +194,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Getter for Create At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null getter to createrd
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -203,9 +203,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Setter for Create At.
      *
-     * @param DateTimeInterface $createdAt
+     * @param DateTimeInterface $createdAt set created date
      *
-     * @return $this
+     * @return $this return object
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -216,7 +216,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null
+     * @return DateTimeInterface|null  getter to date
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
@@ -225,9 +225,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Setter for Update At.
      *
-     * @param DateTimeInterface $updatedAt
+     * @param DateTimeInterface $updatedAt setter to date
      *
-     * @return $this
+     * @return $this return obj
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -239,7 +239,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // endregion
 
     /**
-     * @return string|null
+     * @return string|null return ojb email
      */
     public function __toString()
     {

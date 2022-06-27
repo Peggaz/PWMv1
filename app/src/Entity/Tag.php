@@ -100,7 +100,7 @@ class Tag
      *
      * @param string $name Name
      *
-     * @return Tag
+     * @return Tag obj
      */
     public function setName(string $name): self
     {
@@ -126,7 +126,7 @@ class Tag
      *
      * @param DateTimeInterface $createdAt Created at
      *
-     * @return tag
+     * @return tag obj
      */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
@@ -150,7 +150,7 @@ class Tag
      *
      * @param DateTimeInterface $updatedAt Updated at
      *
-     * @return Tag
+     * @return Tag obj
      */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
@@ -162,7 +162,7 @@ class Tag
 // endregion
 
     /**
-     * @return string
+     * @return string this name
      */
     public function __toString()
     {

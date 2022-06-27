@@ -38,7 +38,7 @@ class UserRepository extends ServiceEntityRepository
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
-     * @param ManagerRegistry $registry
+     * @param ManagerRegistry $registry registry manager to manage
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -58,8 +58,8 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $entity
-     * @param bool $flush
+     * @param User $entity entyty User
+     * @param bool $flush  flush to save our entity
      *
      * @return void
      */
@@ -72,8 +72,8 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $entity
-     * @param bool $flush
+     * @param User $entity our entity
+     * @param bool $flush  to save change entity
      *
      * @return void
      */
