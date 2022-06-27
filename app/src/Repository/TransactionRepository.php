@@ -61,6 +61,7 @@ class TransactionRepository extends ServiceEntityRepository
                 'partial transaction.{id, date, createdAt, updatedAt, name, amount}',
                 'partial payment.{id, name}',
                 'partial category.{id, name}',
+                'partial operation.{id, name}',
                 'partial wallet.{id, name}',
                 'partial tags.{id, name}'
             )
