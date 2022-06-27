@@ -15,15 +15,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserFixtures extends AbstractBaseFixtures
 {
-
-    /**
-     * @var UserPasswordHasherInterface
-     */
     private UserPasswordHasherInterface $passwordHarsher;
-
 
     /**
      * UserFixtures constructor.
+     *
      * @param UserPasswordHasherInterface $passwordHarsher hasr
      */
     public function __construct(UserPasswordHasherInterface $passwordHarsher)

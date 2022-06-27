@@ -78,7 +78,6 @@ class TransactionRepository extends ServiceEntityRepository
      * @param Category $category Category
      *
      * @return int Number of transaction in category
-     *
      */
     public function countByCategory(Category $category): int
     {
@@ -101,7 +100,6 @@ class TransactionRepository extends ServiceEntityRepository
      * @param Operation $operation Operation
      *
      * @return int Number of transaction in operation
-     *
      */
     public function countByOperation(Operation $operation): int
     {
@@ -124,7 +122,6 @@ class TransactionRepository extends ServiceEntityRepository
      * @param Payment $payment Payment
      *
      * @return int Number of transaction in payment
-     *
      */
     public function countByPayment(Payment $payment): int
     {
@@ -147,7 +144,6 @@ class TransactionRepository extends ServiceEntityRepository
      * @param User $user User
      *
      * @return int Number of transaction in user
-     *
      */
     public function countByUser(User $user): int
     {

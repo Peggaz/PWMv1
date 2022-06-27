@@ -22,9 +22,6 @@ class CategoryService implements CategoryServiceInterface
      */
     private CategoryRepository $categoryRepository;
 
-    /**
-     * @var TransactionRepository
-     */
     private TransactionRepository $transactionRepository;
 
     /**
@@ -90,7 +87,6 @@ class CategoryService implements CategoryServiceInterface
      * Delete category.
      *
      * @param Category $category Category entity
-     *
      */
     public function delete(Category $category): void
     {
@@ -103,7 +99,6 @@ class CategoryService implements CategoryServiceInterface
      * @param int $id Category id
      *
      * @return Category|null Category entity
-     *
      */
     public function findOneById(int $id): ?Category
     {

@@ -60,8 +60,6 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param User $entity entyty User
      * @param bool $flush  flush to save our entity
-     *
-     * @return void
      */
     public function add(User $entity, bool $flush = true): void
     {
@@ -74,8 +72,6 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param User $entity our entity
      * @param bool $flush  to save change entity
-     *
-     * @return void
      */
     public function remove(User $entity, bool $flush = true): void
     {

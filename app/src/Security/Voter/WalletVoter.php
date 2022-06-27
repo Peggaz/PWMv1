@@ -41,8 +41,6 @@ class WalletVoter extends Voter
 
     /**
      * Security helper.
-     *
-     * @var Security
      */
     private Security $security;
 

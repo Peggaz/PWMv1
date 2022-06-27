@@ -38,7 +38,6 @@ class TagRepository extends ServiceEntityRepository
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
-
     /**
      * @param ManagerRegistry $registry to manage our registry
      */
@@ -61,8 +60,6 @@ class TagRepository extends ServiceEntityRepository
     /**
      * @param Tag  $entity our entity
      * @param bool $flush  to change entyti
-     *
-     * @return void
      */
     public function add(Tag $entity, bool $flush = true): void
     {
@@ -75,8 +72,6 @@ class TagRepository extends ServiceEntityRepository
     /**
      * @param Tag  $entity our entity
      * @param bool $flush  to change entity
-     *
-     * @return void
      */
     public function remove(Tag $entity, bool $flush = true): void
     {

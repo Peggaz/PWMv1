@@ -24,8 +24,6 @@ class Wallet
     /**
      * Primary key.
      *
-     * @var int|null
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -35,8 +33,6 @@ class Wallet
     /**
      * Name.
      *
-     * @var string
-     *
      * @ORM\Column(type="string", length=64)
      */
     private string $name;
@@ -44,12 +40,9 @@ class Wallet
     /**
      * Balance.
      *
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
     private int $balance;
-
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -62,27 +55,20 @@ class Wallet
     /**
      * Created at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $createdAt;
 
     /**
      * Updated at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $updatedAt;
-
 
     /**
      * Wallet constructor.

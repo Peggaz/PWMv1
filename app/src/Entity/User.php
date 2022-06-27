@@ -48,28 +48,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Created at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $createdAt;
     /**
      * Updated at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $updatedAt;
 
     /**
-     * construct
+     * construct.
      */
     public function __construct()
     {
@@ -86,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
+
     /**
      * Getter for email.
      *
@@ -95,6 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
+
     /**
      * Setter for email.
      *
@@ -111,12 +107,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @return string email this user
      *
      * @see UserInterface interface
-     *
      */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
+
     /**
      * @return string return this user email
      */
@@ -124,6 +120,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
+
     /**
      * Getter for roles.
      *
@@ -139,6 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return array_unique($roles);
     }
+
     /**
      * Setter for roles.
      *
@@ -148,6 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
     }
+
     /**
      * Getter for password.
      *
@@ -162,6 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Setter for password.
+     *
      * @param string $password seting password
      *
      * @return void return none
@@ -174,12 +174,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
      * @return string|null retrun salt to this user
      */
     public function getSalt(): ?string
     {
         return null;
     }
+
     /**
      * Removes sensitive information from the token.
      *
@@ -190,6 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
     // region created updated
     /**
      * Getter for Create At.
@@ -200,6 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->createdAt;
     }
+
     /**
      * Setter for Create At.
      *
@@ -213,15 +217,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
     /**
      * Getter for Update At.
      *
-     * @return DateTimeInterface|null  getter to date
+     * @return DateTimeInterface|null getter to date
      */
     public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
+
     /**
      * Setter for Update At.
      *

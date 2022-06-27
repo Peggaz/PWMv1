@@ -24,11 +24,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TransactionType extends AbstractType
 {
-
     /**
      * Tags data transformer.
-     *
-     * @var TagsDataTransformer
      */
     private TagsDataTransformer $tagsDataTransformer;
 
@@ -36,13 +33,11 @@ class TransactionType extends AbstractType
      * Constructor.
      *
      * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
-     *
      */
     public function __construct(TagsDataTransformer $tagsDataTransformer)
     {
         $this->tagsDataTransformer = $tagsDataTransformer;
     }
-
 
     /**
      * Builds the form.
@@ -155,7 +150,6 @@ class TransactionType extends AbstractType
 //            'allow_add' => true,
 //            'by_reference' => false,
 //        ]);
-
 
         $builder->get('tags')->addModelTransformer(
             $this->tagsDataTransformer

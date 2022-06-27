@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class RegistrationFormType
+ * Class RegistrationFormType.
  */
 class RegistrationFormType extends AbstractType
 {

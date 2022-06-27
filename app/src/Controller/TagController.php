@@ -23,12 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * TagController
+ * TagController.
  */
 #[Route('/tag')]
 class TagController extends AbstractController
 {
-
     /**
      * Tag service.
      */
@@ -36,8 +35,6 @@ class TagController extends AbstractController
 
     /**
      * Translator.
-     *
-     * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
 
@@ -103,7 +100,7 @@ class TagController extends AbstractController
     #[Route('/{id}', name: 'tag_show', methods: ['GET'])]
     public function show(Tag $tag): Response
     {
-        return $this->render('tag/show.html.twig', ['tag' => $tag, ]);
+        return $this->render('tag/show.html.twig', ['tag' => $tag]);
     }
 
     /**

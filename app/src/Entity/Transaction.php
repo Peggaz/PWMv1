@@ -23,8 +23,6 @@ class Transaction
     /**
      * Primary key.
      *
-     * @var int|null
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -33,8 +31,6 @@ class Transaction
 
     /**
      * Name.
-     *
-     * @var string
      *
      * @ORM\Column(
      *     type="string",
@@ -53,8 +49,6 @@ class Transaction
     /**
      * Date.
      *
-     * @var DateTimeInterface|null
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
@@ -66,13 +60,9 @@ class Transaction
     /**
      * Amount.
      *
-     * @var int|null
-     *
      * @ORM\Column(type="integer")
-     *
      */
     private ?int $amount = 0;
-
 
     /**
      * Category.
@@ -114,7 +104,6 @@ class Transaction
      */
     private ?Operation $operation;
 
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -123,24 +112,18 @@ class Transaction
     /**
      * Created at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $createdAt;
 
     /**
      * Updated at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $updatedAt;
 
@@ -205,6 +188,7 @@ class Transaction
 
         return $this;
     }
+
     // endregion
     // region data
     /**
@@ -230,6 +214,7 @@ class Transaction
 
         return $this;
     }
+
     // endregion
     // region amount
     /**
@@ -255,6 +240,7 @@ class Transaction
 
         return $this;
     }
+
     // endregion
     // region create update
     /**
@@ -315,6 +301,7 @@ class Transaction
     {
         return $this->category;
     }
+
     // endregion
     // region ManyToOne
     /**
@@ -405,7 +392,6 @@ class Transaction
 
     // endregion
 
-
     /**
      * Getter for Comment.
      *
@@ -417,9 +403,7 @@ class Transaction
     }
 
     /**
-     * Setter for Comment.
-     *
-     * @param string|null $comment
+     * @param string|null $comment comment to set
      *
      * @return $this object
      */

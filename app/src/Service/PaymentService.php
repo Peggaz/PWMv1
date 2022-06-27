@@ -23,7 +23,7 @@ class PaymentService implements PaymentServiceInterface
     private PaymentRepository $paymentRepository;
 
     /**
-     * @var TransactionRepository  reposytory
+     * @var TransactionRepository reposytory
      */
     private TransactionRepository $transactionRepository;
     /**
@@ -89,7 +89,6 @@ class PaymentService implements PaymentServiceInterface
      * Delete category.
      *
      * @param Payment $payment Payment entity
-     *
      */
     public function delete(Payment $payment): void
     {

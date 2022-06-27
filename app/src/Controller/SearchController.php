@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * search and present operation, category and payment
+ * search and present operation, category and payment.
  */
 class SearchController extends AbstractController
 {
@@ -30,12 +30,12 @@ class SearchController extends AbstractController
     private CategoryServiceInterface $categoryService;
 
     /**
-     * Payment service
+     * Payment service.
      */
     private PaymentServiceInterface $paymentService;
 
     /**
-     * Operation Service
+     * Operation Service.
      */
     private OperationServiceInterface $operationService;
 
@@ -53,7 +53,7 @@ class SearchController extends AbstractController
         $this->operationService = $taskService3;
     }
 
-// region list
+    // region list
 
     /**
      * Index action.
@@ -65,7 +65,7 @@ class SearchController extends AbstractController
     #[Route(name: 'search', methods: 'GET')]
     public function index(Request $request): Response
     {
-        $name = $request->query->get("name");
+        $name = $request->query->get('name');
         $categoryPagination = $this->categoryService->getPaginatedList(
             $request->query->getInt('page', 1),
             $name
@@ -89,5 +89,5 @@ class SearchController extends AbstractController
             ]
         );
     }
-// endregion
+    // endregion
 }

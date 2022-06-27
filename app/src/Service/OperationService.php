@@ -28,9 +28,6 @@ class OperationService implements OperationServiceInterface
      */
     private PaginatorInterface $paginator;
 
-    /**
-     * @var TransactionRepository
-     */
     private TransactionRepository $transactionRepository;
 
     /**
@@ -89,7 +86,6 @@ class OperationService implements OperationServiceInterface
      * Delete operation.
      *
      * @param Operation $operation Operation entity
-     *
      */
     public function delete(Operation $operation): void
     {

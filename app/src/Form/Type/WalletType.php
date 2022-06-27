@@ -22,6 +22,7 @@ class WalletType extends AbstractType
      *
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
+     *
      * @param FormBuilderInterface $builder bulider
      * @param array<string, mixed> $options options
      *

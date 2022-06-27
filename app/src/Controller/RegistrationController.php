@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-
 namespace App\Controller;
 
 use App\Entity\User;
@@ -25,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 /**
- * RegistrationController
+ * RegistrationController.
  */
 class RegistrationController extends AbstractController
 {
@@ -39,7 +38,7 @@ class RegistrationController extends AbstractController
      * @return Response
      */
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHarsher, UserAuthenticatorInterface  $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHarsher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);

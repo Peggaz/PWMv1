@@ -22,7 +22,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/wallet')]
 class WalletController extends AbstractController
 {
-
     /**
      * Wallet service.
      */
@@ -46,7 +45,6 @@ class WalletController extends AbstractController
         $this->walletService = $walletService;
         $this->translator = $translator;
     }
-
 
     /**
      * Index action.
@@ -166,9 +164,9 @@ class WalletController extends AbstractController
             ]
         );
     }
-// endregion
+    // endregion
 
-// region delete
+    // region delete
     /**
      * Delete action.
      *
@@ -206,5 +204,5 @@ class WalletController extends AbstractController
             ]
         );
     }
-// endregion
+    // endregion
 }

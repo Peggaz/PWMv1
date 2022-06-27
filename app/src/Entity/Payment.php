@@ -24,8 +24,6 @@ class Payment
     /**
      * Primary key.
      *
-     * @var int|null
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -35,8 +33,6 @@ class Payment
     /**
      * Name.
      *
-     * @var string
-     *
      * @ORM\Column(type="string", length=20)
      */
     private string $name;
@@ -44,27 +40,20 @@ class Payment
     /**
      * Created at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $createdAt;
 
     /**
      * Updated at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $updatedAt;
-
 
     /**
      * Payment constructor.

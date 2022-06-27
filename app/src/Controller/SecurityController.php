@@ -19,15 +19,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * class SecurityController
+ * class SecurityController.
  */
 class SecurityController extends AbstractController
 {
-
     /**
      * Translator.
-     *
-     * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
 

@@ -22,7 +22,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/user')]
 class UserController extends AbstractController
 {
-
     /**
      * Password hashes.
      */
@@ -52,7 +51,6 @@ class UserController extends AbstractController
         $this->passwordHarsher = $passwordHarsher;
         $this->translator = $translator;
     }
-
 
     /**
      * Index action.
@@ -92,7 +90,6 @@ class UserController extends AbstractController
         return $this->render(
             'user/show.html.twig',
             ['user' => $user,
-
             ]
         );
     }
@@ -151,7 +148,7 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, User $user): Response
     {
-        $user->setPassword("");
+        $user->setPassword('');
         $form = $this->createForm(
             UserType::class,
             $user,

@@ -19,22 +19,16 @@ abstract class AbstractBaseFixtures extends Fixture
 {
     /**
      * Faker.
-     *
-     * @var Generator
      */
     protected Generator $faker;
 
     /**
      * Persistence object manager.
-     *
-     * @var ObjectManager
      */
     protected ObjectManager $manager;
 
     /**
      * Object reference index.
-     *
-     * @var array
      */
     private array $referencesIndex = [];
 

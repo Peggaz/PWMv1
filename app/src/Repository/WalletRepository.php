@@ -27,12 +27,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WalletRepository extends ServiceEntityRepository
 {
-
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * @param ManagerRegistry $registry registry
-     *
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -42,8 +40,6 @@ class WalletRepository extends ServiceEntityRepository
     /**
      * @param Wallet $entity entity
      * @param bool   $flush  to change entity
-     *
-     * @return void
      */
     public function add(Wallet $entity, bool $flush = true): void
     {
@@ -64,12 +60,9 @@ class WalletRepository extends ServiceEntityRepository
             ->orderBy('wallet.balance', 'DESC');
     }
 
-
     /**
      * @param Wallet $entity our entity
      * @param bool   $flush  to change entity
-     *
-     * @return void
      */
     public function remove(Wallet $entity, bool $flush = true): void
     {

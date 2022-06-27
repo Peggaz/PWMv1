@@ -25,8 +25,6 @@ class Operation
     /**
      * Primary key.
      *
-     * @var int|null
-     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -36,8 +34,6 @@ class Operation
     /**
      * Name.
      *
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
     private string $name;
@@ -45,24 +41,18 @@ class Operation
     /**
      * Created at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $createdAt;
 
     /**
      * Updated at.
      *
-     * @var DateTimeInterface
-     *
      * @ORM\Column(type="datetime")
      *
      * @Assert\Type(type="\DateTimeInterface")
-     *
      */
     private DateTimeInterface $updatedAt;
 
@@ -108,7 +98,6 @@ class Operation
 
         return $this;
     }
-
 
     /**
      * Getter for Create At.

@@ -27,9 +27,6 @@ class UserService implements UserServiceInterface
      */
     private PaginatorInterface $paginator;
 
-    /**
-     * @var TransactionRepository
-     */
     private TransactionRepository $transactionRepository;
 
     /**
@@ -40,7 +37,6 @@ class UserService implements UserServiceInterface
      * @param TransactionRepository $transactionRepository Transaction Repository
      *
      * @parem TransactionRepository $transactionRepository Transaction Repository
-
      */
     public function __construct(UserRepository $userRepository, PaginatorInterface $paginator, TransactionRepository $transactionRepository)
     {
@@ -84,7 +80,6 @@ class UserService implements UserServiceInterface
      * Delete user.
      *
      * @param User $user User entity
-     *
      */
     public function delete(User $user): void
     {
@@ -97,7 +92,6 @@ class UserService implements UserServiceInterface
      * @param int $id User id
      *
      * @return User|null User entity
-     *
      */
     public function findOneById(int $id): ?User
     {

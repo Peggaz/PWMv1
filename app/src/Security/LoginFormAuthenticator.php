@@ -48,6 +48,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     /**
      * Constructor.
+     *
      * @param UrlGeneratorInterface $urlGenerator urlGenerator
      */
     public function __construct(UrlGeneratorInterface $urlGenerator)
@@ -116,7 +117,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     /**
      * @param Request $request request to login app
      *
-     * @return bool            return tru if we pass
+     * @return bool return tru if we pass
      */
     public function supports(Request $request): bool
     {

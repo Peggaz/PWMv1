@@ -85,7 +85,6 @@ class WalletService implements WalletServiceInterface
      * Delete category.
      *
      * @param Wallet $category Category entity
-     *
      */
     public function delete(Wallet $category): void
     {

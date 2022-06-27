@@ -133,7 +133,6 @@ class TransactionController extends AbstractController
     #[IsGranted('EDIT', subject: 'transaction')]
     public function edit(Request $request, Transaction $transaction): Response
     {
-
         $balance = $transaction->getWallet()->getBalance();
 
         $form = $this->createForm(TransactionType::class, $transaction, [
